@@ -1,33 +1,93 @@
 ---
-// TEMPORARY — Task 6 demo: signature components wired for build verification.
-// Task 7 will replace this with the full Home (hero, ColorRing, sections, etc.)
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { seo } from '../data/seo';
+import { waLink, waMsg } from '../data/whatsapp';
 import ColorRing from '../components/ColorRing.astro';
-import StitchDivider from '../components/StitchDivider.astro';
 import FeatureStrip from '../components/FeatureStrip.astro';
+import CategoryGrid from '../components/CategoryGrid.astro';
+import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
-import { waMsg } from '../data/whatsapp';
+import StitchDivider from '../components/StitchDivider.astro';
+import produtos from '../data/produtos.json';
+
+const destaques = produtos.filter((p) => p.destaque === true);
+const waGenerico = waLink();
 ---
 
 <BaseLayout title={seo.home.title} description={seo.home.description}>
-  <!-- Hero placeholder with ColorRing -->
-  <section class="placeholder-hero">
-    <div class="container placeholder-hero__inner">
-      <div class="placeholder-hero__copy">
-        <h1>A linha que não quebra na hora H.</h1>
-        <p>Linhas de costura e aviamentos com a força e a qualidade que o seu trabalho merece. De norte a sul do Brasil.</p>
+
+  <!-- 1. HERO -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <p class="hero__kicker">500 cores · uma força só</p>
+        <h1 class="hero__headline">A linha que não quebra na hora H.</h1>
+        <p class="hero__subtitle">
+          Linhas de costura e aviamentos com a força e a qualidade que o seu trabalho merece.
+          De norte a sul do Brasil.
+        </p>
+        <div class="hero__ctas">
+          <a href="/produtos" class="btn btn--primary">Ver Produtos</a>
+          <a
+            href={waGenerico}
+            class="btn btn--ghost"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Falar no WhatsApp
+          </a>
+        </div>
       </div>
-      <ColorRing />
+      <div class="hero__ring">
+        <ColorRing />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FAIXA DE DIFERENCIAIS -->
+  <FeatureStrip />
+
+  <StitchDivider />
+
+  <!-- 3. CATEGORIAS -->
+  <CategoryGrid
+    heading="Tudo para a sua costura"
+    intro="Das linhas que seguram o ponto aos aviamentos que finalizam a peça — a Búfalo tem o que a sua produção precisa."
+  />
+
+  <StitchDivider ornament={false} />
+
+  <!-- 4. DESTAQUES -->
+  <section class="destaques">
+    <div class="container">
+      <h2 class="destaques__heading">Os queridinhos da Búfalo</h2>
+      <ul class="destaques__grid" role="list">
+        {destaques.map((produto) => (
+          <li>
+            <ProductCard produto={produto} />
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
   <StitchDivider />
 
-  <FeatureStrip />
+  <!-- 5. FAIXA INSTITUCIONAL (resumo A Marca) -->
+  <section class="marca-strip">
+    <div class="container marca-strip__inner">
+      <h2 class="marca-strip__title">Força e Qualidade em cada carretel</h2>
+      <p class="marca-strip__text">
+        A Búfalo nasceu para entregar o insumo que não decepciona. Para quem costura com
+        seriedade — do micro empreendedor à grande confecção.
+      </p>
+      <a href="/a-marca" class="marca-strip__link">
+        Saiba mais sobre a marca →
+      </a>
+    </div>
+  </section>
 
-  <StitchDivider ornament={false} />
-
+  <!-- 6. FAIXA REVENDEDOR -->
   <CTASection
     title="Quer revender Búfalo?"
     text="Leve para a sua loja uma marca que o costureiro já conhece e confia."
@@ -35,18 +95,17 @@ import { waMsg } from '../data/whatsapp';
     waMessage={waMsg.revendedor}
     variant="red"
   />
+
 </BaseLayout>
 
 <style>
-  .placeholder-hero {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    background-color: var(--bufalo-cinza-claro);
-    padding-block: 4rem;
+  /* ── HERO ─────────────────────────────────────────────── */
+  .hero {
+    background-color: var(--bufalo-branco);
+    padding-block: 4rem 4.5rem;
   }
 
-  .placeholder-hero__inner {
+  .hero__inner {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,25 +114,169 @@ import { waMsg } from '../data/whatsapp';
   }
 
   @media (min-width: 768px) {
-    .placeholder-hero__inner {
+    .hero__inner {
       flex-direction: row;
       justify-content: space-between;
       text-align: left;
+      gap: 2.5rem;
     }
   }
 
-  .placeholder-hero__copy {
+  .hero__copy {
     flex: 1;
+    max-width: 560px;
   }
 
-  .placeholder-hero__copy h1 {
+  .hero__kicker {
+    font-family: var(--font-titulo);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
     color: var(--bufalo-vermelho);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
   }
 
-  .placeholder-hero__copy p {
-    font-size: 1.15rem;
+  .hero__headline {
+    font-family: var(--font-titulo);
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
     color: var(--bufalo-cinza);
+    margin-bottom: 1.1rem;
+  }
+
+  .hero__subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: #555;
+    line-height: 1.65;
+    margin-bottom: 2rem;
     max-width: 480px;
+  }
+
+  @media (max-width: 767px) {
+    .hero__subtitle {
+      margin-inline: auto;
+    }
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero__ctas {
+      justify-content: flex-start;
+    }
+  }
+
+  .hero__ring {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── DESTAQUES ───────────────────────────────────────── */
+  .destaques {
+    padding-block: 3rem 3.5rem;
+    background-color: var(--bufalo-cinza-claro);
+  }
+
+  .destaques__heading {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .destaques__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 480px) {
+    .destaques__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .destaques__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .destaques__grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  /* ── FAIXA INSTITUCIONAL ─────────────────────────────── */
+  .marca-strip {
+    padding-block: 3.5rem;
+    background-color: var(--bufalo-branco);
+  }
+
+  .marca-strip__inner {
+    max-width: 680px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .marca-strip__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .marca-strip__text {
+    font-size: 1.05rem;
+    color: #555;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .marca-strip__link {
+    font-family: var(--font-titulo);
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--bufalo-vermelho);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .marca-strip__link:hover {
+    color: var(--bufalo-bordo);
+  }
+
+  .marca-strip__link:focus-visible {
+    outline: 2px solid var(--bufalo-vermelho);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 </style>
