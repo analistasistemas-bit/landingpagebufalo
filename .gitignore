@@ -1,0 +1,13 @@
+# Dependências / build
+node_modules/
+dist/
+.astro/
+
+# Operacionais / derivados
+.omc/
+.superpowers/
+_catalogo_paginas/
+
+# Sistema
+.DS_Store
+*.log
