@@ -7,6 +7,7 @@ dist/
 .omc/
 .superpowers/
 _catalogo_paginas/
+_validacao/
 
 # Sistema
 .DS_Store

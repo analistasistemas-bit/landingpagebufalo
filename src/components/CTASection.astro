@@ -1,0 +1,113 @@
+---
+// CTASection.astro — Reusable full-width CTA band.
+// Props: title, text, buttonLabel, waMessage, variant ('red' | 'light')
+import { waLink } from '../data/whatsapp';
+
+interface Props {
+  title: string;
+  text?: string;
+  buttonLabel: string;
+  waMessage?: string;
+  variant?: 'red' | 'light';
+}
+
+const {
+  title,
+  text,
+  buttonLabel,
+  waMessage,
+  variant = 'red',
+} = Astro.props;
+
+const href = waLink(waMessage);
+---
+
+<section class={`cta-section cta-section--${variant}`}>
+  <div class="container cta-section__inner">
+    <div class="cta-section__copy">
+      <h2 class="cta-section__title">{title}</h2>
+      {text && <p class="cta-section__text">{text}</p>}
+    </div>
+    <a
+      href={href}
+      class={`btn cta-section__btn ${variant === 'light' ? 'btn--primary' : 'btn--ghost-white'}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {buttonLabel}
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    padding-block: 3.5rem;
+  }
+
+  /* Red variant */
+  .cta-section--red {
+    background-color: var(--bufalo-vermelho);
+    color: var(--bufalo-branco);
+  }
+
+  /* Light variant */
+  .cta-section--light {
+    background-color: var(--bufalo-cinza-claro);
+    color: var(--bufalo-cinza);
+  }
+
+  .cta-section__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .cta-section__inner {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .cta-section__copy {
+    flex: 1;
+  }
+
+  .cta-section__title {
+    font-family: var(--font-titulo);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .cta-section--red .cta-section__title {
+    color: var(--bufalo-branco);
+  }
+
+  .cta-section--light .cta-section__title {
+    color: var(--bufalo-cinza);
+  }
+
+  .cta-section__text {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 0;
+  }
+
+  .cta-section--red .cta-section__text {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .cta-section__btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+</style>

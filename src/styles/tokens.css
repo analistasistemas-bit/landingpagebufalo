@@ -1,0 +1,17 @@
+:root {
+  /* Cores da marca */
+  --bufalo-vermelho: #B22222;
+  --bufalo-bordo: #6B0000;
+  --bufalo-cinza: #3D3D3D;
+  --bufalo-branco: #FFFFFF;
+  --bufalo-cinza-claro: #F2F2F2;
+  --texto-padrao: #3D3D3D;
+
+  /* Tipografia */
+  --font-titulo: 'Oswald', sans-serif;
+  --font-corpo: 'Open Sans', sans-serif;
+
+  /* Layout */
+  --maxw: 1200px;
+  --radius: 12px;
+}

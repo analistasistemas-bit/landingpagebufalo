@@ -1,0 +1,166 @@
+---
+// FeatureStrip.astro — "Faixa de diferenciais" — 4 brand differentials in a responsive row.
+// Copy source: Site/03_Conteudo_Copy.md § Faixa de diferenciais (used literally).
+---
+
+<section class="feature-strip">
+  <div class="container">
+    <ul class="feature-strip__grid" role="list">
+
+      <!-- 1: Resistência comprovada -->
+      <li class="feature-strip__item">
+        <span class="feature-strip__icon" aria-hidden="true">
+          <!-- Shield icon -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L6 10v10c0 8.284 5.928 16.025 14 18 8.072-1.975 14-9.716 14-18V10L20 4z"
+              stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" fill="none"/>
+            <path d="M14 20l4 4 8-8" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <h3 class="feature-strip__title">Resistência comprovada</h3>
+        <p class="feature-strip__text">Alta resistência ao rompimento, mesmo em alta velocidade.</p>
+      </li>
+
+      <!-- 2: Centenas de cores -->
+      <li class="feature-strip__item">
+        <span class="feature-strip__icon" aria-hidden="true">
+          <!-- Color palette / swatches icon -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="13" cy="13" r="5" stroke="currentColor" stroke-width="2.2" fill="none"/>
+            <circle cx="27" cy="13" r="5" stroke="currentColor" stroke-width="2.2" fill="none"/>
+            <circle cx="20" cy="25" r="5" stroke="currentColor" stroke-width="2.2" fill="none"/>
+            <path d="M13 18v4M27 18v4M15 25h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="13" cy="13" r="2" fill="currentColor"/>
+            <circle cx="27" cy="13" r="2" fill="currentColor"/>
+            <circle cx="20" cy="25" r="2" fill="currentColor"/>
+          </svg>
+        </span>
+        <h3 class="feature-strip__title">Centenas de cores</h3>
+        <p class="feature-strip__text">Uma paleta completa para qualquer projeto.</p>
+      </li>
+
+      <!-- 3: Indústria e ateliê -->
+      <li class="feature-strip__item">
+        <span class="feature-strip__icon" aria-hidden="true">
+          <!-- Sewing machine silhouette (simplified) -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="28" height="16" rx="3" stroke="currentColor" stroke-width="2.2" fill="none"/>
+            <circle cx="20" cy="22" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+            <circle cx="20" cy="22" r="1.5" fill="currentColor"/>
+            <path d="M20 10v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M20 10 c0 0 4-2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <line x1="6" y1="30" x2="34" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="10" y1="30" x2="10" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="30" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <h3 class="feature-strip__title">Indústria e ateliê</h3>
+        <p class="feature-strip__text">Desempenho em máquina industrial e doméstica.</p>
+      </li>
+
+      <!-- 4: Presença nacional -->
+      <li class="feature-strip__item">
+        <span class="feature-strip__icon" aria-hidden="true">
+          <!-- Map pin / location icon -->
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4C14.477 4 10 8.477 10 14c0 8.25 10 22 10 22s10-13.75 10-22c0-5.523-4.477-10-10-10z"
+              stroke="currentColor" stroke-width="2.2" fill="none"/>
+            <circle cx="20" cy="14" r="3.5" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M9 34c0 0 3-2 11-2s11 2 11 2" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </span>
+        <h3 class="feature-strip__title">Presença nacional</h3>
+        <p class="feature-strip__text">Búfalo costura o Brasil inteiro.</p>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<style>
+  .feature-strip {
+    background-color: var(--bufalo-cinza-claro);
+    padding-block: 3rem;
+  }
+
+  .feature-strip__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .feature-strip__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feature-strip__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .feature-strip__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background-color: var(--bufalo-branco);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .feature-strip__item:hover {
+    box-shadow: 0 6px 20px rgba(178, 34, 34, 0.12);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .feature-strip__item {
+      transition: none;
+    }
+    .feature-strip__item:hover {
+      transform: none;
+    }
+  }
+
+  .feature-strip__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(178, 34, 34, 0.08);
+    color: var(--bufalo-vermelho);
+    flex-shrink: 0;
+  }
+
+  .feature-strip__title {
+    font-family: var(--font-titulo);
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bufalo-cinza);
+    line-height: 1.2;
+  }
+
+  .feature-strip__text {
+    font-family: var(--font-corpo);
+    font-size: 0.9rem;
+    color: var(--texto-padrao);
+    line-height: 1.5;
+    margin-bottom: 0;
+    opacity: 0.85;
+  }
+</style>
