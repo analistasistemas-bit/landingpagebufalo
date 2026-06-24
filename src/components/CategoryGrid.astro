@@ -28,7 +28,7 @@ const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
           <a href={`/produtos/${cat.slug}`} class="category-card">
             <div class="category-card__img-wrap">
               <img
-                src={`/images/produtos/${cat.slug}.webp`}
+                src={cat.imagem || `/images/produtos/${cat.slug}.webp`}
                 alt={`${cat.nome} — Búfalo`}
                 loading="lazy"
                 width="480"
