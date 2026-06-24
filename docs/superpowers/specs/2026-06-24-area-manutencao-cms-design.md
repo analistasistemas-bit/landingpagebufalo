@@ -62,6 +62,8 @@ Schema validado via `src/content/config.ts` (Astro) → edições inválidas nã
 ### 4.3 Configurações globais — JSON
 `src/data/config.json`: `{ whatsapp, email, redes{...}, dominio, tagline, ctas{...} }`. Os campos `[CONFIRMAR]` viram campos preenchíveis aqui.
 
+> **Acoplamento a tratar:** hoje o número/lógica de WhatsApp vivem em `src/data/whatsapp.ts` (constante `WA_NUMBER` + helpers `waLink()` e `waMsg.{produto,revendedor,atacado}`), consumidos em várias páginas. O refactor deve fazer `whatsapp.ts` **ler de `config.json`** mantendo a MESMA API (`waLink`/`waMsg`) — assim os call sites não mudam e o templating de mensagens não se perde. O `email` e demais campos passam a ser lidos de `config.json` no footer/contato.
+
 ### 4.4 Imagens
 Upload pelo CMS para `public/images/uploads/` (mídia geral) e referência nas fichas de produto/categoria/páginas. Fotos profissionais enviadas substituem os recortes do catálogo. `build_images.py` segue como gerador de fallback.
 
