@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Política de Privacidade | Búfalo"
+  description="Política de privacidade do site Búfalo. O site não coleta dados pessoais nesta fase — apenas redireciona para o WhatsApp."
+>
+
+  <section class="privacidade">
+    <div class="container privacidade__inner">
+      <h1 class="privacidade__title">Política de Privacidade</h1>
+      <p class="privacidade__data">Versão 1.0 · Junho de 2026</p>
+
+      <div class="privacidade__corpo">
+        <p>
+          Este site (Búfalo — Linhas de Costura e Aviamentos) não coleta dados pessoais
+          nesta fase. Não há formulários, cadastros ou sistemas de rastreamento que
+          identifiquem o visitante individualmente.
+        </p>
+        <p>
+          O único meio de contato disponível é o WhatsApp, que opera sob a
+          <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">
+            Política de Privacidade do WhatsApp / Meta
+          </a>.
+          Ao clicar no botão de WhatsApp, você sairá deste site e estará sujeito às
+          políticas da plataforma de destino.
+        </p>
+        <p>
+          Esta política será atualizada caso novos recursos (formulários, analytics,
+          cookies de rastreamento) sejam introduzidos em versões futuras do site.
+        </p>
+        <p>
+          Dúvidas? Fale diretamente pelo WhatsApp: <strong>+55 81 98342-6557</strong>.
+        </p>
+      </div>
+
+      <a href="/" class="privacidade__back">← Voltar ao início</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .privacidade {
+    padding-block: 4rem;
+    background-color: var(--bufalo-branco);
+    min-height: 60vh;
+  }
+
+  .privacidade__inner {
+    max-width: 680px;
+  }
+
+  .privacidade__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+
+  .privacidade__data {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 2rem;
+  }
+
+  .privacidade__corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .privacidade__corpo p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .privacidade__corpo a {
+    color: var(--bufalo-vermelho);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .privacidade__corpo a:hover {
+    color: var(--bufalo-bordo);
+  }
+
+  .privacidade__back {
+    display: inline-block;
+    margin-top: 2.5rem;
+    font-family: var(--font-titulo);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--bufalo-vermelho);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .privacidade__back:hover {
+    color: var(--bufalo-bordo);
+  }
+</style>
