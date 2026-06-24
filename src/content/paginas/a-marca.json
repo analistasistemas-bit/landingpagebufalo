@@ -1,0 +1,24 @@
+{
+  "titulo": "A força que costura o Brasil",
+  "abertura": "A Búfalo é uma marca brasileira de linhas para costura e aviamentos, reconhecida pela alta resistência ao rompimento e pela versatilidade de uso em máquinas industriais e domésticas. Presente em todo o Brasil, a Búfalo conquistou costureiros, confecções e artesãos com produtos que unem desempenho superior e ampla variedade de cores.",
+
+  "missaoTexto": "Oferecer linhas de costura de alta qualidade que atendam às necessidades de profissionais e entusiastas da costura em todo o Brasil, entregando força, confiabilidade e beleza a cada ponto.",
+  "visaoTexto": "Ser a linha de costura mais reconhecida e confiável do Brasil, presente em cada ateliê, confecção e residência que valoriza o trabalho bem feito.",
+
+  "valores": [
+    { "nome": "Força", "desc": "Produtos resistentes e de alta performance." },
+    { "nome": "Qualidade", "desc": "Padrão rigoroso em cada carretel." },
+    { "nome": "Tradição", "desc": "Reconhecimento construído ao longo de anos." },
+    { "nome": "Variedade", "desc": "Cores e espessuras para toda aplicação." },
+    { "nome": "Presença Nacional", "desc": "Atendimento de ponta a ponta no Brasil." }
+  ],
+
+  "posicionamentoFrase": "Búfalo é a linha que não quebra na hora H.",
+  "posicionamentoTexto": "Para quem costura com seriedade — do micro empreendedor à grande confecção — a Búfalo entrega o insumo que não decepciona. Força e qualidade em cada carretel.",
+
+  "presencaKicker": "De norte a sul do Brasil",
+  "presencaTexto": "Presente em confecções, ateliês e lojas de todo o país, a Búfalo leva força e qualidade para cada ponto costurado no Brasil inteiro.",
+
+  "ctaPrimario": "Conheça os produtos",
+  "ctaSecundario": "Fale no WhatsApp"
+}

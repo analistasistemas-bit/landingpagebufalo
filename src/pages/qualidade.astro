@@ -4,6 +4,10 @@ import { seo } from '../data/seo';
 import { waMsg } from '../data/whatsapp';
 import StitchDivider from '../components/StitchDivider.astro';
 import CTASection from '../components/CTASection.astro';
+import { getEntry } from 'astro:content';
+
+const page = await getEntry('paginas', 'qualidade');
+const c = page.data;
 ---
 
 <BaseLayout title={seo.qualidade.title} description={seo.qualidade.description}>
@@ -11,7 +15,7 @@ import CTASection from '../components/CTASection.astro';
   <!-- 1. HEADER -->
   <section class="qual-hero">
     <div class="container">
-      <h1 class="qual-hero__title">Por que costurar com Búfalo</h1>
+      <h1 class="qual-hero__title">{c.titulo}</h1>
     </div>
   </section>
 
@@ -32,10 +36,9 @@ import CTASection from '../components/CTASection.astro';
                 stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
-          <h2 class="diferenciais__titulo">Resistência ao rompimento</h2>
+          <h2 class="diferenciais__titulo">{c.blocos![0].titulo}</h2>
           <p class="diferenciais__texto">
-            A linha Búfalo é feita para aguentar. Alta velocidade, costura pesada, produção
-            contínua: o ponto não cede.
+            {c.blocos![0].texto}
           </p>
         </li>
 
@@ -52,10 +55,9 @@ import CTASection from '../components/CTASection.astro';
               <line x1="30" y1="30" x2="30" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </span>
-          <h2 class="diferenciais__titulo">Para indústria e para ateliê</h2>
+          <h2 class="diferenciais__titulo">{c.blocos![1].titulo}</h2>
           <p class="diferenciais__texto">
-            Desempenho comprovado em máquina industrial e doméstica. A mesma força para a
-            grande confecção e para quem costura em casa.
+            {c.blocos![1].texto}
           </p>
         </li>
 
@@ -71,10 +73,9 @@ import CTASection from '../components/CTASection.astro';
               <circle cx="20" cy="25" r="2" fill="currentColor"/>
             </svg>
           </span>
-          <h2 class="diferenciais__titulo">Variedade que resolve</h2>
+          <h2 class="diferenciais__titulo">{c.blocos![2].titulo}</h2>
           <p class="diferenciais__texto">
-            Centenas de cores e um portfólio completo de aviamentos. Você encontra tudo num
-            lugar só.
+            {c.blocos![2].texto}
           </p>
         </li>
 
@@ -89,10 +90,9 @@ import CTASection from '../components/CTASection.astro';
                 stroke-linecap="round" opacity="0.5"/>
             </svg>
           </span>
-          <h2 class="diferenciais__titulo">Confiança nacional</h2>
+          <h2 class="diferenciais__titulo">{c.blocos![3].titulo}</h2>
           <p class="diferenciais__texto">
-            Búfalo conquistou clientes de norte a sul do Brasil. Marca que o costureiro conhece
-            e indica.
+            {c.blocos![3].texto}
           </p>
         </li>
 
@@ -105,24 +105,14 @@ import CTASection from '../components/CTASection.astro';
   <!-- 3. APLICAÇÕES -->
   <section class="aplicacoes">
     <div class="container">
-      <h2 class="aplicacoes__heading">Onde a Búfalo é usada</h2>
+      <h2 class="aplicacoes__heading">{c.aplicacoesHeading}</h2>
       <ul class="aplicacoes__grid" role="list">
-        <li class="aplicacoes__item">
-          <strong class="aplicacoes__tipo">Confecção</strong>
-          <span class="aplicacoes__desc">Produção em larga escala com alta velocidade de costura.</span>
-        </li>
-        <li class="aplicacoes__item">
-          <strong class="aplicacoes__tipo">Ateliê</strong>
-          <span class="aplicacoes__desc">Peças sob medida, acabamento impecável e precisão de costura.</span>
-        </li>
-        <li class="aplicacoes__item">
-          <strong class="aplicacoes__tipo">Artesanato</strong>
-          <span class="aplicacoes__desc">Centenas de cores para projetos criativos e personalizados.</span>
-        </li>
-        <li class="aplicacoes__item">
-          <strong class="aplicacoes__tipo">Indústria</strong>
-          <span class="aplicacoes__desc">Resistência e uniformidade para linhas de produção exigentes.</span>
-        </li>
+        {c.aplicacoes!.map((item) => (
+          <li class="aplicacoes__item">
+            <strong class="aplicacoes__tipo">{item.tipo}</strong>
+            <span class="aplicacoes__desc">{item.desc}</span>
+          </li>
+        ))}
       </ul>
     </div>
   </section>
@@ -131,9 +121,9 @@ import CTASection from '../components/CTASection.astro';
 
   <!-- 4. CTA -->
   <CTASection
-    title="Fale com a gente no WhatsApp"
-    text="Tire dúvidas, faça pedidos e descubra o produto certo para a sua produção."
-    buttonLabel="Falar no WhatsApp"
+    title={c.ctaTitulo}
+    text={c.ctaTexto}
+    buttonLabel={c.ctaBotao}
     waMessage={waMsg.atacado}
     variant="red"
   />

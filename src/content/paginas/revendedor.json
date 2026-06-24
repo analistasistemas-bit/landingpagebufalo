@@ -1,0 +1,24 @@
+{
+  "titulo": "Leve a força da Búfalo para a sua loja",
+  "intro": "A Búfalo é uma marca que o costureiro já conhece e confia. Revender Búfalo é oferecer ao seu cliente o insumo que não decepciona — e garantir giro com uma linha de produtos completa.",
+
+  "beneficiosHeading": "Por que revender Búfalo",
+  "beneficios": [
+    {
+      "titulo": "Marca reconhecida em todo o Brasil.",
+      "desc": "O costureiro já sabe o que é Búfalo — menos esforço de venda, mais confiança na compra."
+    },
+    {
+      "titulo": "Portfólio completo: linhas, zíperes, aviamentos e mais.",
+      "desc": "Uma única marca resolve boa parte das necessidades da sua clientela."
+    },
+    {
+      "titulo": "Produto que volta a ser comprado.",
+      "desc": "Linha de costura é insumo de consumo contínuo — giro garantido na sua loja."
+    }
+  ],
+
+  "ctaTitulo": "Fale com nosso time no WhatsApp",
+  "ctaTexto": "Entre em contato e saiba como levar a Búfalo para a sua loja.",
+  "ctaBotao": "Quero ser revendedor"
+}
