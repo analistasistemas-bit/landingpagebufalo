@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { seo } from '../data/seo';
-import { waLink } from '../data/whatsapp';
+import { waLink, EMAIL } from '../data/whatsapp';
 
 const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
 ---
@@ -54,7 +54,7 @@ const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
         <div class="canal__corpo">
           <h2 class="canal__titulo">E-mail</h2>
           <span class="canal__placeholder" role="note">
-            <strong>[CONFIRMAR]</strong> — endereço de e-mail a definir
+            <strong>{EMAIL}</strong> — endereço de e-mail a definir
           </span>
         </div>
       </div>
