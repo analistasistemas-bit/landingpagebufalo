@@ -1,15 +1,34 @@
 ---
-// Página inicial — placeholder até Task 7
+// TEMPORARY — Task 5 placeholder so the build has a page to render.
+// Task 7 will replace this with the full Home (hero, ColorRing, sections, etc.)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seo } from '../data/seo';
 ---
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Búfalo — Linhas de Costura e Aviamentos | Força e Qualidade</title>
-  </head>
-  <body>
-    <h1>Búfalo — Força e Qualidade</h1>
-    <p>Site em construção.</p>
-  </body>
-</html>
+
+<BaseLayout title={seo.home.title} description={seo.home.description}>
+  <section class="placeholder-hero">
+    <div class="container">
+      <h1>Búfalo</h1>
+      <p>Força e Qualidade em cada carretel.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .placeholder-hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--bufalo-cinza-claro);
+  }
+
+  .placeholder-hero h1 {
+    color: var(--bufalo-vermelho);
+    margin-bottom: 0.5rem;
+  }
+
+  .placeholder-hero p {
+    font-size: 1.25rem;
+    color: var(--bufalo-cinza);
+  }
+</style>
