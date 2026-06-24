@@ -1,0 +1,219 @@
+---
+// ProductCard.astro — Card de produto sem preço. CTA WhatsApp.
+import { waLink, waMsg } from '../data/whatsapp';
+
+interface Product {
+  id: string;
+  categoria: string;
+  categoriaSlug: string;
+  nome: string;
+  composicao: string;
+  medida: string;
+  embalagem: string;
+  cores: string;
+  destaque: boolean;
+  obs: string;
+  imagem: string;
+}
+
+interface Props {
+  produto: Product;
+}
+
+const { produto } = Astro.props;
+
+// Use category image — per-product images don't exist yet
+const imageSrc = `/images/produtos/${produto.categoriaSlug}.webp`;
+const imageAlt = `${produto.nome} — Búfalo`;
+const waHref = waLink(waMsg.produto(produto.nome));
+
+const showEmbalagem =
+  produto.embalagem && produto.embalagem !== '—' && produto.embalagem.trim() !== '';
+const showCores =
+  produto.cores && produto.cores !== '—' && produto.cores.trim() !== '';
+---
+
+<article class={`product-card${produto.destaque ? ' product-card--destaque' : ''}`}>
+  <div class="product-card__img-wrap">
+    <img
+      src={imageSrc}
+      alt={imageAlt}
+      loading="lazy"
+      width="400"
+      height="300"
+      onerror="this.src='/images/produtos/_placeholder.webp'"
+    />
+    {produto.destaque && (
+      <span class="product-card__badge">Destaque</span>
+    )}
+  </div>
+
+  <div class="product-card__body">
+    <h3 class="product-card__nome">{produto.nome}</h3>
+
+    <dl class="product-card__specs">
+      <div class="product-card__spec">
+        <dt>Composição</dt>
+        <dd><code>{produto.composicao}</code></dd>
+      </div>
+
+      {produto.medida && produto.medida !== '—' && (
+        <div class="product-card__spec">
+          <dt>Medida</dt>
+          <dd><code>{produto.medida}</code></dd>
+        </div>
+      )}
+
+      {showEmbalagem && (
+        <div class="product-card__spec">
+          <dt>Embalagem</dt>
+          <dd>{produto.embalagem}</dd>
+        </div>
+      )}
+
+      {showCores && (
+        <div class="product-card__spec">
+          <dt>Nº de cores</dt>
+          <dd>{produto.cores}</dd>
+        </div>
+      )}
+    </dl>
+
+    <a
+      href={waHref}
+      class="btn btn--primary product-card__cta"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Saber mais sobre ${produto.nome} no WhatsApp`}
+    >
+      Saber mais no WhatsApp
+    </a>
+  </div>
+</article>
+
+<style>
+  .product-card {
+    background: var(--bufalo-branco);
+    border: 1px solid #e5e5e5;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Destaque ring */
+  .product-card--destaque {
+    border-color: var(--bufalo-vermelho);
+    border-width: 2px;
+  }
+
+  /* Image */
+  .product-card__img-wrap {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--bufalo-cinza-claro);
+  }
+
+  .product-card__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+    display: block;
+  }
+
+  .product-card:hover .product-card__img-wrap img {
+    transform: scale(1.04);
+  }
+
+  .product-card__badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    background: var(--bufalo-vermelho);
+    color: var(--bufalo-branco);
+    font-family: var(--font-titulo);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+  }
+
+  /* Body */
+  .product-card__body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    flex: 1;
+  }
+
+  .product-card__nome {
+    font-family: var(--font-titulo);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--bufalo-cinza);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  /* Specs */
+  .product-card__specs {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .product-card__spec {
+    display: flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    font-size: 0.82rem;
+  }
+
+  .product-card__spec dt {
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .product-card__spec dt::after {
+    content: ':';
+  }
+
+  .product-card__spec dd {
+    margin: 0;
+    color: var(--bufalo-cinza);
+    font-weight: 600;
+  }
+
+  .product-card__spec code {
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: var(--bufalo-cinza-claro);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+  }
+
+  /* CTA */
+  .product-card__cta {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.88rem;
+    padding: 0.65rem 1rem;
+  }
+</style>

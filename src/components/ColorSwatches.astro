@@ -1,0 +1,123 @@
+---
+// ColorSwatches.astro — Cartela de cores da Linha 120.
+// Renderiza todas as cores de cores-linha120.json como swatches CSS puros.
+// Prop `limit` (default: all) para exibir subconjunto.
+import cores from '../data/cores-linha120.json';
+
+interface Props {
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+const swatches = limit ? cores.slice(0, limit) : cores;
+---
+
+<section class="color-swatches">
+  <div class="container">
+    <div class="color-swatches__header">
+      <h2 class="color-swatches__heading">
+        Linha 120 — mais de 100 cores
+      </h2>
+      <p class="color-swatches__sub">
+        Uma paleta completa para qualquer projeto. Do branco clássico ao bordô intenso — a cor que você precisa está aqui.
+      </p>
+    </div>
+
+    <div class="color-swatches__grid" role="list" aria-label="Paleta de cores Linha 120">
+      {swatches.map((cor) => (
+        <div
+          class="color-swatch"
+          role="listitem"
+          style={`background-color: ${cor.hex}`}
+          title={cor.hex}
+          aria-label={`Cor ${cor.hex}`}
+        />
+      ))}
+    </div>
+
+    <p class="color-swatches__count">
+      {swatches.length} cores disponíveis
+    </p>
+  </div>
+</section>
+
+<style>
+  .color-swatches {
+    padding-block: 3rem;
+    background: var(--bufalo-cinza-claro);
+  }
+
+  .color-swatches__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .color-swatches__heading {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Accent the "100" part */
+  .color-swatches__heading em {
+    color: var(--bufalo-vermelho);
+    font-style: normal;
+  }
+
+  .color-swatches__sub {
+    font-size: 0.95rem;
+    color: #666;
+    max-width: 520px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  /* Dense swatch grid — wraps naturally */
+  .color-swatches__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: default;
+    flex-shrink: 0;
+  }
+
+  .color-swatch:hover {
+    transform: scale(1.25);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
+    z-index: 1;
+    position: relative;
+  }
+
+  /* Slightly larger on wider screens */
+  @media (min-width: 600px) {
+    .color-swatch {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .color-swatches__count {
+    text-align: center;
+    font-size: 0.82rem;
+    color: #999;
+    margin-top: 1.25rem;
+    font-family: var(--font-titulo);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+</style>

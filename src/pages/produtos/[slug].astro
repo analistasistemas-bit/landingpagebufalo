@@ -1,0 +1,230 @@
+---
+// produtos/[slug].astro — Template dinâmico de categoria (8 páginas).
+// getStaticPaths() gera uma rota por slug de categorias.json.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import ColorSwatches from '../../components/ColorSwatches.astro';
+import CTASection from '../../components/CTASection.astro';
+import StitchDivider from '../../components/StitchDivider.astro';
+import { categorySeo } from '../../data/seo';
+import { waMsg } from '../../data/whatsapp';
+import categorias from '../../data/categorias.json';
+import produtos from '../../data/produtos.json';
+
+export function getStaticPaths() {
+  return categorias.map((cat) => ({
+    params: { slug: cat.slug },
+    props: { categoria: cat },
+  }));
+}
+
+const { categoria } = Astro.props;
+const { slug } = Astro.params;
+
+const seo = categorySeo(categoria.nome, categoria.descricao);
+
+// Filter products for this category
+const produtosCategoria = produtos.filter((p) => p.categoriaSlug === slug);
+
+// Category intro texts (from 03_Conteudo_Copy.md)
+const introTexts: Record<string, string> = {
+  'linhas-de-costura':
+    'O carro-chefe da Búfalo. Alta resistência ao rompimento, acabamento uniforme e centenas de cores. Da Linha 120 às linhas 36 e 50, é o ponto que aguenta.',
+  'fios-overloque':
+    'Acabamento firme e uniforme, com gramaturas para todo tipo de produção. Overloque que finaliza sem decepcionar.',
+  ziperes:
+    'De metal a invisível, do nº 3 ao tratorado: o fecho certo para cada peça, com a resistência que a Búfalo entrega.',
+  elasticos:
+    'Largura de 20 a 50mm para cós, punhos e ajustes. Firmeza que não cede com o uso.',
+  passamanarias:
+    'Rabo de rato, pompons, rendas e bicos bordados para dar o toque final na peça. Acabamento que valoriza o trabalho.',
+  'fechos-colchetes':
+    'Velcro, botões de pressão e colchetes para fechar com segurança. Detalhe que faz a diferença.',
+  tesouras:
+    'Corte preciso e durável, em aço inoxidável. De 7,5" a 9,75", a tesoura que acompanha o profissional.',
+  acessorios:
+    'O apoio do dia a dia da costura, com a confiança da marca Búfalo.',
+};
+
+const introText = introTexts[slug] ?? categoria.descricao;
+const isLinhas = slug === 'linhas-de-costura';
+---
+
+<BaseLayout title={seo.title} description={seo.description} image={`/images/produtos/${slug}.webp`}>
+
+  <!-- Category header / hero strip -->
+  <section class="cat-hero">
+    <div class="cat-hero__img-wrap">
+      <img
+        src={`/images/produtos/${slug}.webp`}
+        alt={`${categoria.nome} — Búfalo`}
+        width="1200"
+        height="400"
+        loading="eager"
+        onerror="this.src='/images/produtos/_placeholder.webp'"
+      />
+      <div class="cat-hero__overlay" aria-hidden="true"></div>
+    </div>
+    <div class="container cat-hero__content">
+      <h1 class="cat-hero__title">{categoria.nome}</h1>
+      <p class="cat-hero__desc">{introText}</p>
+    </div>
+  </section>
+
+  <StitchDivider />
+
+  <!-- Special: Linha 120 color cartela -->
+  {isLinhas && (
+    <>
+      <ColorSwatches />
+      <StitchDivider />
+    </>
+  )}
+
+  <!-- Products grid -->
+  <section class="cat-products">
+    <div class="container">
+      <h2 class="cat-products__heading">Produtos</h2>
+
+      {produtosCategoria.length > 0 ? (
+        <ul class="cat-products__grid" role="list">
+          {produtosCategoria.map((produto) => (
+            <li>
+              <ProductCard produto={produto} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="cat-products__empty">
+          Produtos em breve. Fale conosco pelo WhatsApp para saber mais.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <StitchDivider />
+
+  <!-- End CTA -->
+  <CTASection
+    title="Não encontrou o que procura?"
+    text="Nossa equipe pode te ajudar a encontrar o produto certo para a sua produção. Fale direto no WhatsApp."
+    buttonLabel="Falar no WhatsApp"
+    waMessage={waMsg.atacado}
+    variant="red"
+  />
+
+</BaseLayout>
+
+<style>
+  /* ── Category hero strip ── */
+  .cat-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 280px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  @media (min-width: 768px) {
+    .cat-hero {
+      min-height: 360px;
+    }
+  }
+
+  .cat-hero__img-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cat-hero__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cat-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(60, 0, 0, 0.82) 0%,
+      rgba(100, 10, 10, 0.5) 50%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  }
+
+  .cat-hero__content {
+    position: relative;
+    z-index: 1;
+    padding-block: 2.5rem;
+    color: var(--bufalo-branco);
+  }
+
+  .cat-hero__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    color: var(--bufalo-branco);
+  }
+
+  .cat-hero__desc {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    line-height: 1.6;
+    opacity: 0.92;
+    max-width: 620px;
+    margin: 0;
+  }
+
+  /* ── Products grid ── */
+  .cat-products {
+    padding-block: 3rem;
+  }
+
+  .cat-products__heading {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin-bottom: 2rem;
+  }
+
+  .cat-products__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 520px) {
+    .cat-products__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .cat-products__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .cat-products__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .cat-products__empty {
+    color: #888;
+    font-size: 1rem;
+    padding: 2rem 0;
+  }
+</style>

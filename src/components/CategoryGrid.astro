@@ -1,0 +1,187 @@
+---
+// CategoryGrid.astro — Grid das 8 categorias, ordenado por `ordem`.
+// Cada card linka /produtos/{slug} com imagem de categoria.
+import categorias from '../data/categorias.json';
+
+interface Props {
+  heading?: string;
+  intro?: string;
+}
+
+const { heading, intro } = Astro.props;
+
+const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
+---
+
+<section class="category-grid">
+  <div class="container">
+    {heading && (
+      <div class="category-grid__header">
+        <h2 class="category-grid__heading">{heading}</h2>
+        {intro && <p class="category-grid__intro">{intro}</p>}
+      </div>
+    )}
+
+    <ul class="category-grid__list" role="list">
+      {sorted.map((cat) => (
+        <li>
+          <a href={`/produtos/${cat.slug}`} class="category-card">
+            <div class="category-card__img-wrap">
+              <img
+                src={`/images/produtos/${cat.slug}.webp`}
+                alt={`${cat.nome} — Búfalo`}
+                loading="lazy"
+                width="480"
+                height="320"
+                onerror="this.src='/images/produtos/_placeholder.webp'"
+              />
+            </div>
+            <div class="category-card__body">
+              <h3 class="category-card__nome">{cat.nome}</h3>
+              <p class="category-card__desc">{cat.descricao}</p>
+              <span class="category-card__link" aria-hidden="true">
+                Ver produtos →
+              </span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .category-grid {
+    padding-block: 3rem;
+  }
+
+  .category-grid__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .category-grid__heading {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.6rem;
+  }
+
+  .category-grid__intro {
+    font-size: 1rem;
+    color: #666;
+    max-width: 560px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  /* Grid: 1 col → 2 → 4 */
+  .category-grid__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 600px) {
+    .category-grid__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .category-grid__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Card */
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--bufalo-branco);
+    border: 1px solid #e5e5e5;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+
+  .category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13);
+  }
+
+  .category-card:focus-visible {
+    outline: 3px solid var(--bufalo-vermelho);
+    outline-offset: 2px;
+  }
+
+  .category-card__img-wrap {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--bufalo-cinza-claro);
+  }
+
+  .category-card__img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .category-card:hover .category-card__img-wrap img {
+    transform: scale(1.05);
+  }
+
+  .category-card__body {
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1;
+  }
+
+  .category-card__nome {
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .category-card__desc {
+    font-size: 0.83rem;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+  }
+
+  .category-card__link {
+    font-family: var(--font-titulo);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--bufalo-vermelho);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.4rem;
+    transition: color 0.15s;
+  }
+
+  .category-card:hover .category-card__link {
+    color: var(--bufalo-bordo);
+  }
+</style>
