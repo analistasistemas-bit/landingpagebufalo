@@ -48,9 +48,31 @@ const introTexts: Record<string, string> = {
 
 const introText = introTexts[slug] ?? categoria.descricao;
 const isLinhas = slug === 'linhas-de-costura';
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://bufalo.example.com';
+
+const productListSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: categoria.nome,
+  itemListElement: produtosCategoria.map((p, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    item: {
+      '@type': 'Product',
+      name: p.nome,
+      description: [p.obs, p.composicao].filter(Boolean).join(' — '),
+      brand: { '@type': 'Brand', name: 'Búfalo' },
+      image: siteUrl + p.imagem,
+    },
+  })),
+});
 ---
 
 <BaseLayout title={seo.title} description={seo.description} image={`/images/produtos/${slug}.webp`}>
+  {produtosCategoria.length > 0 && (
+    <script type="application/ld+json" set:html={productListSchema} />
+  )}
 
   <!-- Category header / hero strip -->
   <section class="cat-hero">
