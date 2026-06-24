@@ -20,16 +20,15 @@ Base: /Users/diego/Desktop/IA/LandingPage Bufalo
   - After dedup: 69 unique colors
   - Wrote 69 entries to cores-linha120.json
 
-## Product / Category Images
-  - PDF has 68 pages
-  - linhas-de-costura.webp: from PDF page 3 embedded image (2000, 1335)
-  - fios-overloque.webp: from PDF page 9 embedded image (2000, 1335)
-  - ziperes.webp: from PDF page 13 embedded image (2000, 1335)
-  - elasticos.webp: from PDF page 25 embedded image (2000, 1335)
-  - passamanarias.webp: from PDF page 30 embedded image (2463, 1642)
-  - fechos-colchetes.webp: from PDF page 40 embedded image (2000, 1335)
-  - tesouras.webp: from PDF page 50 embedded image (2000, 1335)
-  - acessorios.webp: from PDF page 60 embedded image (2000, 1335)
+## Product / Category Images (divisória circle crop)
+  - linhas-de-costura.webp: pag_03 circle crop 800x800 → 31KB
+  - ziperes.webp: pag_35 circle crop 800x800 → 58KB
+  - elasticos.webp: pag_50 circle crop 800x800 → 19KB
+  - passamanarias.webp: pag_25 circle crop 800x800 → 36KB
+  - fechos-colchetes.webp: pag_46 circle crop 800x800 → 24KB
+  - tesouras.webp: pag_56 circle crop 800x800 → 42KB
+  - acessorios.webp: pag_62 circle crop 800x800 → 45KB
+  - fios-overloque.webp: pag_10 duotone circle 800x800 → 20KB
 
 ## Placeholder Image
   - _placeholder.webp: 800x600 red bg + white logo → 10KB

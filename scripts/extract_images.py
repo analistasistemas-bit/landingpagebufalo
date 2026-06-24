@@ -17,23 +17,29 @@ Color-sampling method:
   - We then cluster nearby colors and deduplicate to get a varied palette.
   - No OCR: codes are omitted when not readable; entries have hex only.
 
-Product-extraction method:
-  - Uses fitz (PyMuPDF) to extract embedded raster images from each PDF page.
-  - Matches pages to categories by page range heuristics from catalog structure.
-  - The largest image per category page is picked as representative.
-  - Saved as WebP 800px wide, quality=80.
+Category-image method (v2 — divisória circle crop):
+  - Each category has an exact divisória page in the catalog (verified visually).
+  - Divisória layout: large red circle with product photo in the top-left area,
+    category name text below. The circle is ~1250px wide starting at col 0.
+  - Crop window (0, 300, 1250, 1550) captures the circle as a 1250x1250 square,
+    avoiding the text below. Resize to 800x800 WebP quality 80.
+  - fios-overloque (pág 10) has no divisória. Instead: crop the largest product
+    photo from that page, apply a red duotone + circular mask to match the style.
+  - Page map (1-indexed PDF page → slug):
+      3  → linhas-de-costura
+      10 → fios-overloque  (duotone fallback from pág 3 if crop looks bad)
+      35 → ziperes
+      50 → elasticos
+      25 → passamanarias
+      46 → fechos-colchetes
+      56 → tesouras
+      62 → acessorios
 """
 
 import os
-import sys
 import json
 import math
-import struct
-import base64
-import shutil
-import fitz  # PyMuPDF
-from PIL import Image, ImageDraw, ImageFont
-from io import BytesIO
+from PIL import Image, ImageDraw
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 BASE = "/Users/diego/Desktop/IA/LandingPage Bufalo"
@@ -218,114 +224,142 @@ def process_colors():
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 4. PRODUCT / CATEGORY IMAGES
+# 4. PRODUCT / CATEGORY IMAGES — divisória circle crop
 # ══════════════════════════════════════════════════════════════════════════════
-# Category → page ranges in the catalog (approximate, based on file sizes / content)
-# Pages with large files = photo pages
-CATEGORY_PAGES = {
-    "linhas-de-costura":   [3, 4, 5, 6, 7, 8],   # Linha 120 cones
-    "fios-overloque":      [9, 10, 11, 12],
-    "ziperes":             [13, 14, 15, 16, 17],
-    "elasticos":           [25, 26, 27],
-    "passamanarias":       [30, 31, 32, 33],
-    "fechos-colchetes":    [40, 41, 42],
-    "tesouras":            [50, 51, 52],
-    "acessorios":          [60, 61, 62],
+# Exact map: PDF page (1-indexed) → category slug
+# All pages except fios-overloque have a divisória with a large red circle photo.
+# Verified visually: pag_03=linhas, pag_25=passamanarias, pag_35=ziperes,
+# pag_46=fechos, pag_50=elasticos, pag_56=tesouras, pag_62=acessorios
+DIVISORIA_MAP = {
+    "linhas-de-costura":  3,
+    "ziperes":            35,
+    "elasticos":          50,
+    "passamanarias":      25,
+    "fechos-colchetes":   46,
+    "tesouras":           56,
+    "acessorios":         62,
 }
+# fios-overloque uses pag_10 with duotone treatment (no divisória circle)
+OVERLOQUE_PAGE = 10
+# Fallback for overloque duotone: use linhas-de-costura divisória if pag_10 crop is poor
+OVERLOQUE_FALLBACK_PAGE = 3
 
-def extract_largest_image_from_pdf_page(doc, page_num_0indexed):
-    """Extract the largest embedded raster from a PDF page. Returns PIL Image or None."""
-    try:
-        page = doc[page_num_0indexed]
-        image_list = page.get_images(full=True)
-        if not image_list:
-            return None
-        # Pick largest by pixel count
-        best = None
-        best_pixels = 0
-        for img_info in image_list:
-            xref = img_info[0]
-            try:
-                base_img = doc.extract_image(xref)
-                data = base_img["image"]
-                pil = Image.open(BytesIO(data)).convert("RGB")
-                px = pil.size[0] * pil.size[1]
-                if px > best_pixels:
-                    best_pixels = px
-                    best = pil
-            except Exception:
-                continue
-        return best
-    except Exception:
-        return None
+# Circle crop window — verified on pag_03 thumbnail:
+# cols 0-1250, rows 300-1550 captures the circle as a ~1250x1250 square
+# avoiding the category name text at the bottom of the red panel
+CIRCLE_CROP = (0, 300, 1250, 1550)  # (left, top, right, bottom) in full-res pixels
 
-def crop_product_region(page_path, region_frac=(0.05, 0.12, 0.95, 0.88)):
-    """Crop the main content area from a rasterized page, removing margins/headers."""
+
+def crop_divisoria_circle(page_path, crop_box=CIRCLE_CROP, out_size=800):
+    """Crop the red circle area from a divisória page and resize to out_size x out_size."""
     img = Image.open(page_path).convert("RGB")
-    w, h = img.size
-    l = int(w * region_frac[0])
-    t = int(h * region_frac[1])
-    r = int(w * region_frac[2])
-    b = int(h * region_frac[3])
-    return img.crop((l, t, r, b))
+    cropped = img.crop(crop_box)
+    # Ensure square (crop_box should already be square, but enforce)
+    w, h = cropped.size
+    side = min(w, h)
+    if w != h:
+        cropped = cropped.crop((0, 0, side, side))
+    return cropped.resize((out_size, out_size), Image.LANCZOS)
 
-def resize_to_width(img, target_w=800):
-    w, h = img.size
-    if w <= target_w:
-        return img
-    ratio = target_w / w
-    return img.resize((target_w, int(h * ratio)), Image.LANCZOS)
 
-def save_webp(img, path, quality=80):
-    img = resize_to_width(img, 800)
-    img.save(path, "WEBP", quality=quality)
+def apply_red_duotone_circle(img, out_size=800):
+    """Apply a red duotone + circular mask to an RGB image, returning RGBA 800x800."""
+    import numpy as np
+    # Resize to square
+    w, h = img.size
+    side = min(w, h)
+    # Center-crop to square
+    left = (w - side) // 2
+    top = (h - side) // 2
+    img = img.crop((left, top, left + side, top + side))
+    img = img.resize((out_size, out_size), Image.LANCZOS)
+
+    # Convert to grayscale then apply red duotone
+    arr = np.array(img).astype(float)
+    gray = arr[:, :, 0] * 0.299 + arr[:, :, 1] * 0.587 + arr[:, :, 2] * 0.114
+    # Map gray 0-255 → dark red (#6B0000) to bright (#B22222) to near-white
+    dark = np.array([107, 0, 0], dtype=float)     # #6B0000
+    mid  = np.array([178, 34, 34], dtype=float)   # #B22222
+    light = np.array([255, 180, 180], dtype=float)
+
+    t = gray / 255.0
+    # Two-segment blend: dark→mid for t<0.5, mid→light for t>=0.5
+    t1 = np.clip(t * 2, 0, 1)
+    t2 = np.clip((t - 0.5) * 2, 0, 1)
+    mask_low  = (t < 0.5)[:, :, None]
+    mask_high = (t >= 0.5)[:, :, None]
+    t1 = t1[:, :, None]
+    t2 = t2[:, :, None]
+    result = (dark[None, None] * (1 - t1) + mid[None, None] * t1) * mask_low
+    result += (mid[None, None] * (1 - t2) + light[None, None] * t2) * mask_high
+    result = np.clip(result, 0, 255).astype(np.uint8)
+    duotone = Image.fromarray(result, "RGB")
+
+    # Apply circular mask
+    mask = Image.new("L", (out_size, out_size), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, out_size - 1, out_size - 1), fill=255)
+
+    result_rgba = duotone.convert("RGBA")
+    result_rgba.putalpha(mask)
+    # Composite onto white background for clean WebP
+    bg = Image.new("RGB", (out_size, out_size), (255, 255, 255))
+    bg.paste(duotone, mask=mask)
+    return bg
+
 
 def process_products():
-    rpt("\n## Product / Category Images")
-    doc = fitz.open(PDF_PATH)
-    total_pages = len(doc)
-    rpt(f"  - PDF has {total_pages} pages")
+    rpt("\n## Product / Category Images (divisória circle crop)")
 
     produced_category = []
-    produced_product = []
     used_placeholder = []
 
-    for slug, pages in CATEGORY_PAGES.items():
+    # ── 7 divisória pages ──────────────────────────────────────────────────────
+    for slug, page_num in DIVISORIA_MAP.items():
         out_path = os.path.join(OUT_PRODUTOS, f"{slug}.webp")
-        found = False
+        page_path = os.path.join(PAGES_DIR, f"pag_{page_num:02d}.png")
+        if not os.path.exists(page_path):
+            rpt(f"  - {slug}.webp: MISSING page {page_path}")
+            used_placeholder.append(slug)
+            continue
+        img = crop_divisoria_circle(page_path)
+        img.save(out_path, "WEBP", quality=80)
+        size_kb = os.path.getsize(out_path) // 1024
+        rpt(f"  - {slug}.webp: pag_{page_num:02d} circle crop 800x800 → {size_kb}KB")
+        produced_category.append(slug)
 
-        # Try PDF embedded images first
-        for pg in pages:
-            if pg < 1 or pg > total_pages:
-                continue
-            pil = extract_largest_image_from_pdf_page(doc, pg - 1)
-            if pil and pil.size[0] > 100 and pil.size[1] > 100:
-                save_webp(pil, out_path)
-                rpt(f"  - {slug}.webp: from PDF page {pg} embedded image {pil.size}")
-                produced_category.append(slug)
-                found = True
-                break
-
-        # Fallback: crop from rasterized page
-        if not found:
-            for pg in pages:
-                page_path = os.path.join(PAGES_DIR, f"pag_{pg:02d}.png")
-                if not os.path.exists(page_path):
-                    continue
-                pil = crop_product_region(page_path)
-                if pil:
-                    save_webp(pil, out_path)
-                    rpt(f"  - {slug}.webp: cropped from rasterized pag_{pg:02d}")
-                    produced_category.append(slug)
-                    found = True
-                    break
-
-        if not found:
+    # ── fios-overloque: duotone circle from pag_10 ────────────────────────────
+    slug = "fios-overloque"
+    out_path = os.path.join(OUT_PRODUTOS, f"{slug}.webp")
+    page_path = os.path.join(PAGES_DIR, f"pag_{OVERLOQUE_PAGE:02d}.png")
+    if os.path.exists(page_path):
+        img = Image.open(page_path).convert("RGB")
+        # pag_10: product content starts below header (~row 200), use top product area
+        # The cones are in the upper portion; crop a representative region
+        w, h = img.size
+        # Crop a square from the first product photo block (roughly rows 200-1200, centered)
+        crop = img.crop((80, 200, 1440, 1460))
+        duotone_img = apply_red_duotone_circle(crop)
+        duotone_img.save(out_path, "WEBP", quality=80)
+        size_kb = os.path.getsize(out_path) // 1024
+        rpt(f"  - {slug}.webp: pag_{OVERLOQUE_PAGE:02d} duotone circle 800x800 → {size_kb}KB")
+        produced_category.append(slug)
+    else:
+        # Fallback: use linhas-de-costura divisória with duotone
+        fallback_path = os.path.join(PAGES_DIR, f"pag_{OVERLOQUE_FALLBACK_PAGE:02d}.png")
+        if os.path.exists(fallback_path):
+            img = Image.open(fallback_path).convert("RGB")
+            crop = img.crop(CIRCLE_CROP)
+            duotone_img = apply_red_duotone_circle(crop)
+            duotone_img.save(out_path, "WEBP", quality=80)
+            size_kb = os.path.getsize(out_path) // 1024
+            rpt(f"  - {slug}.webp: FALLBACK pag_{OVERLOQUE_FALLBACK_PAGE:02d} duotone → {size_kb}KB (NOTE: pag_10 missing)")
+            produced_category.append(slug)
+        else:
             used_placeholder.append(slug)
             rpt(f"  - {slug}.webp: NOT FOUND — will use placeholder")
 
-    doc.close()
-    return produced_category, produced_product, used_placeholder
+    return produced_category, [], used_placeholder
 
 
 # ══════════════════════════════════════════════════════════════════════════════
