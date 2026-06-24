@@ -1,0 +1,58 @@
+[
+  {
+    "id": "CAT-01",
+    "nome": "Linhas de Costura",
+    "slug": "linhas-de-costura",
+    "descricao": "O carro-chefe da Búfalo. Alta resistência ao rompimento em máquinas industriais e domésticas, com centenas de cores.",
+    "ordem": 1
+  },
+  {
+    "id": "CAT-02",
+    "nome": "Fios para Overloque",
+    "slug": "fios-overloque",
+    "descricao": "Fios para acabamento de overloque em diferentes gramaturas, força e uniformidade no ponto.",
+    "ordem": 2
+  },
+  {
+    "id": "CAT-03",
+    "nome": "Zíperes",
+    "slug": "ziperes",
+    "descricao": "Zíperes de metal, alumínio, nylon, invisíveis, destacáveis e tratorados para todo tipo de peça.",
+    "ordem": 3
+  },
+  {
+    "id": "CAT-04",
+    "nome": "Elásticos",
+    "slug": "elasticos",
+    "descricao": "Elásticos em diversas larguras (20mm a 50mm) para confecção e ajustes.",
+    "ordem": 4
+  },
+  {
+    "id": "CAT-05",
+    "nome": "Passamanarias e Acabamentos",
+    "slug": "passamanarias",
+    "descricao": "Rabo de rato, pompons, rendas, bicos bordados e fitas para arremate e decoração.",
+    "ordem": 5
+  },
+  {
+    "id": "CAT-06",
+    "nome": "Fechos e Colchetes",
+    "slug": "fechos-colchetes",
+    "descricao": "Velcro, botões de pressão, colchetes de pressão e de gancho para fechamento de peças.",
+    "ordem": 6
+  },
+  {
+    "id": "CAT-07",
+    "nome": "Tesouras",
+    "slug": "tesouras",
+    "descricao": "Tesouras de costura (7,5\" a 9,75\") e de arremate, corte preciso e durável.",
+    "ordem": 7
+  },
+  {
+    "id": "CAT-08",
+    "nome": "Fitas Métricas e Acessórios",
+    "slug": "acessorios",
+    "descricao": "Fitas métricas e acessórios de apoio para o dia a dia da costura.",
+    "ordem": 8
+  }
+]
