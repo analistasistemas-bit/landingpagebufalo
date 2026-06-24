@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página não encontrada | Búfalo"
+  description="A página que você procura não existe ou foi movida. Volte ao início e continue navegando."
+>
+
+  <section class="not-found">
+    <div class="container not-found__inner">
+      <span class="not-found__num" aria-hidden="true">404</span>
+      <h1 class="not-found__title">Esse ponto se perdeu.</h1>
+      <p class="not-found__texto">
+        A página que você procura não existe ou foi movida. Volte ao início e continue navegando.
+      </p>
+      <a href="/" class="btn btn--primary">Voltar ao início</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: 6rem;
+    background-color: var(--bufalo-branco);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  .not-found__num {
+    font-family: var(--font-titulo);
+    font-size: clamp(5rem, 18vw, 10rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--bufalo-cinza-claro);
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  .not-found__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .not-found__texto {
+    font-size: 1.05rem;
+    color: #666;
+    line-height: 1.65;
+    max-width: 440px;
+    margin: 0;
+  }
+</style>

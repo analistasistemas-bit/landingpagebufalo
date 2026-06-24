@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seo } from '../data/seo';
+import { waMsg } from '../data/whatsapp';
+import StitchDivider from '../components/StitchDivider.astro';
+import CTASection from '../components/CTASection.astro';
+---
+
+<BaseLayout title={seo.revendedor.title} description={seo.revendedor.description}>
+
+  <!-- 1. HEADER -->
+  <section class="rev-hero">
+    <div class="container">
+      <h1 class="rev-hero__title">Leve a força da Búfalo para a sua loja</h1>
+      <p class="rev-hero__intro">
+        A Búfalo é uma marca que o costureiro já conhece e confia. Revender Búfalo é oferecer
+        ao seu cliente o insumo que não decepciona — e garantir giro com uma linha de produtos
+        completa.
+      </p>
+    </div>
+  </section>
+
+  <StitchDivider ornament={false} />
+
+  <!-- 2. POR QUE REVENDER -->
+  <section class="por-que">
+    <div class="container">
+      <h2 class="por-que__heading">Por que revender Búfalo</h2>
+      <ul class="por-que__lista" role="list">
+        <li class="por-que__item">
+          <span class="por-que__num" aria-hidden="true">01</span>
+          <div>
+            <strong class="por-que__titulo">Marca reconhecida em todo o Brasil.</strong>
+            <p class="por-que__desc">O costureiro já sabe o que é Búfalo — menos esforço de venda, mais confiança na compra.</p>
+          </div>
+        </li>
+        <li class="por-que__item">
+          <span class="por-que__num" aria-hidden="true">02</span>
+          <div>
+            <strong class="por-que__titulo">Portfólio completo: linhas, zíperes, aviamentos e mais.</strong>
+            <p class="por-que__desc">Uma única marca resolve boa parte das necessidades da sua clientela.</p>
+          </div>
+        </li>
+        <li class="por-que__item">
+          <span class="por-que__num" aria-hidden="true">03</span>
+          <div>
+            <strong class="por-que__titulo">Produto que volta a ser comprado.</strong>
+            <p class="por-que__desc">Linha de costura é insumo de consumo contínuo — giro garantido na sua loja.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <StitchDivider />
+
+  <!-- 3. CTA -->
+  <CTASection
+    title="Fale com nosso time no WhatsApp"
+    text="Entre em contato e saiba como levar a Búfalo para a sua loja."
+    buttonLabel="Quero ser revendedor"
+    waMessage={waMsg.revendedor}
+    variant="red"
+  />
+
+</BaseLayout>
+
+<style>
+  /* ── HERO ── */
+  .rev-hero {
+    background-color: var(--bufalo-cinza);
+    padding-block: 4rem;
+  }
+
+  .rev-hero .container {
+    max-width: 720px;
+  }
+
+  .rev-hero__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.9rem, 5vw, 3.2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--bufalo-branco);
+    margin-bottom: 1.1rem;
+  }
+
+  .rev-hero__intro {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 620px;
+  }
+
+  /* ── POR QUE REVENDER ── */
+  .por-que {
+    padding-block: 3.5rem;
+    background-color: var(--bufalo-branco);
+  }
+
+  .por-que__heading {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--bufalo-cinza);
+    margin-bottom: 2rem;
+  }
+
+  .por-que__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 720px;
+  }
+
+  .por-que__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background-color: var(--bufalo-cinza-claro);
+    border-radius: var(--radius);
+    border-left: 4px solid var(--bufalo-vermelho);
+  }
+
+  .por-que__num {
+    font-family: var(--font-titulo);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--bufalo-vermelho);
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.6;
+    min-width: 2.2rem;
+  }
+
+  .por-que__titulo {
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--bufalo-cinza);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .por-que__desc {
+    font-size: 0.93rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

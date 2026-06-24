@@ -1,0 +1,222 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seo } from '../data/seo';
+import { waLink } from '../data/whatsapp';
+
+const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
+---
+
+<BaseLayout title={seo.contato.title} description={seo.contato.description}>
+
+  <section class="contato-hero">
+    <div class="container">
+      <h1 class="contato-hero__title">Fale com a Búfalo</h1>
+      <p class="contato-hero__intro">
+        Tem uma dúvida, quer fazer um pedido ou conhecer melhor nossos produtos? Chama no
+        WhatsApp — atendimento direto, sem rodeios.
+      </p>
+    </div>
+  </section>
+
+  <section class="contato-canais">
+    <div class="container">
+
+      <!-- WhatsApp — canal principal -->
+      <div class="canal canal--destaque">
+        <span class="canal__icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.054 23.272a.75.75 0 0 0 .918.919l5.444-1.483A11.953 11.953 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.75 9.75 0 0 1-4.928-1.337l-.353-.21-3.661.997.993-3.624-.23-.372A9.702 9.702 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+          </svg>
+        </span>
+        <div class="canal__corpo">
+          <h2 class="canal__titulo">WhatsApp</h2>
+          <a
+            href={waHref}
+            class="canal__numero"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Falar com a Búfalo no WhatsApp: +55 81 98342-6557"
+          >
+            +55 81 98342-6557
+          </a>
+        </div>
+      </div>
+
+      <!-- E-mail -->
+      <div class="canal">
+        <span class="canal__icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m2 7 8.586 6.586a2 2 0 0 0 2.828 0L22 7"/>
+          </svg>
+        </span>
+        <div class="canal__corpo">
+          <h2 class="canal__titulo">E-mail</h2>
+          <span class="canal__placeholder" role="note">
+            <strong>[CONFIRMAR]</strong> — endereço de e-mail a definir
+          </span>
+        </div>
+      </div>
+
+      <!-- Redes sociais -->
+      <div class="canal">
+        <span class="canal__icon" aria-hidden="true">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+        </span>
+        <div class="canal__corpo">
+          <h2 class="canal__titulo">Redes sociais</h2>
+          <span class="canal__placeholder" role="note">[em breve]</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Big CTA button -->
+    <div class="contato-cta">
+      <a
+        href={waHref}
+        class="btn btn--primary btn--lg"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Conversar no WhatsApp
+      </a>
+    </div>
+
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── HERO ── */
+  .contato-hero {
+    background-color: var(--bufalo-cinza);
+    padding-block: 4rem;
+  }
+
+  .contato-hero .container {
+    max-width: 680px;
+  }
+
+  .contato-hero__title {
+    font-family: var(--font-titulo);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--bufalo-branco);
+    margin-bottom: 1rem;
+  }
+
+  .contato-hero__intro {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* ── CANAIS ── */
+  .contato-canais {
+    padding-block: 3.5rem 2rem;
+    background-color: var(--bufalo-branco);
+  }
+
+  .contato-canais .container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 680px;
+  }
+
+  .canal {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background-color: var(--bufalo-cinza-claro);
+    border-radius: var(--radius);
+  }
+
+  .canal--destaque {
+    border-left: 4px solid var(--bufalo-vermelho);
+    background-color: #fff8f8;
+  }
+
+  .canal__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: rgba(178, 34, 34, 0.08);
+    color: var(--bufalo-vermelho);
+    flex-shrink: 0;
+  }
+
+  .canal--destaque .canal__icon {
+    background-color: rgba(178, 34, 34, 0.12);
+  }
+
+  .canal__corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    justify-content: center;
+  }
+
+  .canal__titulo {
+    font-family: var(--font-titulo);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin: 0;
+  }
+
+  .canal__numero {
+    font-family: var(--font-titulo);
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 800;
+    color: var(--bufalo-vermelho);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.15s;
+  }
+
+  .canal__numero:hover {
+    color: var(--bufalo-bordo);
+  }
+
+  .canal__placeholder {
+    font-size: 0.95rem;
+    color: #888;
+    font-style: italic;
+  }
+
+  .canal__placeholder strong {
+    color: #666;
+    font-style: normal;
+  }
+
+  /* ── BIG CTA ── */
+  .contato-cta {
+    padding-block: 2.5rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn--lg {
+    font-size: 1.1rem;
+    padding: 0.85em 2.2em;
+  }
+</style>
