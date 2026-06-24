@@ -1,34 +1,79 @@
 ---
-// TEMPORARY — Task 5 placeholder so the build has a page to render.
+// TEMPORARY — Task 6 demo: signature components wired for build verification.
 // Task 7 will replace this with the full Home (hero, ColorRing, sections, etc.)
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { seo } from '../data/seo';
+import ColorRing from '../components/ColorRing.astro';
+import StitchDivider from '../components/StitchDivider.astro';
+import FeatureStrip from '../components/FeatureStrip.astro';
+import CTASection from '../components/CTASection.astro';
+import { waMsg } from '../data/whatsapp';
 ---
 
 <BaseLayout title={seo.home.title} description={seo.home.description}>
+  <!-- Hero placeholder with ColorRing -->
   <section class="placeholder-hero">
-    <div class="container">
-      <h1>Búfalo</h1>
-      <p>Força e Qualidade em cada carretel.</p>
+    <div class="container placeholder-hero__inner">
+      <div class="placeholder-hero__copy">
+        <h1>A linha que não quebra na hora H.</h1>
+        <p>Linhas de costura e aviamentos com a força e a qualidade que o seu trabalho merece. De norte a sul do Brasil.</p>
+      </div>
+      <ColorRing />
     </div>
   </section>
+
+  <StitchDivider />
+
+  <FeatureStrip />
+
+  <StitchDivider ornament={false} />
+
+  <CTASection
+    title="Quer revender Búfalo?"
+    text="Leve para a sua loja uma marca que o costureiro já conhece e confia."
+    buttonLabel="Quero ser revendedor"
+    waMessage={waMsg.revendedor}
+    variant="red"
+  />
 </BaseLayout>
 
 <style>
   .placeholder-hero {
-    min-height: 60vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     background-color: var(--bufalo-cinza-claro);
+    padding-block: 4rem;
   }
 
-  .placeholder-hero h1 {
+  .placeholder-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .placeholder-hero__inner {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .placeholder-hero__copy {
+    flex: 1;
+  }
+
+  .placeholder-hero__copy h1 {
     color: var(--bufalo-vermelho);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
-  .placeholder-hero p {
-    font-size: 1.25rem;
+  .placeholder-hero__copy p {
+    font-size: 1.15rem;
     color: var(--bufalo-cinza);
+    max-width: 480px;
   }
 </style>

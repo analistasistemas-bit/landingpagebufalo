@@ -1,0 +1,168 @@
+---
+// ColorRing.astro — Hero signature: colored dots in a ring with center medallion
+// Dots computed at build time (no client JS). Animation respects prefers-reduced-motion.
+import coresData from '../data/cores-linha120.json';
+
+interface Props {
+  dotCount?: number;
+  label?: string;
+  sublabel?: string;
+}
+
+const {
+  dotCount = 24,
+  label = '100+',
+  sublabel = 'CORES',
+} = Astro.props;
+
+// Pick 24 well-distributed colors by hue group from the 69 available.
+// Groups: red(0), orange(1), brown(2), gold(3), olive(4), yellow-green(5),
+//         green(6), teal(7), blue(8), navy(9), purple(10), pink(11)
+// ~2 per group = 24 dots with a good hue rainbow spread.
+const hueIndices = [
+  0,  // #981615 — deep red
+  1,  // #B35650 — muted red
+  5,  // #AF4C2B — burnt orange
+  9,  // #CE8254 — warm orange
+  13, // #C8A35E — gold
+  17, // #BE9F32 — dark gold
+  18, // #CDB603 — bright yellow
+  21, // #B9B751 — yellow-olive
+  23, // #50530D — dark olive
+  25, // #9CBF36 — yellow-green
+  26, // #546722 — forest green
+  32, // #417F11 — mid green
+  34, // #94C293 — light green
+  36, // #5E896C — sage
+  39, // #1E4F37 — dark teal
+  40, // #136351 — teal
+  42, // #86A9AF — steel blue
+  44, // #4279A6 — medium blue
+  49, // #182D65 — navy
+  51, // #969CB7 — slate blue
+  52, // #837592 — muted purple
+  53, // #AC94B9 — lavender
+  58, // #B11E56 — magenta-red
+  67, // #E07589 — coral pink
+];
+
+const dots = hueIndices.slice(0, dotCount).map((colorIdx, i) => {
+  const angle = (i / dotCount) * 2 * Math.PI - Math.PI / 2; // start top
+  // radius as fraction of container (50% = edge of container, dot sits on 42% radius)
+  const rx = 42; // % from center
+  const ry = 42;
+  const cx = 50 + rx * Math.cos(angle);
+  const cy = 50 + ry * Math.sin(angle);
+  const color = coresData[colorIdx]?.hex ?? '#B22222';
+  return { cx, cy, color, delay: i * 60 }; // 60ms stagger
+});
+---
+
+<div class="color-ring" role="img" aria-label={`Anel de ${dotCount} cores — ${label} ${sublabel}`}>
+  <div class="color-ring__track">
+    {dots.map((dot, i) => (
+      <span
+        class="color-ring__dot"
+        style={`left:${dot.cx}%;top:${dot.cy}%;background-color:${dot.color};--delay:${dot.delay}ms`}
+        aria-hidden="true"
+      />
+    ))}
+    <div class="color-ring__medallion" aria-hidden="true">
+      <span class="color-ring__label">{label}</span>
+      <span class="color-ring__sublabel">{sublabel}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .color-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(240px, 60vw, 320px);
+    aspect-ratio: 1;
+    flex-shrink: 0;
+  }
+
+  .color-ring__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Dots */
+  .color-ring__dot {
+    position: absolute;
+    width: clamp(14px, 3.5vw, 20px);
+    height: clamp(14px, 3.5vw, 20px);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Center medallion */
+  .color-ring__medallion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 44%;
+    height: 44%;
+    border-radius: 50%;
+
+    background-color: var(--bufalo-vermelho);
+    color: var(--bufalo-branco);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+      0 0 0 3px var(--bufalo-branco),
+      0 0 0 5px var(--bufalo-vermelho),
+      0 4px 20px rgba(178, 34, 34, 0.45);
+  }
+
+  .color-ring__label {
+    font-family: var(--font-titulo);
+    font-weight: 800;
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .color-ring__sublabel {
+    font-family: var(--font-titulo);
+    font-weight: 600;
+    font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+    opacity: 0.9;
+  }
+
+  /* ── Animation (pop-in stagger) ── */
+  /* Default: dots are visible (for reduced-motion users they stay static) */
+  .color-ring__dot {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .color-ring__dot {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+      animation: dot-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes dot-pop {
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+</style>
