@@ -3,7 +3,7 @@
     "id": "CAT-01",
     "nome": "Linhas de Costura",
     "slug": "linhas-de-costura",
-    "descricao": "O carro-chefe da Búfalo. Alta resistência ao rompimento em máquinas industriais e domésticas, com centenas de cores.",
+    "descricao": "Linha 120 em cones de 1.500 a 10.000m, Linha 36 e 50. Alta resistência, centenas de cores.",
     "ordem": 1,
     "imagem": "/images/produtos/linhas-de-costura.webp"
   },
@@ -11,56 +11,184 @@
     "id": "CAT-02",
     "nome": "Fios para Overloque",
     "slug": "fios-overloque",
-    "descricao": "Fios para acabamento de overloque em diferentes gramaturas, força e uniformidade no ponto.",
+    "descricao": "Fios de overloque 100% Poliéster em 100g, 300g e 500g. Acabamento firme e uniforme.",
     "ordem": 2,
     "imagem": "/images/produtos/fios-overloque.webp"
   },
   {
     "id": "CAT-03",
-    "nome": "Zíperes",
-    "slug": "ziperes",
-    "descricao": "Zíperes de metal, alumínio, nylon, invisíveis, destacáveis e tratorados para todo tipo de peça.",
+    "nome": "Rabo de Rato",
+    "slug": "rabo-de-rato",
+    "descricao": "Cordão rabo de rato em 1mm (100m) e 2mm (50m), em diversas cores. 100% Poliéster.",
     "ordem": 3,
-    "imagem": "/images/produtos/ziperes.webp"
+    "imagem": "/images/produtos/rabo-de-rato.webp"
   },
   {
     "id": "CAT-04",
-    "nome": "Elásticos",
-    "slug": "elasticos",
-    "descricao": "Elásticos em diversas larguras (20mm a 50mm) para confecção e ajustes.",
+    "nome": "Pompons",
+    "slug": "pompons",
+    "descricao": "Pompons em 10mm, 14mm e 20mm, em diversas cores. 100% Poliéster.",
     "ordem": 4,
-    "imagem": "/images/produtos/elasticos.webp"
+    "imagem": "/images/produtos/pompons.webp"
   },
   {
     "id": "CAT-05",
-    "nome": "Passamanarias e Acabamentos",
-    "slug": "passamanarias",
-    "descricao": "Rabo de rato, pompons, rendas, bicos bordados e fitas para arremate e decoração.",
+    "nome": "Rendas",
+    "slug": "rendas",
+    "descricao": "Rendas em 20mm, 37mm e 70mm de largura, peças de 50m. Poliamida e Poliéster.",
     "ordem": 5,
-    "imagem": "/images/produtos/passamanarias.webp"
+    "imagem": "/images/produtos/rendas.webp"
   },
   {
     "id": "CAT-06",
-    "nome": "Fechos e Colchetes",
-    "slug": "fechos-colchetes",
-    "descricao": "Velcro, botões de pressão, colchetes de pressão e de gancho para fechamento de peças.",
+    "nome": "Bico Bordado",
+    "slug": "bico-bordado",
+    "descricao": "Bico bordado em 2cm e 5cm de largura, comprimento 13,7m. 10% algodão.",
     "ordem": 6,
-    "imagem": "/images/produtos/fechos-colchetes.webp"
+    "imagem": "/images/produtos/bico-bordado.webp"
   },
   {
     "id": "CAT-07",
-    "nome": "Tesouras",
-    "slug": "tesouras",
-    "descricao": "Tesouras de costura (7,5\" a 9,75\") e de arremate, corte preciso e durável.",
+    "nome": "Passamanarias",
+    "slug": "passamanarias",
+    "descricao": "Passamanarias douradas e prateadas para aplicações decorativas e uniformes.",
     "ordem": 7,
-    "imagem": "/images/produtos/tesouras.webp"
+    "imagem": "/images/produtos/passamanarias.webp"
   },
   {
     "id": "CAT-08",
-    "nome": "Fitas Métricas e Acessórios",
-    "slug": "acessorios",
-    "descricao": "Fitas métricas e acessórios de apoio para o dia a dia da costura.",
+    "nome": "Fitas Natalinas",
+    "slug": "fitas-natalinas",
+    "descricao": "Fitas natalinas em 3,8cm e 6,3cm de largura para embalagens e decoração.",
     "ordem": 8,
-    "imagem": "/images/produtos/acessorios.webp"
+    "imagem": "/images/produtos/fitas-natalinas.webp"
+  },
+  {
+    "id": "CAT-09",
+    "nome": "Pérolas",
+    "slug": "perolas",
+    "descricao": "Pérolas e meias-pérolas n.6 com furo e adesivas, pacotes de 100g.",
+    "ordem": 9,
+    "imagem": "/images/produtos/perolas.webp"
+  },
+  {
+    "id": "CAT-10",
+    "nome": "Strass",
+    "slug": "strass",
+    "descricao": "Strass sintético transparente em cartelas com 271 unidades.",
+    "ordem": 10,
+    "imagem": "/images/produtos/strass.webp"
+  },
+  {
+    "id": "CAT-11",
+    "nome": "Zíperes",
+    "slug": "ziperes",
+    "descricao": "Zíperes de metal, alumínio, nylon, invisíveis, destacáveis e tratorados.",
+    "ordem": 11,
+    "imagem": "/images/produtos/ziperes.webp"
+  },
+  {
+    "id": "CAT-12",
+    "nome": "Fechos Adesivos",
+    "slug": "fechos-adesivos",
+    "descricao": "Velcro em rolos duplos de 25m nas larguras 16mm, 20mm, 25mm, 50mm e 100mm.",
+    "ordem": 12,
+    "imagem": "/images/produtos/fechos-adesivos.webp"
+  },
+  {
+    "id": "CAT-13",
+    "nome": "Botões de Pressão",
+    "slug": "botoes-de-pressao",
+    "descricao": "Botões de pressão 13mm (espessura 5mm) em nickel e dourado.",
+    "ordem": 13,
+    "imagem": "/images/produtos/botoes-de-pressao.webp"
+  },
+  {
+    "id": "CAT-14",
+    "nome": "Colchetes de Pressão",
+    "slug": "colchetes-de-pressao",
+    "descricao": "Colchetes de pressão para costurar do Nº0 (7mm) ao Nº4 (16mm), acabamento prata.",
+    "ordem": 14,
+    "imagem": "/images/produtos/colchetes-de-pressao.webp"
+  },
+  {
+    "id": "CAT-15",
+    "nome": "Colchetes de Gancho",
+    "slug": "colchetes-de-gancho",
+    "descricao": "Colchetes de gancho Nº1, Nº2 e Nº3 em cartelas de 20 a 24 unidades.",
+    "ordem": 15,
+    "imagem": "/images/produtos/colchetes-de-gancho.webp"
+  },
+  {
+    "id": "CAT-16",
+    "nome": "Elásticos",
+    "slug": "elasticos",
+    "descricao": "Elásticos de 20mm a 50mm, rolos de 25m com 29% elastano.",
+    "ordem": 16,
+    "imagem": "/images/produtos/elasticos.webp"
+  },
+  {
+    "id": "CAT-17",
+    "nome": "Colas",
+    "slug": "colas",
+    "descricao": "Cola em bastão fina (7mm) e grossa (11mm) e cola líquida Merletto de 60ml a 250ml.",
+    "ordem": 17,
+    "imagem": "/images/produtos/colas.webp"
+  },
+  {
+    "id": "CAT-18",
+    "nome": "Lápis",
+    "slug": "lapis",
+    "descricao": "Lápis de cor e de escrever da linha Traços, para uso escolar e profissional.",
+    "ordem": 18,
+    "imagem": "/images/produtos/lapis.webp"
+  },
+  {
+    "id": "CAT-19",
+    "nome": "Tesouras",
+    "slug": "tesouras",
+    "descricao": "Tesouras de costura Búfalo em 7,5\", 8,25\" e 9,75\" em aço inoxidável.",
+    "ordem": 19,
+    "imagem": "/images/produtos/tesouras.webp"
+  },
+  {
+    "id": "CAT-20",
+    "nome": "Tesoura de Arremate",
+    "slug": "tesoura-de-arremate",
+    "descricao": "Tesoura de arremate 10,8cm em ferro, caixa com 12 unidades.",
+    "ordem": 20,
+    "imagem": "/images/produtos/tesoura-de-arremate.webp"
+  },
+  {
+    "id": "CAT-21",
+    "nome": "Aplicador de Tag",
+    "slug": "aplicador-de-tag",
+    "descricao": "Aplicador portátil de pinos plásticos para fixar etiquetas e tags em roupas.",
+    "ordem": 21,
+    "imagem": "/images/produtos/aplicador-de-tag.webp"
+  },
+  {
+    "id": "CAT-22",
+    "nome": "Fita Métrica",
+    "slug": "fita-metrica",
+    "descricao": "Fita métrica 1,50m colorida em fibra de vidro, embalagem com 12 unidades.",
+    "ordem": 22,
+    "imagem": "/images/produtos/fita-metrica.webp"
+  },
+  {
+    "id": "CAT-23",
+    "nome": "Fita Refletiva",
+    "slug": "fita-refletiva",
+    "descricao": "Fita refletiva prata 5cm/50mm para uniformes e segurança.",
+    "ordem": 23,
+    "imagem": "/images/produtos/fita-refletiva.webp"
+  },
+  {
+    "id": "CAT-24",
+    "nome": "Fita Adesiva",
+    "slug": "fita-adesiva",
+    "descricao": "Fita adesiva 4,5cm em rolos de 40m e 200m.",
+    "ordem": 24,
+    "imagem": "/images/produtos/fita-adesiva.webp"
   }
 ]

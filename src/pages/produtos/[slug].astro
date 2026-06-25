@@ -26,24 +26,56 @@ const seo = categorySeo(categoria.nome, categoria.descricao);
 // Filter products for this category
 const produtosCategoria = produtos.filter((p) => p.categoriaSlug === slug);
 
-// Category intro texts (from 03_Conteudo_Copy.md)
+// Category intro texts
 const introTexts: Record<string, string> = {
   'linhas-de-costura':
     'O carro-chefe da Búfalo. Alta resistência ao rompimento, acabamento uniforme e centenas de cores. Da Linha 120 às linhas 36 e 50, é o ponto que aguenta.',
   'fios-overloque':
     'Acabamento firme e uniforme, com gramaturas para todo tipo de produção. Overloque que finaliza sem decepcionar.',
+  'rabo-de-rato':
+    'Cordão fino para acabamentos, laços e artesanato. Em 1mm e 2mm, com uma paleta completa de cores neon e clássicas.',
+  pompons:
+    'Pompons coloridos em 10mm, 14mm e 20mm para enfeites, bordas e decoração de peças. 100% Poliéster.',
+  rendas:
+    'Rendas em larguras de 20mm a 70mm para acabamentos elegantes em roupas, lingerie e enxoval.',
+  'bico-bordado':
+    'Bico bordado em 2cm e 5cm de largura para barras, enxoval e roupas delicadas. Toque artesanal com qualidade industrial.',
+  passamanarias:
+    'Passamanarias douradas e prateadas para uniformes, fantasias e aplicações decorativas de alto padrão.',
+  'fitas-natalinas':
+    'Fitas natalinas em 3,8cm e 6,3cm para embalagens e decorações. Variedade de estampas, validade indeterminada.',
+  perolas:
+    'Pérolas e meias-pérolas n.6 com furo e adesivas, em pacotes de 100g. Para costura, bijuteria e aplicações em roupas.',
+  strass:
+    'Strass sintético transparente em cartelas de 271 unidades para aplicação em roupas, sapatos e acessórios.',
   ziperes:
     'De metal a invisível, do nº 3 ao tratorado: o fecho certo para cada peça, com a resistência que a Búfalo entrega.',
+  'fechos-adesivos':
+    'Velcro em rolos duplos de 25m, do 16mm ao 100mm de largura. Fecho de contato firme para roupas, bolsas e uniformes.',
+  'botoes-de-pressao':
+    'Botões de pressão 13mm em nickel e dourado para fechamento prático e durável em roupas e acessórios.',
+  'colchetes-de-pressao':
+    'Colchetes de pressão para costurar do Nº0 (7mm) ao Nº4 (16mm). Acabamento prata, para todas as aplicações.',
+  'colchetes-de-gancho':
+    'Colchetes de gancho Nº1, Nº2 e Nº3 para fechamento de cós, calças e peças estruturadas.',
   elasticos:
-    'Largura de 20 a 50mm para cós, punhos e ajustes. Firmeza que não cede com o uso.',
-  passamanarias:
-    'Rabo de rato, pompons, rendas e bicos bordados para dar o toque final na peça. Acabamento que valoriza o trabalho.',
-  'fechos-colchetes':
-    'Velcro, botões de pressão e colchetes para fechar com segurança. Detalhe que faz a diferença.',
+    'Elásticos de 20mm a 50mm em rolos de 25m. Firmeza que não cede, para cós, punhos e ajustes.',
+  colas:
+    'Cola em bastão fina e grossa e cola líquida Merletto de 60ml a 250ml para artesanato, tecidos e produção.',
+  lapis:
+    'Lápis de cor e de escrever da linha Traços para uso escolar e profissional.',
   tesouras:
-    'Corte preciso e durável, em aço inoxidável. De 7,5" a 9,75", a tesoura que acompanha o profissional.',
-  acessorios:
-    'O apoio do dia a dia da costura, com a confiança da marca Búfalo.',
+    'Corte preciso e durável em aço inoxidável. De 7,5" a 9,75", a tesoura que acompanha o profissional.',
+  'tesoura-de-arremate':
+    'Tesoura de arremate 10,8cm em ferro para cortar fios e finalizar costuras com precisão.',
+  'aplicador-de-tag':
+    'Aplicador portátil de pinos plásticos para fixar etiquetas e tags em roupas ou artigos em geral.',
+  'fita-metrica':
+    'Fita métrica 1,50m colorida em fibra de vidro para medição corporal e costura. Embalagem com 12 unidades.',
+  'fita-refletiva':
+    'Fita refletiva prata 5cm/50mm para uniformes de segurança e trabalho.',
+  'fita-adesiva':
+    'Fita adesiva 4,5cm em rolos de 40m e 200m para embalagem e uso profissional.',
 };
 
 const introText = introTexts[slug] ?? categoria.descricao;
