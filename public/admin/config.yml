@@ -47,6 +47,8 @@ collections:
           - name: valores
             label: Valores
             widget: list
+            summary: '{{fields.nome}}'
+            collapsed: true
             fields:
               - { name: nome,  label: Nome,      widget: string }
               - { name: desc,  label: Descrição, widget: string }
@@ -65,6 +67,8 @@ collections:
           - name: blocos
             label: Blocos de qualidade
             widget: list
+            summary: '{{fields.titulo}}'
+            collapsed: true
             fields:
               - { name: titulo, label: Título, widget: string }
               - { name: texto,  label: Texto,  widget: text }
@@ -72,6 +76,8 @@ collections:
           - name: aplicacoes
             label: Aplicações
             widget: list
+            summary: '{{fields.tipo}}'
+            collapsed: true
             fields:
               - { name: tipo, label: Tipo, widget: string }
               - { name: desc, label: Descrição, widget: text }
@@ -89,6 +95,8 @@ collections:
           - name: beneficios
             label: Benefícios
             widget: list
+            summary: '{{fields.titulo}}'
+            collapsed: true
             fields:
               - { name: titulo, label: Título,    widget: string }
               - { name: desc,   label: Descrição, widget: text }
@@ -117,45 +125,47 @@ collections:
             label: Produtos
             widget: list
             root: true
+            summary: '{{fields.nome}}'
+            collapsed: true
             fields:
-              - { name: id,           label: Código (ID),     widget: string }
+              - { name: id,           label: Código (ID),     widget: string, hint: 'Código interno do produto, ex: BF-120-10K' }
               - { name: nome,         label: Nome,            widget: string }
-              - { name: categoria,    label: Categoria,       widget: string }
               - name: categoriaSlug
-                label: Slug da categoria
+                label: Categoria
                 widget: select
+                hint: 'Categoria onde o produto aparece no site'
                 options:
-                  - linhas-de-costura
-                  - fios-overloque
-                  - rabo-de-rato
-                  - pompons
-                  - rendas
-                  - bico-bordado
-                  - passamanarias
-                  - fitas-natalinas
-                  - perolas
-                  - strass
-                  - ziperes
-                  - fechos-adesivos
-                  - botoes-de-pressao
-                  - colchetes-de-pressao
-                  - colchetes-de-gancho
-                  - elasticos
-                  - colas
-                  - lapis
-                  - tesouras
-                  - tesoura-de-arremate
-                  - aplicador-de-tag
-                  - fita-metrica
-                  - fita-refletiva
-                  - fita-adesiva
-              - { name: composicao,   label: Composição,      widget: string,  required: false }
-              - { name: medida,       label: Medida,          widget: string,  required: false }
-              - { name: embalagem,    label: Embalagem,       widget: string,  required: false }
-              - { name: cores,        label: Cores,           widget: string,  required: false }
-              - { name: destaque,     label: Destaque na home, widget: boolean, default: false }
+                  - { label: 'Linhas de Costura',    value: linhas-de-costura }
+                  - { label: 'Fios para Overloque',  value: fios-overloque }
+                  - { label: 'Rabo de Rato',         value: rabo-de-rato }
+                  - { label: 'Pompons',              value: pompons }
+                  - { label: 'Rendas',               value: rendas }
+                  - { label: 'Bico Bordado',         value: bico-bordado }
+                  - { label: 'Passamanarias',        value: passamanarias }
+                  - { label: 'Fitas Natalinas',      value: fitas-natalinas }
+                  - { label: 'Pérolas',              value: perolas }
+                  - { label: 'Strass',               value: strass }
+                  - { label: 'Zíperes',              value: ziperes }
+                  - { label: 'Fechos Adesivos',      value: fechos-adesivos }
+                  - { label: 'Botões de Pressão',    value: botoes-de-pressao }
+                  - { label: 'Colchetes de Pressão', value: colchetes-de-pressao }
+                  - { label: 'Colchetes de Gancho',  value: colchetes-de-gancho }
+                  - { label: 'Elásticos',            value: elasticos }
+                  - { label: 'Colas',                value: colas }
+                  - { label: 'Lápis',                value: lapis }
+                  - { label: 'Tesouras',             value: tesouras }
+                  - { label: 'Tesoura de Arremate',  value: tesoura-de-arremate }
+                  - { label: 'Aplicador de Tag',     value: aplicador-de-tag }
+                  - { label: 'Fita Métrica',         value: fita-metrica }
+                  - { label: 'Fita Refletiva',       value: fita-refletiva }
+                  - { label: 'Fita Adesiva',         value: fita-adesiva }
+              - { name: composicao,   label: Composição,      widget: string,  required: false, hint: 'Ex: 100% Poliéster' }
+              - { name: medida,       label: Medida,          widget: string,  required: false, hint: 'Ex: Cone 10.000 m' }
+              - { name: embalagem,    label: Embalagem,       widget: string,  required: false, hint: 'Ex: Caixa com 60 cones' }
+              - { name: cores,        label: Cores,           widget: string,  required: false, hint: 'Quantidade ou descrição das cores disponíveis' }
+              - { name: destaque,     label: Destaque na home, widget: boolean, default: false, hint: 'Ligado = produto aparece em destaque na página inicial' }
               - { name: obs,          label: Observações,     widget: text,    required: false }
-              - { name: imagem,       label: Foto do produto, widget: image,   required: false }
+              - { name: imagem,       label: Foto do produto, widget: image,   required: false, hint: 'Se vazio, o site usa a imagem padrão da categoria' }
 
   # ─────────────────────────────────────────────
   # CATEGORIAS
@@ -171,12 +181,15 @@ collections:
             label: Categorias
             widget: list
             root: true
+            summary: '{{fields.nome}}'
+            collapsed: true
             fields:
-              - { name: slug,    label: Slug,       widget: string }
-              - { name: nome,    label: Nome,        widget: string }
-              - { name: desc,    label: Descrição,   widget: text }
-              - { name: ordem,   label: Ordem,       widget: number }
-              - { name: imagem,  label: Imagem,      widget: image, required: false }
+              - { name: id,        label: Código (ID), widget: string, hint: 'Ex: CAT-01' }
+              - { name: nome,      label: Nome,        widget: string }
+              - { name: slug,      label: Slug (URL),  widget: string, hint: 'Identificador na URL, ex: linhas-de-costura. Não alterar se já houver produtos nesta categoria.' }
+              - { name: descricao, label: Descrição,   widget: text }
+              - { name: ordem,     label: Ordem,       widget: number }
+              - { name: imagem,    label: Imagem,      widget: image, required: false }
 
   # ─────────────────────────────────────────────
   # CONFIGURAÇÕES GLOBAIS
