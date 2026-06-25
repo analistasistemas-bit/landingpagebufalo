@@ -47,14 +47,16 @@ Tudo é feito pelo painel `/admin` — basta ter acesso ao GitHub da conta **ana
 
 1. No menu esquerdo, clique em **Produtos**
 2. Clique em **Lista de Produtos**
-3. Para **editar**: localize o produto pelo nome e altere os campos
+3. Para **editar**: a lista mostra cada produto **pelo nome** (recolhido). Clique no produto desejado para abrir e alterar os campos
 4. Para **adicionar**: clique em **Add item** no final da lista e preencha:
    - **Código (ID):** ex. `BF-NOVO-001`
    - **Nome:** nome do produto
-   - **Categoria / Slug da categoria:** selecione da lista
+   - **Categoria:** escolha uma opção no menu (ex: *Linhas de Costura*) — um campo só, já com os nomes prontos
    - **Destaque na home:** marque se quiser que apareça na home
-   - **Foto do produto:** faça upload (800×600 px, WebP)
+   - **Foto do produto:** faça upload (800×600 px, WebP). Se deixar vazio, o site usa a imagem padrão da categoria
 5. Clique em **Save**
+
+> 💡 Cada campo tem uma **dica em cinza** abaixo dele explicando o que preencher.
 
 > **Atenção com preços:** o site não exibe preços — não adicione campos de valor.
 
