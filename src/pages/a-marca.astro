@@ -19,13 +19,9 @@ const c = page.data;
       <p class="marca-hero__texto">
         {c.abertura}
       </p>
-      <div class="marca-hero__confirmar" role="note" aria-label="Nota de conteúdo pendente">
-        <span class="marca-hero__confirmar-icon" aria-hidden="true">📋</span>
-        <p>
-          <strong>[CONFIRMAR]</strong> incluir aqui ano de fundação, tempo de mercado e localização
-          da fábrica, se o Diego quiser reforçar a credibilidade. Ex.: "Há mais de X anos no mercado…"
-        </p>
-      </div>
+      <p class="marca-hero__credencial">
+        Há mais de 20 anos no mercado, a Búfalo é referência em aviamentos para confecção e artesanato em todo o Brasil.
+      </p>
     </div>
   </section>
 
@@ -199,33 +195,11 @@ const c = page.data;
     margin-bottom: 1.75rem;
   }
 
-  .marca-hero__confirmar {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-left: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    padding: 0.9rem 1.1rem;
-    font-size: 0.88rem;
-    color: rgba(255, 255, 255, 0.65);
-    font-style: italic;
-    line-height: 1.5;
-  }
-
-  .marca-hero__confirmar strong {
-    color: rgba(255, 255, 255, 0.85);
-    font-style: normal;
-  }
-
-  .marca-hero__confirmar-icon {
-    flex-shrink: 0;
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-
-  .marca-hero__confirmar p {
-    margin: 0;
+  .marca-hero__credencial {
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    margin-bottom: 0;
   }
 
   /* ── MISSÃO · VISÃO ── */
