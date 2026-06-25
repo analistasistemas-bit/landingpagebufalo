@@ -2,7 +2,7 @@
   "whatsapp": "5581983426557",
   "email": "[CONFIRMAR]",
   "redes": { "instagram": "", "facebook": "" },
-  "dominio": "https://bufalo.example.com",
+  "dominio": "https://landingpagebufalo.vercel.app",
   "_nota_dominio": "informativo/CMS; o domínio real do build vem de astro.config.mjs site",
   "tagline": "Força e Qualidade",
   "ctas": {
