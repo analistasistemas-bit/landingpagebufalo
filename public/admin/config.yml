@@ -2,8 +2,7 @@ backend:
   name: github
   repo: analistasistemas-bit/landingpagebufalo
   branch: main
-  # base_url será preenchido na Task 7 (URL do Cloudflare Worker OAuth)
-  # base_url: https://SEU_WORKER.workers.dev
+  base_url: https://bufalo-cms-auth.analistasistemas.workers.dev
 
 media_folder: public/images/uploads
 public_folder: /images/uploads
