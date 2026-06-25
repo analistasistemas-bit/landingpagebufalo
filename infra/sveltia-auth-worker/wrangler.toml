@@ -1,0 +1,7 @@
+name = "bufalo-cms-auth"
+main = "index.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (nunca colocar aqui — usar wrangler secret put):
+#   GITHUB_CLIENT_ID
+#   GITHUB_CLIENT_SECRET
