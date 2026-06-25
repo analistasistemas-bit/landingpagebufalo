@@ -22,8 +22,8 @@ interface Props {
 
 const { produto } = Astro.props;
 
-// Per-product image (distinct crop per produto); fallback to category, then placeholder.
-const imageSrc = `/images/produtos/${produto.id}.webp`;
+// Usa imagem do CMS se definida, senão tenta {id}.webp; fallback à categoria, depois placeholder.
+const imageSrc = produto.imagem || `/images/produtos/${produto.id}.webp`;
 const imageFallback = `/images/produtos/${produto.categoriaSlug}.webp`;
 const imageAlt = `${produto.nome} — Búfalo`;
 const waHref = waLink(waMsg.produto(produto.nome));

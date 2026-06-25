@@ -155,7 +155,7 @@ collections:
               - { name: cores,        label: Cores,           widget: string,  required: false }
               - { name: destaque,     label: Destaque na home, widget: boolean, default: false }
               - { name: obs,          label: Observações,     widget: text,    required: false }
-              - { name: imagem,       label: Foto do produto, widget: image,   required: false, media_folder: /images/produtos }
+              - { name: imagem,       label: Foto do produto, widget: image,   required: false, media_folder: public/images/produtos }
 
   # ─────────────────────────────────────────────
   # CATEGORIAS
@@ -176,7 +176,7 @@ collections:
               - { name: nome,    label: Nome,        widget: string }
               - { name: desc,    label: Descrição,   widget: text }
               - { name: ordem,   label: Ordem,       widget: number }
-              - { name: imagem,  label: Imagem,      widget: image, required: false, media_folder: /images/produtos }
+              - { name: imagem,  label: Imagem,      widget: image, required: false, media_folder: public/images/produtos }
 
   # ─────────────────────────────────────────────
   # CONFIGURAÇÕES GLOBAIS
