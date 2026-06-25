@@ -1,0 +1,12 @@
+{
+  "whatsapp": "5581983426557",
+  "email": "[CONFIRMAR]",
+  "redes": { "instagram": "", "facebook": "" },
+  "dominio": "https://bufalo.example.com",
+  "_nota_dominio": "informativo/CMS; o domínio real do build vem de astro.config.mjs site",
+  "tagline": "Força e Qualidade",
+  "ctas": {
+    "revendedorMsg": "Olá! Quero ser revendedor Búfalo.",
+    "atacadoMsg": "Olá! Tenho interesse em comprar em volume para minha confecção."
+  }
+}

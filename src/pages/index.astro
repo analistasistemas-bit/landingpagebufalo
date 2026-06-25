@@ -9,9 +9,12 @@ import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
 import StitchDivider from '../components/StitchDivider.astro';
 import produtos from '../data/produtos.json';
+import { getEntry } from 'astro:content';
 
 const destaques = produtos.filter((p) => p.destaque === true);
 const waGenerico = waLink();
+const page = await getEntry('paginas', 'home');
+const c = page.data;
 ---
 
 <BaseLayout title={seo.home.title} description={seo.home.description}>
@@ -20,21 +23,20 @@ const waGenerico = waLink();
   <section class="hero">
     <div class="container hero__inner">
       <div class="hero__copy">
-        <p class="hero__kicker">500 cores · uma força só</p>
-        <h1 class="hero__headline">A linha que não quebra na hora H.</h1>
+        <p class="hero__kicker">{c.kicker}</p>
+        <h1 class="hero__headline">{c.headline}</h1>
         <p class="hero__subtitle">
-          Linhas de costura e aviamentos com a força e a qualidade que o seu trabalho merece.
-          De norte a sul do Brasil.
+          {c.subtitulo}
         </p>
         <div class="hero__ctas">
-          <a href="/produtos" class="btn btn--primary">Ver Produtos</a>
+          <a href="/produtos" class="btn btn--primary">{c.ctaPrimarioLabel}</a>
           <a
             href={waGenerico}
             class="btn btn--ghost"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Falar no WhatsApp
+            {c.ctaSecundarioLabel}
           </a>
         </div>
       </div>
@@ -51,8 +53,8 @@ const waGenerico = waLink();
 
   <!-- 3. CATEGORIAS -->
   <CategoryGrid
-    heading="Tudo para a sua costura"
-    intro="Das linhas que seguram o ponto aos aviamentos que finalizam a peça — a Búfalo tem o que a sua produção precisa."
+    heading={c.categoriasHeading}
+    intro={c.categoriasIntro}
   />
 
   <StitchDivider ornament={false} />
@@ -60,7 +62,7 @@ const waGenerico = waLink();
   <!-- 4. DESTAQUES -->
   <section class="destaques">
     <div class="container">
-      <h2 class="destaques__heading">Os queridinhos da Búfalo</h2>
+      <h2 class="destaques__heading">{c.destaquesHeading}</h2>
       <ul class="destaques__grid" role="list">
         {destaques.map((produto) => (
           <li>
@@ -76,22 +78,21 @@ const waGenerico = waLink();
   <!-- 5. FAIXA INSTITUCIONAL (resumo A Marca) -->
   <section class="marca-strip">
     <div class="container marca-strip__inner">
-      <h2 class="marca-strip__title">Força e Qualidade em cada carretel</h2>
+      <h2 class="marca-strip__title">{c.marcaTitulo}</h2>
       <p class="marca-strip__text">
-        A Búfalo nasceu para entregar o insumo que não decepciona. Para quem costura com
-        seriedade — do micro empreendedor à grande confecção.
+        {c.marcaTexto}
       </p>
       <a href="/a-marca" class="marca-strip__link">
-        Saiba mais sobre a marca →
+        {c.marcaLinkLabel}
       </a>
     </div>
   </section>
 
   <!-- 6. FAIXA REVENDEDOR -->
   <CTASection
-    title="Quer revender Búfalo?"
-    text="Leve para a sua loja uma marca que o costureiro já conhece e confia."
-    buttonLabel="Quero ser revendedor"
+    title={c.revendedorCTATitulo}
+    text={c.revendedorCTATexto}
+    buttonLabel={c.revendedorCTABotao}
     waMessage={waMsg.revendedor}
     variant="red"
   />

@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { seo } from '../data/seo';
-import { waLink } from '../data/whatsapp';
+import { waLink, EMAIL } from '../data/whatsapp';
+import { getEntry } from 'astro:content';
 
+const page = await getEntry('paginas', 'contato');
+const c = page.data;
 const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
 ---
 
@@ -10,10 +13,9 @@ const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
 
   <section class="contato-hero">
     <div class="container">
-      <h1 class="contato-hero__title">Fale com a Búfalo</h1>
+      <h1 class="contato-hero__title">{c.titulo}</h1>
       <p class="contato-hero__intro">
-        Tem uma dúvida, quer fazer um pedido ou conhecer melhor nossos produtos? Chama no
-        WhatsApp — atendimento direto, sem rodeios.
+        {c.intro}
       </p>
     </div>
   </section>
@@ -54,7 +56,7 @@ const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
         <div class="canal__corpo">
           <h2 class="canal__titulo">E-mail</h2>
           <span class="canal__placeholder" role="note">
-            <strong>[CONFIRMAR]</strong> — endereço de e-mail a definir
+            <strong>{EMAIL}</strong> — endereço de e-mail a definir
           </span>
         </div>
       </div>

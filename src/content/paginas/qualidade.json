@@ -1,0 +1,34 @@
+{
+  "titulo": "Por que costurar com Búfalo",
+
+  "blocos": [
+    {
+      "titulo": "Resistência ao rompimento",
+      "texto": "A linha Búfalo é feita para aguentar. Alta velocidade, costura pesada, produção contínua: o ponto não cede."
+    },
+    {
+      "titulo": "Para indústria e para ateliê",
+      "texto": "Desempenho comprovado em máquina industrial e doméstica. A mesma força para a grande confecção e para quem costura em casa."
+    },
+    {
+      "titulo": "Variedade que resolve",
+      "texto": "Centenas de cores e um portfólio completo de aviamentos. Você encontra tudo num lugar só."
+    },
+    {
+      "titulo": "Confiança nacional",
+      "texto": "Búfalo conquistou clientes de norte a sul do Brasil. Marca que o costureiro conhece e indica."
+    }
+  ],
+
+  "aplicacoesHeading": "Onde a Búfalo é usada",
+  "aplicacoes": [
+    { "tipo": "Confecção", "desc": "Produção em larga escala com alta velocidade de costura." },
+    { "tipo": "Ateliê", "desc": "Peças sob medida, acabamento impecável e precisão de costura." },
+    { "tipo": "Artesanato", "desc": "Centenas de cores para projetos criativos e personalizados." },
+    { "tipo": "Indústria", "desc": "Resistência e uniformidade para linhas de produção exigentes." }
+  ],
+
+  "ctaTitulo": "Fale com a gente no WhatsApp",
+  "ctaTexto": "Tire dúvidas, faça pedidos e descubra o produto certo para a sua produção.",
+  "ctaBotao": "Falar no WhatsApp"
+}

@@ -4,55 +4,63 @@
     "nome": "Linhas de Costura",
     "slug": "linhas-de-costura",
     "descricao": "O carro-chefe da Búfalo. Alta resistência ao rompimento em máquinas industriais e domésticas, com centenas de cores.",
-    "ordem": 1
+    "ordem": 1,
+    "imagem": "/images/produtos/linhas-de-costura.webp"
   },
   {
     "id": "CAT-02",
     "nome": "Fios para Overloque",
     "slug": "fios-overloque",
     "descricao": "Fios para acabamento de overloque em diferentes gramaturas, força e uniformidade no ponto.",
-    "ordem": 2
+    "ordem": 2,
+    "imagem": "/images/produtos/fios-overloque.webp"
   },
   {
     "id": "CAT-03",
     "nome": "Zíperes",
     "slug": "ziperes",
     "descricao": "Zíperes de metal, alumínio, nylon, invisíveis, destacáveis e tratorados para todo tipo de peça.",
-    "ordem": 3
+    "ordem": 3,
+    "imagem": "/images/produtos/ziperes.webp"
   },
   {
     "id": "CAT-04",
     "nome": "Elásticos",
     "slug": "elasticos",
     "descricao": "Elásticos em diversas larguras (20mm a 50mm) para confecção e ajustes.",
-    "ordem": 4
+    "ordem": 4,
+    "imagem": "/images/produtos/elasticos.webp"
   },
   {
     "id": "CAT-05",
     "nome": "Passamanarias e Acabamentos",
     "slug": "passamanarias",
     "descricao": "Rabo de rato, pompons, rendas, bicos bordados e fitas para arremate e decoração.",
-    "ordem": 5
+    "ordem": 5,
+    "imagem": "/images/produtos/passamanarias.webp"
   },
   {
     "id": "CAT-06",
     "nome": "Fechos e Colchetes",
     "slug": "fechos-colchetes",
     "descricao": "Velcro, botões de pressão, colchetes de pressão e de gancho para fechamento de peças.",
-    "ordem": 6
+    "ordem": 6,
+    "imagem": "/images/produtos/fechos-colchetes.webp"
   },
   {
     "id": "CAT-07",
     "nome": "Tesouras",
     "slug": "tesouras",
     "descricao": "Tesouras de costura (7,5\" a 9,75\") e de arremate, corte preciso e durável.",
-    "ordem": 7
+    "ordem": 7,
+    "imagem": "/images/produtos/tesouras.webp"
   },
   {
     "id": "CAT-08",
     "nome": "Fitas Métricas e Acessórios",
     "slug": "acessorios",
     "descricao": "Fitas métricas e acessórios de apoio para o dia a dia da costura.",
-    "ordem": 8
+    "ordem": 8,
+    "imagem": "/images/produtos/acessorios.webp"
   }
 ]
