@@ -1,0 +1,207 @@
+backend:
+  name: github
+  repo: analistasistemas-bit/landingpagebufalo
+  branch: main
+  # base_url será preenchido na Task 7 (URL do Cloudflare Worker OAuth)
+  # base_url: https://SEU_WORKER.workers.dev
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+locale: pt
+
+# ─────────────────────────────────────────────
+# PÁGINAS
+# ─────────────────────────────────────────────
+collections:
+  - name: paginas
+    label: Páginas
+    files:
+
+      - name: home
+        label: Home
+        file: src/content/paginas/home.json
+        fields:
+          - { name: kicker,               label: Kicker (destaque topo),   widget: string }
+          - { name: headline,             label: Headline principal,        widget: string }
+          - { name: subtitulo,            label: Subtítulo,                 widget: text }
+          - { name: ctaPrimarioLabel,     label: Botão primário,            widget: string }
+          - { name: ctaSecundarioLabel,   label: Botão secundário,          widget: string }
+          - { name: categoriasHeading,    label: Título — Categorias,       widget: string }
+          - { name: categoriasIntro,      label: Intro — Categorias,        widget: text }
+          - { name: destaquesHeading,     label: Título — Destaques,        widget: string }
+          - { name: marcaTitulo,          label: Título — Seção da Marca,   widget: string }
+          - { name: marcaTexto,           label: Texto — Seção da Marca,    widget: text }
+          - { name: marcaLinkLabel,       label: Link — Seção da Marca,     widget: string }
+          - { name: revendedorCTATitulo,  label: CTA Revendedor — Título,   widget: string }
+          - { name: revendedorCTATexto,   label: CTA Revendedor — Texto,    widget: text }
+          - { name: revendedorCTABotao,   label: CTA Revendedor — Botão,    widget: string }
+
+      - name: a-marca
+        label: A Marca
+        file: src/content/paginas/a-marca.json
+        fields:
+          - { name: titulo,               label: Título da página,          widget: string }
+          - { name: abertura,             label: Texto de abertura,         widget: text }
+          - { name: missaoTexto,          label: Missão,                    widget: text }
+          - { name: visaoTexto,           label: Visão,                     widget: text }
+          - name: valores
+            label: Valores
+            widget: list
+            fields:
+              - { name: nome,  label: Nome,      widget: string }
+              - { name: desc,  label: Descrição, widget: string }
+          - { name: posicionamentoFrase,  label: Posicionamento — Frase,    widget: string }
+          - { name: posicionamentoTexto,  label: Posicionamento — Texto,    widget: text }
+          - { name: presencaKicker,       label: Presença — Kicker,         widget: string }
+          - { name: presencaTexto,        label: Presença — Texto,          widget: text }
+          - { name: ctaPrimario,          label: Botão primário,            widget: string }
+          - { name: ctaSecundario,        label: Botão secundário,          widget: string }
+
+      - name: qualidade
+        label: Qualidade
+        file: src/content/paginas/qualidade.json
+        fields:
+          - { name: titulo,               label: Título da página,          widget: string }
+          - name: blocos
+            label: Blocos de qualidade
+            widget: list
+            fields:
+              - { name: titulo, label: Título, widget: string }
+              - { name: texto,  label: Texto,  widget: text }
+          - { name: aplicacoesHeading,    label: Título — Aplicações,       widget: string }
+          - name: aplicacoes
+            label: Aplicações
+            widget: list
+            fields:
+              - { name: tipo, label: Tipo, widget: string }
+              - { name: desc, label: Descrição, widget: text }
+          - { name: ctaTitulo,  label: CTA — Título,  widget: string }
+          - { name: ctaTexto,   label: CTA — Texto,   widget: text }
+          - { name: ctaBotao,   label: CTA — Botão,   widget: string }
+
+      - name: revendedor
+        label: Seja um Revendedor
+        file: src/content/paginas/revendedor.json
+        fields:
+          - { name: titulo,              label: Título da página,           widget: string }
+          - { name: intro,               label: Texto de introdução,        widget: text }
+          - { name: beneficiosHeading,   label: Título — Benefícios,        widget: string }
+          - name: beneficios
+            label: Benefícios
+            widget: list
+            fields:
+              - { name: titulo, label: Título,    widget: string }
+              - { name: desc,   label: Descrição, widget: text }
+          - { name: ctaTitulo,  label: CTA — Título,  widget: string }
+          - { name: ctaTexto,   label: CTA — Texto,   widget: text }
+          - { name: ctaBotao,   label: CTA — Botão,   widget: string }
+
+      - name: contato
+        label: Contato
+        file: src/content/paginas/contato.json
+        fields:
+          - { name: titulo, label: Título da página,    widget: string }
+          - { name: intro,  label: Texto de introdução, widget: text }
+
+  # ─────────────────────────────────────────────
+  # PRODUTOS
+  # ─────────────────────────────────────────────
+  - name: produtos
+    label: Produtos
+    files:
+      - name: lista
+        label: Lista de Produtos
+        file: src/data/produtos.json
+        fields:
+          - name: items
+            label: Produtos
+            widget: list
+            root: true
+            fields:
+              - { name: id,           label: Código (ID),     widget: string }
+              - { name: nome,         label: Nome,            widget: string }
+              - { name: categoria,    label: Categoria,       widget: string }
+              - name: categoriaSlug
+                label: Slug da categoria
+                widget: select
+                options:
+                  - linhas-de-costura
+                  - fios-overloque
+                  - rabo-de-rato
+                  - pompons
+                  - rendas
+                  - bico-bordado
+                  - passamanarias
+                  - fitas-natalinas
+                  - perolas
+                  - strass
+                  - ziperes
+                  - fechos-adesivos
+                  - botoes-de-pressao
+                  - colchetes-de-pressao
+                  - colchetes-de-gancho
+                  - elasticos
+                  - colas
+                  - lapis
+                  - tesouras
+                  - tesoura-de-arremate
+                  - aplicador-de-tag
+                  - fita-metrica
+                  - fita-refletiva
+                  - fita-adesiva
+              - { name: composicao,   label: Composição,      widget: string,  required: false }
+              - { name: medida,       label: Medida,          widget: string,  required: false }
+              - { name: embalagem,    label: Embalagem,       widget: string,  required: false }
+              - { name: cores,        label: Cores,           widget: string,  required: false }
+              - { name: destaque,     label: Destaque na home, widget: boolean, default: false }
+              - { name: obs,          label: Observações,     widget: text,    required: false }
+              - { name: imagem,       label: Foto do produto, widget: image,   required: false, media_folder: /images/produtos }
+
+  # ─────────────────────────────────────────────
+  # CATEGORIAS
+  # ─────────────────────────────────────────────
+  - name: categorias
+    label: Categorias
+    files:
+      - name: lista
+        label: Lista de Categorias
+        file: src/data/categorias.json
+        fields:
+          - name: items
+            label: Categorias
+            widget: list
+            root: true
+            fields:
+              - { name: slug,    label: Slug,       widget: string }
+              - { name: nome,    label: Nome,        widget: string }
+              - { name: desc,    label: Descrição,   widget: text }
+              - { name: ordem,   label: Ordem,       widget: number }
+              - { name: imagem,  label: Imagem,      widget: image, required: false, media_folder: /images/produtos }
+
+  # ─────────────────────────────────────────────
+  # CONFIGURAÇÕES GLOBAIS
+  # ─────────────────────────────────────────────
+  - name: configuracoes
+    label: Configurações
+    files:
+      - name: config
+        label: Configurações Globais
+        file: src/data/config.json
+        fields:
+          - { name: whatsapp,  label: "Número WhatsApp (ex: 5581983426557)", widget: string }
+          - { name: email,     label: E-mail de contato,                      widget: string }
+          - { name: dominio,   label: Domínio do site,                        widget: string }
+          - { name: tagline,   label: Tagline da marca,                       widget: string }
+          - name: redes
+            label: Redes sociais
+            widget: object
+            fields:
+              - { name: instagram, label: Instagram (URL), widget: string, required: false }
+              - { name: facebook,  label: Facebook (URL),  widget: string, required: false }
+          - name: ctas
+            label: Mensagens de WhatsApp
+            widget: object
+            fields:
+              - { name: revendedorMsg, label: Mensagem — Revendedor, widget: text }
+              - { name: atacadoMsg,    label: Mensagem — Atacado,    widget: text }
