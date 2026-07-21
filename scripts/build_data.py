@@ -6,7 +6,6 @@ para src/data/categorias.json e src/data/produtos.json
 
 import json
 import os
-import re
 import openpyxl
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,7 +74,3 @@ with open(prod_path, "w", encoding="utf-8") as f:
 
 print(f"categorias.json: {len(categorias)} itens")
 print(f"produtos.json:   {len(produtos)} itens")
-
-assert len(categorias) == 8, f"Esperado 8 categorias, obtido {len(categorias)}"
-assert len(produtos) == 31,  f"Esperado 31 produtos, obtido {len(produtos)}"
-print("OK 8 31")

@@ -26,6 +26,11 @@ for (const route of routes) {
     const waBtn = page.locator('a[href*="wa.me/5581983426557"]').first();
     await expect(waBtn).toBeVisible();
 
+    // 2b. Visible WhatsApp number in the footer matches the number used in wa.me links
+    // (guards against the footer/JSON-LD text drifting from config.json — see waDisplay()).
+    const footerText = await page.locator('footer').innerText();
+    expect(footerText).toContain('+55 81 98342-6557');
+
     // 3. No price text on the page
     const bodyText = await page.locator('body').innerText();
     expect(PRICE_PATTERN.test(bodyText)).toBe(false);

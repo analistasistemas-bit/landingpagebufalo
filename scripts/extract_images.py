@@ -409,13 +409,14 @@ def main():
 
     # Write report
     rpt("\n## Summary")
-    rpt(f"  - Logos produced: 3 (logo-v2.png, logo-principal.png, logo-branca.png)")
-    rpt(f"  - Favicon: favicon.svg + favicon.png")
+    rpt("  - Logos produced: 3 (logo-v2.png, logo-principal.png, logo-branca.png)")
+    rpt("  - Favicon: favicon.svg + favicon.png")
     rpt(f"  - Colors JSON: {color_count} entries")
-    rpt(f"  - Category images: {len(cat_imgs)}/8")
+    total_category_slugs = len(DIVISORIA_MAP) + 1  # + fios-overloque (duotone, sem divisória)
+    rpt(f"  - Category images: {len(cat_imgs)}/{total_category_slugs}")
     rpt(f"  - Product-specific images: {len(prod_imgs)}")
     rpt(f"  - Categories using placeholder: {placeholders}")
-    rpt(f"  - Placeholder: _placeholder.webp")
+    rpt("  - Placeholder: _placeholder.webp")
 
     report_path = os.path.join(OUT_SCRIPTS, "IMAGES_REPORT.md")
     with open(report_path, "w", encoding="utf-8") as f:

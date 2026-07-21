@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test:smoke": "playwright test tests/smoke.spec.ts"
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:content": "bash tests/content-resilience.sh"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

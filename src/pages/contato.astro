@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { seo } from '../data/seo';
-import { waLink, EMAIL } from '../data/whatsapp';
+import { waLink, waDisplay, EMAIL } from '../data/whatsapp';
 import { getEntry } from 'astro:content';
 
 const page = await getEntry('paginas', 'contato');
@@ -38,9 +38,9 @@ const waHref = waLink('Olá! Vim pelo site da Búfalo e quero saber mais.');
             class="canal__numero"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Falar com a Búfalo no WhatsApp: +55 81 98342-6557"
+            aria-label={`Falar com a Búfalo no WhatsApp: ${waDisplay()}`}
           >
-            +55 81 98342-6557
+            {waDisplay()}
           </a>
         </div>
       </div>

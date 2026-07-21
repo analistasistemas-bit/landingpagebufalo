@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { waDisplay } from '../data/whatsapp';
 ---
 
 <BaseLayout
@@ -31,7 +32,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           cookies de rastreamento) sejam introduzidos em versões futuras do site.
         </p>
         <p>
-          Dúvidas? Fale diretamente pelo WhatsApp: <strong>+55 81 98342-6557</strong>.
+          Dúvidas? Fale diretamente pelo WhatsApp: <strong>{waDisplay()}</strong>.
         </p>
       </div>
 

@@ -2,7 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
-import { WA_NUMBER } from '../data/whatsapp';
+import { waDisplay } from '../data/whatsapp';
 import '../styles/global.css';
 
 interface Props {
@@ -32,7 +32,7 @@ const orgSchema = JSON.stringify({
   logo: siteUrl + '/images/logos/logo-principal.png',
   contactPoint: {
     '@type': 'ContactPoint',
-    telephone: '+55-81-98342-6557',
+    telephone: waDisplay(),
     contactType: 'customer service',
     availableLanguage: 'Portuguese',
     contactOption: 'TollFree',
