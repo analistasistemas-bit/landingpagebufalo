@@ -48,7 +48,7 @@
     "cores": "Sortido",
     "destaque": false,
     "obs": "Kit sortido para varejo e armarinho.",
-    "imagem": "/images/uploads/2835010.jpg",
+    "imagem": "/images/produtos/BF-120-SORT.webp",
     "categoria": "Linhas de Costura"
   },
   {
@@ -126,7 +126,7 @@
     "cores": "13 cores (Preto, Marrom, Vermelho, Azul Royal, Verde Bandeira, Amarelo Canário, Amarelo Ouro, Ouro, Pérola, Mult, Verde Neon, Rosa Neon, Laranja Neon)",
     "destaque": false,
     "obs": "Cordão fino para acabamento e artesanato.",
-    "imagem": "/images/produtos/BF-RABO-1MM.webp",
+    "imagem": "/images/uploads/Rabo de Rato 1mm.jpg",
     "categoria": "Rabo de Rato"
   },
   {
@@ -139,21 +139,8 @@
     "cores": "10 cores (Preto, Marrom, Vermelho, Amarelo Ouro, Ouro, Pérola, Mult, Verde Neon, Rosa Neon, Laranja Neon)",
     "destaque": false,
     "obs": "Cordão médio para acabamento e bijuteria.",
-    "imagem": "/images/produtos/BF-RABO-2MM.webp",
+    "imagem": "/images/uploads/Rabo de Rato 2mm.jpg",
     "categoria": "Rabo de Rato"
-  },
-  {
-    "id": "BF-POMP-10",
-    "nome": "Pompons 10mm",
-    "categoriaSlug": "pompons",
-    "composicao": "100% Poliéster",
-    "medida": "10mm — rolo 25m",
-    "embalagem": "Rolo",
-    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
-    "destaque": false,
-    "obs": "Tamanho pequeno para acabamentos delicados.",
-    "imagem": "/images/produtos/BF-POMP-10.webp",
-    "categoria": "Pompons"
   },
   {
     "id": "BF-POMP-14",
@@ -179,6 +166,19 @@
     "destaque": false,
     "obs": "Tamanho médio, ideal para bordas e enfeites.",
     "imagem": "/images/produtos/BF-POMP-20.webp",
+    "categoria": "Pompons"
+  },
+  {
+    "id": "BF-POMP-10",
+    "nome": "Pompons 10mm",
+    "categoriaSlug": "pompons",
+    "composicao": "100% Poliéster",
+    "medida": "10mm — rolo 25m",
+    "embalagem": "Rolo",
+    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
+    "destaque": false,
+    "obs": "Tamanho pequeno para acabamentos delicados.",
+    "imagem": "/images/produtos/BF-POMP-10.webp",
     "categoria": "Pompons"
   },
   {
@@ -552,7 +552,7 @@
     "composicao": "Metal",
     "medida": "Diâmetro 13mm — espessura 5mm",
     "embalagem": "Cartela",
-    "cores": "Preto e Branco",
+    "cores": "Nickel e Dourado",
     "destaque": false,
     "obs": "Fechamento prático para roupas e acessórios.",
     "imagem": "/images/produtos/BF-BTN-13.webp",
@@ -833,7 +833,7 @@
   },
   {
     "id": "BF-LAP-EF",
-    "nome": "Lápis de Cor Fantasia Colorido",
+    "nome": "Lápis de Escrever Fantasia Preto",
     "categoriaSlug": "lapis",
     "composicao": "—",
     "medida": "Comum",
@@ -929,7 +929,7 @@
     "composicao": "—",
     "medida": "Largura 5cm / 50mm",
     "embalagem": "Rolo",
-    "cores": "Verde e Prata Refletiva",
+    "cores": "Prata reflete",
     "destaque": false,
     "obs": "Para uniformes de segurança e trabalho.",
     "imagem": "/images/produtos/BF-FITAREF.webp",
