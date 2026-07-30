@@ -6,6 +6,8 @@ dist/
 # Operacionais / derivados
 .omc/
 .superpowers/
+.claude/
+.serena/
 _catalogo_paginas/
 _validacao/
 
