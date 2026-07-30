@@ -143,6 +143,19 @@
     "categoria": "Rabo de Rato"
   },
   {
+    "id": "BF-POMP-10",
+    "nome": "Pompons 10mm",
+    "categoriaSlug": "pompons",
+    "composicao": "100% Poliéster",
+    "medida": "10mm — rolo 25m",
+    "embalagem": "Rolo",
+    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
+    "destaque": false,
+    "obs": "Tamanho pequeno para acabamentos delicados.",
+    "imagem": "/images/produtos/BF-POMP-10.webp",
+    "categoria": "Pompons"
+  },
+  {
     "id": "BF-POMP-14",
     "nome": "Pompons 14mm",
     "categoriaSlug": "pompons",
@@ -166,19 +179,6 @@
     "destaque": false,
     "obs": "Tamanho médio, ideal para bordas e enfeites.",
     "imagem": "/images/produtos/BF-POMP-20.webp",
-    "categoria": "Pompons"
-  },
-  {
-    "id": "BF-POMP-10",
-    "nome": "Pompons 10mm",
-    "categoriaSlug": "pompons",
-    "composicao": "100% Poliéster",
-    "medida": "10mm — rolo 25m",
-    "embalagem": "Rolo",
-    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
-    "destaque": false,
-    "obs": "Tamanho pequeno para acabamentos delicados.",
-    "imagem": "/images/produtos/BF-POMP-10.webp",
     "categoria": "Pompons"
   },
   {
