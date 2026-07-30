@@ -11,7 +11,7 @@ export const seo: Record<string, PageSeo> = {
   home: {
     title: 'Búfalo — Linhas de Costura e Aviamentos | Força e Qualidade',
     description:
-      'Linhas de costura de alta resistência e aviamentos completos. A linha que não quebra na hora H. Centenas de cores, presença em todo o Brasil. Fale no WhatsApp.',
+      'Linhas de costura de alta resistência e aviamentos completos. A força que você confia com a qualidade que você precisa. Centenas de cores, presença em todo o Brasil. Fale no WhatsApp.',
   },
   marca: {
     title: 'A Marca Búfalo — Força e Qualidade em cada carretel',
