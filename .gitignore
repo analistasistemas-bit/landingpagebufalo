@@ -10,6 +10,7 @@ dist/
 .serena/
 _catalogo_paginas/
 _validacao/
+test-results/
 
 # Sistema
 .DS_Store
