@@ -833,7 +833,7 @@
   },
   {
     "id": "BF-LAP-EF",
-    "nome": "Lápis de Cor Fantasia",
+    "nome": "Lápis de Escrever Fantasia Preto",
     "categoriaSlug": "lapis",
     "composicao": "—",
     "medida": "Comum",
@@ -888,12 +888,12 @@
     "nome": "Tesoura de Arremate 10,8cm",
     "categoriaSlug": "tesoura-de-arremate",
     "composicao": "Ferro",
-    "medida": "12,0cm",
+    "medida": "10,8cm",
     "embalagem": "Caixa com 12 unidades",
     "cores": "—",
     "destaque": false,
     "obs": "Para cortar fios e arrematar costuras.",
-    "imagem": "/images/uploads/Tesoura de Arremate 10,8cm.jpg",
+    "imagem": "/images/uploads/2895293.jpg",
     "categoria": "Tesoura de Arremate"
   },
   {
