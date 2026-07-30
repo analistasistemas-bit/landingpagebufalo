@@ -802,7 +802,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Lápis de cor curto para uso escolar.",
-    "imagem": "/images/produtos/BF-LAP-CP.webp",
+    "imagem": "/images/uploads/Lápis de Cor Traços Pequeno 3,5.jpg",
     "categoria": "Lápis"
   },
   {
@@ -815,7 +815,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Lápis de cor tamanho padrão.",
-    "imagem": "/images/produtos/BF-LAP-CG.webp",
+    "imagem": "/images/uploads/Lápis de Cor Traços Grande 7,0.JPG",
     "categoria": "Lápis"
   },
   {
@@ -828,7 +828,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Lápis preto HB comum para escrita.",
-    "imagem": "/images/produtos/BF-LAP-EP.webp",
+    "imagem": "/images/uploads/Lápis de Escrever Traços Preto.JPG",
     "categoria": "Lápis"
   },
   {
@@ -841,7 +841,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Versão com design fantasia.",
-    "imagem": "/images/produtos/BF-LAP-EF.webp",
+    "imagem": "/images/uploads/Lápis de Cor Fantasia Colorido.jpg",
     "categoria": "Lápis"
   },
   {
