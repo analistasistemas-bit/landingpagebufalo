@@ -97,3 +97,39 @@ test('posts a successful token only to the origin bound to state', async () => {
     globalThis.fetch = originalFetch;
   }
 });
+
+test('does not interpolate an untrusted OAuth error into the callback script', async () => {
+  const auth = await worker.fetch(
+    new Request('https://worker.example/auth?origin=https%3A%2F%2Fmarcabufalo.com.br'),
+    env,
+  );
+  const state = new URL(auth.headers.get('location')).searchParams.get('state');
+  const cookie = auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
+  const injectedError = '</script><script>globalThis.pwned=true</script>';
+
+  const callback = await worker.fetch(
+    new Request(
+      `https://worker.example/callback?error=${encodeURIComponent(injectedError)}&state=${state}`,
+      { headers: { Cookie: `oauth_state=${cookie}` } },
+    ),
+    env,
+  );
+  const html = await callback.text();
+
+  assert.match(html, /authorization_denied/);
+  assert.doesNotMatch(html, /globalThis\.pwned/);
+  assert.doesNotMatch(html, /<\/script><script>/);
+});
+
+test('fails closed and clears a malformed state cookie', async () => {
+  const response = await worker.fetch(
+    new Request('https://worker.example/callback?code=abc&state=state', {
+      headers: { Cookie: 'oauth_state=%' },
+    }),
+    env,
+  );
+
+  assert.equal(response.status, 400);
+  assert.match(await response.text(), /invalid_state/);
+  assert.match(response.headers.get('set-cookie'), /Max-Age=0/);
+});

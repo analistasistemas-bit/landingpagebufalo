@@ -71,7 +71,7 @@ export default {
       }
 
       if (error || !code) {
-        return postToOpener('error', { error: error || 'no_code' }, verifiedState.origin);
+        return postToOpener('error', { error: 'authorization_denied' }, verifiedState.origin);
       }
 
       try {
@@ -93,7 +93,7 @@ export default {
         if (tokenError || !access_token) {
           return postToOpener(
             'error',
-            { error: tokenError || 'no_token' },
+            { error: 'token_exchange_failed' },
             verifiedState.origin,
           );
         }
@@ -104,7 +104,7 @@ export default {
           verifiedState.origin,
         );
       } catch {
-        return postToOpener('error', { error: 'exchange_failed' }, verifiedState.origin);
+        return postToOpener('error', { error: 'token_exchange_failed' }, verifiedState.origin);
       }
     }
 
@@ -238,7 +238,15 @@ function base64urlDecodeBytes(value) {
 function getCookie(request, name) {
   const cookie = request.headers.get('Cookie') || '';
   const match = cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  if (!match) {
+    return null;
+  }
+
+  try {
+    return decodeURIComponent(match[1]);
+  } catch {
+    return null;
+  }
 }
 
 function invalidStateResponse() {
@@ -252,8 +260,8 @@ function postToOpener(status, data, allowedOrigin) {
   const message = `authorization:github:${status}:${JSON.stringify(data)}`;
   const html = `<!doctype html><html><body><script>
     (function() {
-      const allowedOrigin = ${JSON.stringify(allowedOrigin)};
-      const message = ${JSON.stringify(message)};
+      const allowedOrigin = ${serializeForScript(allowedOrigin)};
+      const message = ${serializeForScript(message)};
       function cb(e) {
         if (e.origin !== allowedOrigin) return;
         window.opener.postMessage(message, allowedOrigin);
@@ -267,6 +275,19 @@ function postToOpener(status, data, allowedOrigin) {
       'Content-Type': 'text/html',
       'Set-Cookie': clearedStateCookie(),
     },
+  });
+}
+
+function serializeForScript(value) {
+  return JSON.stringify(value).replace(/[<>&\u2028\u2029]/g, (character) => {
+    const escaped = {
+      '<': '\\u003C',
+      '>': '\\u003E',
+      '&': '\\u0026',
+      '\u2028': '\\u2028',
+      '\u2029': '\\u2029',
+    };
+    return escaped[character];
   });
 }
 
