@@ -120,7 +120,8 @@ test('clears the cookie for an invalid state without calling GitHub', async () =
   };
   try {
     const { state, cookie } = await startAuth('marcabufalo.com.br');
-    const tampered = cookie.slice(0, -1) + (cookie.endsWith('A') ? 'B' : 'A');
+    const tampered = `${cookie[0] === 'A' ? 'B' : 'A'}${cookie.slice(1)}`;
+    assert.notEqual(tampered, cookie);
     const response = await worker.fetch(
       new Request(`https://worker.example/callback?code=abc&state=${state}`, {
         headers: { Cookie: `oauth_state=${tampered}` },
