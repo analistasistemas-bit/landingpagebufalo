@@ -11,6 +11,7 @@ dist/
 _catalogo_paginas/
 _validacao/
 test-results/
+.code-review-fable5/
 
 # Sistema
 .DS_Store
