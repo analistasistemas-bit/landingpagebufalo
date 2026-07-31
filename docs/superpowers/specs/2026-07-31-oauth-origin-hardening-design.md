@@ -16,7 +16,7 @@ A allowlist ficará em `wrangler.toml`, como configuração pública e auditáve
 
 ## Fluxo
 
-1. `/auth` recebe o parâmetro `origin` enviado pelo CMS e rejeita origins fora da allowlist.
+1. `/auth` recebe `site_id` do Sveltia CMS, deriva exclusivamente o origin HTTPS correspondente e o rejeita quando não corresponde exatamente à allowlist.
 2. O origin validado é associado ao `state` no cookie HttpOnly, Secure e SameSite=Lax, evitando que o callback escolha outro destinatário.
 3. `/callback` valida o `state`, recupera o origin associado e só então troca o código pelo token.
 4. A página de callback aceita mensagens exclusivamente desse origin e usa o mesmo valor fixo como `targetOrigin` nos dois `postMessage`.
