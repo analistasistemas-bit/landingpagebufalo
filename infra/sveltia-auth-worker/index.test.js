@@ -7,8 +7,62 @@ const env = {
   GITHUB_CLIENT_SECRET: 'client-secret',
   OAUTH_STATE_SECRET: 'test-state-secret-with-at-least-32-bytes',
   CMS_ALLOWED_ORIGINS:
-    'https://landingpagebufalo.vercel.app,https://marcabufalo.com.br',
+    'https://landingpagebufalo.vercel.app,https://marcabufalo.com.br,https://www.marcabufalo.com.br',
 };
+
+async function startAuth(siteId, testEnv = env) {
+  const auth = await worker.fetch(
+    new Request(`https://worker.example/auth?provider=github&site_id=${siteId}&scope=repo`),
+    testEnv,
+  );
+  return {
+    state: new URL(auth.headers.get('location')).searchParams.get('state'),
+    cookie: auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1],
+  };
+}
+
+function assertCookieCleared(response) {
+  assert.match(response.headers.get('set-cookie'), /oauth_state=;/);
+  assert.match(response.headers.get('set-cookie'), /Max-Age=0/);
+}
+
+test('allows CORS preflight only for every configured CMS origin', async () => {
+  for (const origin of [
+    'https://landingpagebufalo.vercel.app',
+    'https://marcabufalo.com.br',
+    'https://www.marcabufalo.com.br',
+  ]) {
+    const response = await worker.fetch(
+      new Request('https://worker.example/auth', {
+        method: 'OPTIONS',
+        headers: { Origin: origin },
+      }),
+      env,
+    );
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('access-control-allow-origin'), origin);
+    assert.equal(response.headers.get('access-control-allow-methods'), 'GET, OPTIONS');
+  }
+});
+
+test('rejects CORS preflight for absent, untrusted, HTTP, and unlisted-subdomain origins', async () => {
+  for (const origin of [
+    null,
+    'https://evil.example',
+    'http://marcabufalo.com.br',
+    'https://admin.marcabufalo.com.br',
+  ]) {
+    const response = await worker.fetch(
+      new Request('https://worker.example/auth', {
+        method: 'OPTIONS',
+        headers: origin ? { Origin: origin } : {},
+      }),
+      env,
+    );
+    assert.equal(response.status, 403);
+    assert.equal(response.headers.get('access-control-allow-origin'), null);
+  }
+});
 
 test('rejects an untrusted Sveltia site_id before redirecting to GitHub', async () => {
   const response = await worker.fetch(
@@ -23,6 +77,7 @@ test('accepts the Sveltia auth query and binds each configured site_id to HTTPS'
   for (const [siteId, origin] of [
     ['landingpagebufalo.vercel.app', 'https://landingpagebufalo.vercel.app'],
     ['marcabufalo.com.br', 'https://marcabufalo.com.br'],
+    ['www.marcabufalo.com.br', 'https://www.marcabufalo.com.br'],
   ]) {
     const response = await worker.fetch(
       new Request(`https://worker.example/auth?provider=github&site_id=${siteId}&scope=repo`),
@@ -45,7 +100,6 @@ test('rejects schemes, paths, userinfo, ports, subdomains, and lookalike site_id
     'marcabufalo.com.br/path',
     'user@marcabufalo.com.br',
     'marcabufalo.com.br:443',
-    'www.marcabufalo.com.br',
     'marcabufalo.com.br.evil.example',
   ]) {
     const response = await worker.fetch(
@@ -56,23 +110,31 @@ test('rejects schemes, paths, userinfo, ports, subdomains, and lookalike site_id
   }
 });
 
-test('rejects a tampered signed state cookie before GitHub exchange', async () => {
-  const auth = await worker.fetch(
-    new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
-    env,
-  );
-  const location = new URL(auth.headers.get('location'));
-  const state = location.searchParams.get('state');
-  const cookie = auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
-  const tampered = cookie.slice(0, -1) + (cookie.endsWith('A') ? 'B' : 'A');
+test('clears the cookie for an invalid state without calling GitHub', async () => {
+  const originalFetch = globalThis.fetch;
+  let githubCalls = 0;
 
-  const response = await worker.fetch(
-    new Request(`https://worker.example/callback?code=abc&state=${state}`, {
-      headers: { Cookie: `oauth_state=${tampered}` },
-    }),
-    env,
-  );
-  assert.match(await response.text(), /invalid_state/);
+  globalThis.fetch = async () => {
+    githubCalls += 1;
+    throw new Error('GitHub exchange must not run for invalid state');
+  };
+  try {
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
+    const tampered = cookie.slice(0, -1) + (cookie.endsWith('A') ? 'B' : 'A');
+    const response = await worker.fetch(
+      new Request(`https://worker.example/callback?code=abc&state=${state}`, {
+        headers: { Cookie: `oauth_state=${tampered}` },
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(await response.text(), /invalid_state/);
+    assert.equal(githubCalls, 0);
+    assertCookieCleared(response);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test('rejects an expired signed state before calling GitHub and clears the cookie', async () => {
@@ -83,12 +145,7 @@ test('rejects an expired signed state before calling GitHub and clears the cooki
 
   Date.now = () => createdAt;
   try {
-    const auth = await worker.fetch(
-      new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
-      env,
-    );
-    const state = new URL(auth.headers.get('location')).searchParams.get('state');
-    const cookie = auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
 
     Date.now = () => createdAt + 601_000;
     globalThis.fetch = async () => {
@@ -105,27 +162,66 @@ test('rejects an expired signed state before calling GitHub and clears the cooki
     assert.equal(response.status, 400);
     assert.match(await response.text(), /invalid_state/);
     assert.equal(githubCalled, false);
-    assert.match(response.headers.get('set-cookie'), /Max-Age=0/);
+    assertCookieCleared(response);
   } finally {
     Date.now = originalNow;
     globalThis.fetch = originalFetch;
   }
 });
 
-test('posts a successful token only to the origin bound to state', async () => {
+test('clears the cookie for an access_denied OAuth callback', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => {
+    throw new Error('GitHub exchange must not run for an OAuth error');
+  };
+  try {
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
+    const response = await worker.fetch(
+      new Request(`https://worker.example/callback?error=access_denied&state=${state}`, {
+        headers: { Cookie: `oauth_state=${cookie}` },
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /authorization_denied/);
+    assertCookieCleared(response);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('clears the cookie when GitHub rejects the verification code', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () =>
+    new Response(JSON.stringify({ error: 'bad_verification_code' }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  try {
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
+    const response = await worker.fetch(
+      new Request(`https://worker.example/callback?code=abc&state=${state}`, {
+        headers: { Cookie: `oauth_state=${cookie}` },
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 200);
+    assert.match(await response.text(), /token_exchange_failed/);
+    assertCookieCleared(response);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('clears the cookie after GitHub returns an access token', async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () =>
     new Response(JSON.stringify({ access_token: 'sensitive-token' }), {
       headers: { 'Content-Type': 'application/json' },
   });
   try {
-    const auth = await worker.fetch(
-      new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
-      env,
-    );
-    const location = new URL(auth.headers.get('location'));
-    const state = location.searchParams.get('state');
-    const cookie = auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
 
     const callback = await worker.fetch(
       new Request(`https://worker.example/callback?code=abc&state=${state}`, {
@@ -138,6 +234,7 @@ test('posts a successful token only to the origin bound to state', async () => {
     assert.match(html, /https:\/\/marcabufalo\.com\.br/);
     assert.doesNotMatch(html, /postMessage\([^)]*,\s*['\"]\*['\"]\)/);
     assert.doesNotMatch(html, /postMessage\([^)]*,\s*e\.origin\)/);
+    assertCookieCleared(callback);
   } finally {
     globalThis.fetch = originalFetch;
   }
