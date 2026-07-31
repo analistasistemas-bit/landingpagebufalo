@@ -48,7 +48,7 @@
     "cores": "Sortido",
     "destaque": false,
     "obs": "Kit sortido para varejo e armarinho.",
-    "imagem": "/images/produtos/BF-120-SORT.webp",
+    "imagem": "/images/uploads/Linha 1.500mt.jpg",
     "categoria": "Linhas de Costura"
   },
   {
@@ -87,7 +87,7 @@
     "cores": "Branco e cores",
     "destaque": false,
     "obs": "Gramatura leve para acabamento.",
-    "imagem": "/images/produtos/BF-OVL-100.webp",
+    "imagem": "/images/uploads/3122310.jpg",
     "categoria": "Fios para Overloque"
   },
   {
@@ -737,7 +737,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Para artesanato e acabamentos finos.",
-    "imagem": "/images/produtos/BF-COLA-BF.webp",
+    "imagem": "/images/uploads/Cola em Bastão Fina.jpg",
     "categoria": "Colas"
   },
   {
@@ -750,7 +750,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Para aplicações maiores e substratos mais pesados.",
-    "imagem": "/images/produtos/BF-COLA-BG.webp",
+    "imagem": "/images/uploads/Cola em Bastão Grossa.jpg",
     "categoria": "Colas"
   },
   {
@@ -763,7 +763,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Cola líquida para tecidos e artesanato.",
-    "imagem": "/images/produtos/BF-COLA-L60.webp",
+    "imagem": "/images/uploads/Cola Líquida Merletto 60ml.JPEG",
     "categoria": "Colas"
   },
   {
@@ -776,7 +776,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Volume intermediário para uso frequente.",
-    "imagem": "/images/produtos/BF-COLA-L100.webp",
+    "imagem": "/images/uploads/Cola Líquida Merletto 100ml.JPEG",
     "categoria": "Colas"
   },
   {
@@ -789,7 +789,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Frasco grande para produção e uso profissional.",
-    "imagem": "/images/produtos/BF-COLA-L250.webp",
+    "imagem": "/images/uploads/Cola Líquida Merletto 250ml.JPEG",
     "categoria": "Colas"
   },
   {
@@ -802,7 +802,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Lápis de cor curto para uso escolar.",
-    "imagem": "/images/produtos/BF-LAP-CP.webp",
+    "imagem": "/images/uploads/Lápis de Cor Traços Pequeno 3,5.jpg",
     "categoria": "Lápis"
   },
   {
@@ -815,7 +815,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Lápis de cor tamanho padrão.",
-    "imagem": "/images/produtos/BF-LAP-CG.webp",
+    "imagem": "/images/uploads/Lápis de Cor Traços Grande 7,0.JPG",
     "categoria": "Lápis"
   },
   {
@@ -828,7 +828,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Lápis preto HB comum para escrita.",
-    "imagem": "/images/produtos/BF-LAP-EP.webp",
+    "imagem": "/images/uploads/Lápis de Escrever Traços Preto.JPG",
     "categoria": "Lápis"
   },
   {
@@ -841,7 +841,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Versão com design fantasia.",
-    "imagem": "/images/produtos/BF-LAP-EF.webp",
+    "imagem": "/images/uploads/Lápis de Cor Fantasia Colorido.jpg",
     "categoria": "Lápis"
   },
   {
@@ -867,7 +867,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Tamanho intermediário.",
-    "imagem": "/images/produtos/BF-TES-825.webp",
+    "imagem": "/images/uploads/Tesoura Búfalo 8,25.jpg",
     "categoria": "Tesouras"
   },
   {
@@ -880,7 +880,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Para cortes maiores em tecidos.",
-    "imagem": "/images/produtos/BF-TES-975.webp",
+    "imagem": "/images/uploads/Tesoura Búfalo 9,75.jpg",
     "categoria": "Tesouras"
   },
   {
@@ -893,7 +893,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Para cortar fios e arrematar costuras.",
-    "imagem": "/images/produtos/BF-TES-ARR.webp",
+    "imagem": "/images/uploads/2895293.jpg",
     "categoria": "Tesoura de Arremate"
   },
   {
@@ -906,7 +906,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Aplicador portátil para fixar etiquetas e tags em roupas.",
-    "imagem": "/images/produtos/BF-APTAG.webp",
+    "imagem": "/images/uploads/Aplicador de Tag.jpg",
     "categoria": "Aplicador de Tag"
   },
   {
@@ -919,7 +919,7 @@
     "cores": "Colorida",
     "destaque": false,
     "obs": "Fita métrica para medição corporal e costura.",
-    "imagem": "/images/produtos/BF-FITAMET.webp",
+    "imagem": "/images/uploads/Fita Métrica para Costura 1,50m.jpg",
     "categoria": "Fita Métrica"
   },
   {
@@ -932,7 +932,7 @@
     "cores": "Prata reflete",
     "destaque": false,
     "obs": "Para uniformes de segurança e trabalho.",
-    "imagem": "/images/produtos/BF-FITAREF.webp",
+    "imagem": "/images/uploads/Fita Refletiva 5cm para Uniformes.jpg",
     "categoria": "Fita Refletiva"
   },
   {
@@ -945,7 +945,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Rolo grande para embalagem e uso profissional.",
-    "imagem": "/images/produtos/BF-FITAAD-200.webp",
+    "imagem": "/images/uploads/Fita Adesiva 4,5cm × 200m.jpg",
     "categoria": "Fita Adesiva"
   },
   {
@@ -958,7 +958,7 @@
     "cores": "—",
     "destaque": false,
     "obs": "Rolo compacto para uso no dia a dia.",
-    "imagem": "/images/produtos/BF-FITAAD-40.webp",
+    "imagem": "/images/uploads/Fita Adesiva 4,5cm × 40m.jpg",
     "categoria": "Fita Adesiva"
   }
 ]
