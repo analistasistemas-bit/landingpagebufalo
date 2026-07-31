@@ -2,6 +2,10 @@ name = "bufalo-cms-auth"
 main = "index.js"
 compatibility_date = "2025-01-01"
 
+[vars]
+CMS_ALLOWED_ORIGINS = "https://landingpagebufalo.vercel.app,https://marcabufalo.com.br"
+
 # Secrets (nunca colocar aqui — usar wrangler secret put):
 #   GITHUB_CLIENT_ID
 #   GITHUB_CLIENT_SECRET
+#   OAUTH_STATE_SECRET
