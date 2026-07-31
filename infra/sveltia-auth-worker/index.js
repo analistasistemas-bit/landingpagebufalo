@@ -37,9 +37,9 @@ export default {
     }
 
     if (pathname === '/auth') {
-      const origin = normalizeAllowedOrigin(url.searchParams.get('origin'), allowedOrigins);
+      const origin = originFromSiteId(url.searchParams.get('site_id'), allowedOrigins);
       if (!origin) {
-        return new Response('Invalid origin', { status: 400 });
+        return new Response('Invalid site_id', { status: 400 });
       }
 
       const state = crypto.randomUUID();
@@ -144,6 +144,28 @@ function normalizeAllowedOrigin(value, allowed) {
   try {
     const origin = new URL(value).origin;
     if (value !== origin || !origin.startsWith('https://') || !allowed.has(origin)) {
+      return null;
+    }
+    return origin;
+  } catch {
+    return null;
+  }
+}
+
+function originFromSiteId(siteId, allowed) {
+  if (!siteId) {
+    return null;
+  }
+
+  try {
+    const origin = `https://${siteId}`;
+    const url = new URL(origin);
+    if (
+      url.protocol !== 'https:' ||
+      url.hostname !== siteId ||
+      url.origin !== origin ||
+      !allowed.has(origin)
+    ) {
       return null;
     }
     return origin;

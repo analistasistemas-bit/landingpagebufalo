@@ -10,37 +10,46 @@ const env = {
     'https://landingpagebufalo.vercel.app,https://marcabufalo.com.br',
 };
 
-test('rejects an untrusted origin before redirecting to GitHub', async () => {
+test('rejects an untrusted Sveltia site_id before redirecting to GitHub', async () => {
   const response = await worker.fetch(
-    new Request('https://worker.example/auth?origin=https://evil.example'),
+    new Request('https://worker.example/auth?provider=github&site_id=evil.example&scope=repo'),
     env,
   );
   assert.equal(response.status, 400);
   assert.equal(response.headers.get('location'), null);
 });
 
-test('accepts each configured exact HTTPS origin', async () => {
-  for (const origin of [
-    'https://landingpagebufalo.vercel.app',
-    'https://marcabufalo.com.br',
+test('accepts the Sveltia auth query and binds each configured site_id to HTTPS', async () => {
+  for (const [siteId, origin] of [
+    ['landingpagebufalo.vercel.app', 'https://landingpagebufalo.vercel.app'],
+    ['marcabufalo.com.br', 'https://marcabufalo.com.br'],
   ]) {
     const response = await worker.fetch(
-      new Request(`https://worker.example/auth?origin=${encodeURIComponent(origin)}`),
+      new Request(`https://worker.example/auth?provider=github&site_id=${siteId}&scope=repo`),
       env,
     );
     assert.equal(response.status, 302);
     assert.match(response.headers.get('set-cookie'), /^oauth_state=/);
+
+    const state = new URL(response.headers.get('location')).searchParams.get('state');
+    const cookie = response.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
+    assert.ok(state);
+    assert.equal(JSON.parse(Buffer.from(cookie.split('.')[0], 'base64url')).origin, origin);
   }
 });
 
-test('rejects HTTP, subdomain, and lookalike origins', async () => {
-  for (const origin of [
+test('rejects schemes, paths, userinfo, ports, subdomains, and lookalike site_ids', async () => {
+  for (const siteId of [
     'http://marcabufalo.com.br',
-    'https://www.marcabufalo.com.br',
-    'https://marcabufalo.com.br.evil.example',
+    'https://marcabufalo.com.br',
+    'marcabufalo.com.br/path',
+    'user@marcabufalo.com.br',
+    'marcabufalo.com.br:443',
+    'www.marcabufalo.com.br',
+    'marcabufalo.com.br.evil.example',
   ]) {
     const response = await worker.fetch(
-      new Request(`https://worker.example/auth?origin=${encodeURIComponent(origin)}`),
+      new Request(`https://worker.example/auth?provider=github&site_id=${encodeURIComponent(siteId)}&scope=repo`),
       env,
     );
     assert.equal(response.status, 400);
@@ -49,7 +58,7 @@ test('rejects HTTP, subdomain, and lookalike origins', async () => {
 
 test('rejects a tampered signed state cookie before GitHub exchange', async () => {
   const auth = await worker.fetch(
-    new Request('https://worker.example/auth?origin=https%3A%2F%2Fmarcabufalo.com.br'),
+    new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
     env,
   );
   const location = new URL(auth.headers.get('location'));
@@ -66,16 +75,52 @@ test('rejects a tampered signed state cookie before GitHub exchange', async () =
   assert.match(await response.text(), /invalid_state/);
 });
 
+test('rejects an expired signed state before calling GitHub and clears the cookie', async () => {
+  const originalNow = Date.now;
+  const originalFetch = globalThis.fetch;
+  const createdAt = 1_700_000_000_000;
+  let githubCalled = false;
+
+  Date.now = () => createdAt;
+  try {
+    const auth = await worker.fetch(
+      new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
+      env,
+    );
+    const state = new URL(auth.headers.get('location')).searchParams.get('state');
+    const cookie = auth.headers.get('set-cookie').match(/oauth_state=([^;]+)/)[1];
+
+    Date.now = () => createdAt + 601_000;
+    globalThis.fetch = async () => {
+      githubCalled = true;
+      throw new Error('GitHub exchange must not run for expired state');
+    };
+    const response = await worker.fetch(
+      new Request(`https://worker.example/callback?code=abc&state=${state}`, {
+        headers: { Cookie: `oauth_state=${cookie}` },
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(await response.text(), /invalid_state/);
+    assert.equal(githubCalled, false);
+    assert.match(response.headers.get('set-cookie'), /Max-Age=0/);
+  } finally {
+    Date.now = originalNow;
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test('posts a successful token only to the origin bound to state', async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () =>
     new Response(JSON.stringify({ access_token: 'sensitive-token' }), {
       headers: { 'Content-Type': 'application/json' },
-    });
+  });
   try {
-    const origin = 'https://marcabufalo.com.br';
     const auth = await worker.fetch(
-      new Request(`https://worker.example/auth?origin=${encodeURIComponent(origin)}`),
+      new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
       env,
     );
     const location = new URL(auth.headers.get('location'));
@@ -100,7 +145,7 @@ test('posts a successful token only to the origin bound to state', async () => {
 
 test('does not interpolate an untrusted OAuth error into the callback script', async () => {
   const auth = await worker.fetch(
-    new Request('https://worker.example/auth?origin=https%3A%2F%2Fmarcabufalo.com.br'),
+    new Request('https://worker.example/auth?provider=github&site_id=marcabufalo.com.br&scope=repo'),
     env,
   );
   const state = new URL(auth.headers.get('location')).searchParams.get('state');
