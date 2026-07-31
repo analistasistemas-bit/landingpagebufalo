@@ -10,7 +10,9 @@ const textDecoder = new TextDecoder();
 
 export default {
   async fetch(request, env) {
-    if (!hasRequiredBindings(env)) {
+    const missingBindings = getMissingBindings(env);
+    if (missingBindings.length > 0) {
+      console.error('Missing Worker bindings:', missingBindings.join(', '));
       return new Response('Server configuration error', { status: 500 });
     }
 
@@ -112,13 +114,13 @@ export default {
   },
 };
 
-function hasRequiredBindings(env) {
+function getMissingBindings(env) {
   return [
-    env?.GITHUB_CLIENT_ID,
-    env?.GITHUB_CLIENT_SECRET,
-    env?.OAUTH_STATE_SECRET,
-    env?.CMS_ALLOWED_ORIGINS,
-  ].every((value) => typeof value === 'string' && value.length > 0);
+    'GITHUB_CLIENT_ID',
+    'GITHUB_CLIENT_SECRET',
+    'OAUTH_STATE_SECRET',
+    'CMS_ALLOWED_ORIGINS',
+  ].filter((name) => typeof env?.[name] !== 'string' || env[name].length === 0);
 }
 
 function parseAllowedOrigins(value) {
