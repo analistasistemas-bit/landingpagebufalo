@@ -257,6 +257,7 @@ test('clears the cookie after GitHub returns an access token', async () => {
       }),
       env,
     );
+    assert.equal(callback.headers.get('cache-control'), 'no-store');
     const html = await callback.text();
     assert.match(html, /sensitive-token/);
     assert.match(html, /https:\/\/marcabufalo\.com\.br/);

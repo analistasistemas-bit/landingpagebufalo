@@ -297,6 +297,7 @@ function postToOpener(status, data, allowedOrigin) {
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html',
+      'Cache-Control': 'no-store',
       'Set-Cookie': clearedStateCookie(),
     },
   });
