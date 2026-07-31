@@ -10,10 +10,10 @@ const env = {
     'https://landingpagebufalo.vercel.app,https://marcabufalo.com.br,https://www.marcabufalo.com.br',
 };
 
-async function startAuth(siteId, testEnv = env) {
+async function startAuth(siteId) {
   const auth = await worker.fetch(
     new Request(`https://worker.example/auth?provider=github&site_id=${siteId}&scope=repo`),
-    testEnv,
+    env,
   );
   return {
     state: new URL(auth.headers.get('location')).searchParams.get('state'),
@@ -110,7 +110,7 @@ test('rejects schemes, paths, userinfo, ports, subdomains, and lookalike site_id
   }
 });
 
-test('clears the cookie for an invalid state without calling GitHub', async () => {
+test('clears the cookie for an altered state cookie without calling GitHub', async () => {
   const originalFetch = globalThis.fetch;
   let githubCalls = 0;
 
@@ -138,6 +138,33 @@ test('clears the cookie for an invalid state without calling GitHub', async () =
   }
 });
 
+test('clears the cookie for a divergent callback state without calling GitHub', async () => {
+  const originalFetch = globalThis.fetch;
+  let githubCalls = 0;
+
+  globalThis.fetch = async () => {
+    githubCalls += 1;
+    throw new Error('GitHub exchange must not run for divergent state');
+  };
+  try {
+    const { state, cookie } = await startAuth('marcabufalo.com.br');
+    const divergentState = state === 'different-state' ? 'other-state' : 'different-state';
+    const response = await worker.fetch(
+      new Request(`https://worker.example/callback?code=abc&state=${divergentState}`, {
+        headers: { Cookie: `oauth_state=${cookie}` },
+      }),
+      env,
+    );
+
+    assert.equal(response.status, 400);
+    assert.match(await response.text(), /invalid_state/);
+    assert.equal(githubCalls, 0);
+    assertCookieCleared(response);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test('rejects an expired signed state before calling GitHub and clears the cookie', async () => {
   const originalNow = Date.now;
   const originalFetch = globalThis.fetch;
@@ -148,7 +175,7 @@ test('rejects an expired signed state before calling GitHub and clears the cooki
   try {
     const { state, cookie } = await startAuth('marcabufalo.com.br');
 
-    Date.now = () => createdAt + 601_000;
+    Date.now = () => createdAt + 600_000;
     globalThis.fetch = async () => {
       githubCalled = true;
       throw new Error('GitHub exchange must not run for expired state');

@@ -200,7 +200,7 @@ async function verifyStateCookie(cookie, state, secret, now = Date.now()) {
       parsed.state !== state ||
       typeof parsed.origin !== 'string' ||
       !Number.isInteger(parsed.exp) ||
-      parsed.exp < Math.floor(now / 1000)
+      parsed.exp <= Math.floor(now / 1000)
     ) {
       return null;
     }
