@@ -11,8 +11,9 @@ Impedir que uma página externa abra o fluxo OAuth e receba o token GitHub emiti
 
 - `https://landingpagebufalo.vercel.app`
 - `https://marcabufalo.com.br`
+- `https://www.marcabufalo.com.br`
 
-A allowlist ficará em `wrangler.toml`, como configuração pública e auditável. Origins devem ser comparados pela origem exata: esquema HTTPS, hostname e porta efetiva. Subdomínios, HTTP, URLs parecidas e origins não listados não serão aceitos.
+A allowlist ficará em `wrangler.toml`, como configuração pública e auditável. Origins devem ser comparados pela origem exata: esquema HTTPS, hostname e porta efetiva. Apenas o subdomínio `www` explicitamente listado será aceito; outros subdomínios, HTTP, URLs parecidas e origins não listados não serão aceitos.
 
 ## Fluxo
 
@@ -33,7 +34,15 @@ O cookie guardará um payload autenticado com HMAC usando um novo secret `OAUTH_
 
 ## Testes
 
-Testes unitários em Node cobrirão: os dois origins permitidos; origin malicioso, HTTP e subdomínio rejeitados; associação do origin ao state; cookie adulterado/expirado; state divergente; e HTML final contendo somente o `targetOrigin` autorizado. O teste vulnerável deve falhar antes da correção e passar depois.
+Testes unitários em Node cobrirão: os três origins permitidos; origin malicioso, HTTP e subdomínio não listado rejeitados; associação do origin ao state; cookie adulterado/expirado; state divergente; e HTML final contendo somente o `targetOrigin` autorizado. O teste vulnerável deve falhar antes da correção e passar depois.
+
+### Extensão: `www`, CORS e limpeza de cookie
+
+Os testes devem tratar os três origins autorizados como uma tabela única: Vercel, domínio principal e `www`. `site_id=www.marcabufalo.com.br` deve iniciar o OAuth e vincular o callback a `https://www.marcabufalo.com.br`; qualquer outro subdomínio continua inválido.
+
+O preflight `OPTIONS` deve retornar o origin exato em `Access-Control-Allow-Origin` para cada origin autorizado. Origin ausente ou não autorizado deve receber HTTP 403 sem esse cabeçalho.
+
+O cookie `oauth_state` deve ser removido com `Max-Age=0` em todos os caminhos que encerram um callback: state inválido ou expirado, autorização negada, falha na troca do token e sucesso. Cada caminho terá uma asserção específica, além de confirmar que state inválido/expirado não chama o GitHub.
 
 Após a implementação: `node --test`, `node --check`, `npm run build`, `npm run test:content` e `npm run test:smoke`.
 
