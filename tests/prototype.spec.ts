@@ -32,9 +32,9 @@ test.describe('prototype route isolation', () => {
 
   test('hero uses verified proof and four audience paths', async ({ page }) => {
     await page.goto('/prototipo');
-    const hero = page.locator('.prototype-hero');
-    await expect(hero.getByText('500 cores', { exact: false })).toBeVisible();
-    await expect(hero.getByText('100+', { exact: false })).toHaveCount(0);
+    const main = page.locator('main');
+    await expect(main.getByText('500 cores', { exact: false })).toBeVisible();
+    await expect(main.getByText('100+', { exact: false })).toHaveCount(0);
     await expect(page.locator('[data-audience-path]')).toHaveCount(4);
     await expect(page.locator('[data-audience-path] img')).toHaveCount(4);
     await expect(page.locator('#caminhos h2')).toHaveText('Escolha pelo seu trabalho');
@@ -60,6 +60,7 @@ test.describe('prototype route isolation', () => {
     const body = await page.locator('body').innerText();
     expect(body).not.toContain('[CONFIRMAR]');
     expect(body).not.toContain('[em breve]');
+    await expect(page.locator('#prova')).not.toContainText('100+');
     expect(body).not.toMatch(/R\$|preço|price/i);
   });
 });

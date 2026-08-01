@@ -23,7 +23,7 @@ const fieldLabels = {
   obs: 'Observação',
 } as const;
 
-const isConfirmed = (value: string) => value.trim() !== '' && value.trim() !== '—';
+const isConfirmed = (value: string) => value.trim() !== '' && value.trim() !== '—' && !value.includes('100+');
 ---
 
 <section id="prova" class="technical-proof" data-analysis-section="prova" aria-labelledby="technical-proof-title">
