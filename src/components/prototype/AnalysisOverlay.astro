@@ -76,7 +76,7 @@ const { notes } = Astro.props;
 
   function openDrawer() {
     if (!drawer || !analysisOn) return;
-    drawerOpener = document.activeElement instanceof HTMLElement ? document.activeElement : drawerOpen;
+    drawerOpener = drawerOpen;
     drawer.hidden = false;
     drawerClose?.focus();
   }
@@ -350,6 +350,10 @@ const { notes } = Astro.props;
     .analysis-toolbar {
       justify-content: center;
     }
+
+    :global(.prototype-page[data-prototype='true'] .wa-float) {
+      bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    }
   }
 
   @media (min-width: 1024px) {
@@ -382,6 +386,13 @@ const { notes } = Astro.props;
     [data-analysis-panel],
     [data-marker-id],
     :global([data-analysis-section]) {
+      transition: none;
+    }
+
+    :global(.prototype-page[data-prototype='true'] .wa-float),
+    :global(.prototype-page[data-prototype='true'] .wa-float:hover) {
+      animation: none;
+      transform: none;
       transition: none;
     }
   }

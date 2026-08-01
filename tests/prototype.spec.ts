@@ -152,6 +152,44 @@ test.describe('prototype route isolation', () => {
     await expect(drawerOpen).toBeFocused();
   });
 
+  test('mobile analysis trigger does not overlap the WhatsApp action', async ({ page }) => {
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      await page.goto('/prototipo');
+
+      const drawerBox = await page.locator('[data-analysis-drawer-open]').boundingBox();
+      const whatsAppBox = await page.getByRole('link', { name: 'Fale conosco no WhatsApp' }).boundingBox();
+      expect(drawerBox).not.toBeNull();
+      expect(whatsAppBox).not.toBeNull();
+
+      const horizontalOverlap = Math.min(drawerBox!.x + drawerBox!.width, whatsAppBox!.x + whatsAppBox!.width)
+        - Math.max(drawerBox!.x, whatsAppBox!.x);
+      const verticalOverlap = Math.min(drawerBox!.y + drawerBox!.height, whatsAppBox!.y + whatsAppBox!.height)
+        - Math.max(drawerBox!.y, whatsAppBox!.y);
+      expect(horizontalOverlap <= 0 || verticalOverlap <= 0).toBe(true);
+    }
+  });
+
+  test('programmatic drawer opening restores focus to its real trigger', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/prototipo');
+
+    const drawerOpen = page.locator('[data-analysis-drawer-open]');
+    await drawerOpen.evaluate((button: HTMLButtonElement) => button.click());
+    await expect(page.locator('[data-analysis-drawer-close]')).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(drawerOpen).toBeFocused();
+  });
+
+  test('reduced motion removes the prototype WhatsApp hover transform', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/prototipo');
+
+    const whatsApp = page.getByRole('link', { name: 'Fale conosco no WhatsApp' });
+    await whatsApp.hover();
+    await expect(whatsApp).toHaveCSS('transform', 'none');
+  });
+
   for (const viewport of [
     { width: 320, height: 700 },
     { width: 390, height: 844 },
