@@ -29,4 +29,15 @@ test.describe('prototype route isolation', () => {
       expect(box?.height, `${label} needs a 44px minimum height`).toBeGreaterThanOrEqual(44);
     }
   });
+
+  test('hero uses verified proof and four audience paths', async ({ page }) => {
+    await page.goto('/prototipo');
+    const main = page.locator('main');
+    await expect(main.getByText('500 cores', { exact: false })).toBeVisible();
+    await expect(main.getByText('100+', { exact: false })).toHaveCount(0);
+    await expect(page.locator('[data-audience-path]')).toHaveCount(4);
+    await expect(page.locator('[data-audience-path] img')).toHaveCount(4);
+    await expect(page.locator('#caminhos h2')).toHaveText('Escolha pelo seu trabalho');
+    await expect(page.locator('[data-audience-path][href="#categorias"]')).toHaveCount(4);
+  });
 });

@@ -1,0 +1,138 @@
+---
+import categorias from '../../data/categorias.json';
+import { audiencePaths } from '../../data/prototype-home';
+
+const renderedPaths = audiencePaths
+  .map((path) => {
+    const imageCategory = categorias.find((category) => category.slug === path.imageCategorySlug);
+    const relatedCategoryNames = path.categorySlugs
+      .map((slug) => categorias.find((category) => category.slug === slug)?.nome)
+      .filter((name): name is string => Boolean(name));
+
+    return { path, imageCategory, relatedCategoryNames };
+  })
+  .filter((item) => item.imageCategory);
+---
+
+<section id="caminhos" class="audience-paths" data-analysis-section="caminhos" aria-labelledby="audience-paths-title">
+  <div class="container">
+    <div class="audience-paths__header">
+      <h2 id="audience-paths-title">Escolha pelo seu trabalho</h2>
+      <p>Encontre categorias e materiais que acompanham a forma como você cria, produz ou vende.</p>
+    </div>
+    <ul class="audience-paths__list" role="list">
+      {renderedPaths.map(({ path, imageCategory, relatedCategoryNames }) => imageCategory && (
+        <li>
+          <a
+            class="audience-path"
+            href="#categorias"
+            data-audience-path={path.id}
+            data-category-filter={path.categorySlugs.join(',')}
+          >
+            <img src={imageCategory.imagem} alt={`${imageCategory.nome} para ${path.title}`} loading="lazy" width="480" height="320" />
+            <div class="audience-path__body">
+              <h3>{path.title}</h3>
+              <p>{path.description}</p>
+              <p class="audience-path__related"><strong>Categorias relacionadas:</strong> {relatedCategoryNames.join(' · ')}</p>
+              <span class="audience-path__action">Ver categorias relacionadas</span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .audience-paths {
+    background: var(--bufalo-cinza-claro);
+  }
+
+  .audience-paths__header {
+    margin: 0 auto 2rem;
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  .audience-paths__header h2 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.75rem;
+  }
+
+  .audience-paths__list {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .audience-path {
+    background: var(--bufalo-branco);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    color: var(--texto-padrao);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .audience-path:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+    text-decoration: none;
+    transform: translateY(-4px);
+  }
+
+  .audience-path img {
+    aspect-ratio: 3 / 2;
+    height: auto;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .audience-path__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.25rem;
+  }
+
+  .audience-path h3 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.5rem;
+  }
+
+  .audience-path__body p {
+    font-size: 1rem;
+  }
+
+  .audience-path__related {
+    color: var(--bufalo-cinza);
+    margin-top: auto;
+  }
+
+  .audience-path__action {
+    color: var(--bufalo-vermelho);
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 640px) {
+    .audience-paths__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .audience-paths__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

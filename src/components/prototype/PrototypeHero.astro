@@ -1,0 +1,74 @@
+---
+import ColorRing from '../ColorRing.astro';
+import { waLink } from '../../data/whatsapp';
+---
+
+<section class="prototype-hero" data-analysis-section="hero" aria-labelledby="prototype-title">
+  <div class="container prototype-hero__inner">
+    <div class="prototype-hero__copy">
+      <p class="prototype-hero__kicker">500 cores · uma força só</p>
+      <h1 id="prototype-title">A força que você confia com a qualidade que você precisa.</h1>
+      <p>Linhas de costura e aviamentos para indústria, ateliê, loja e artesanato. De norte a sul do Brasil.</p>
+      <div class="prototype-hero__actions">
+        <a class="btn btn--primary" href="#caminhos">Encontre seu caminho</a>
+        <a class="btn btn--ghost" href={waLink()} target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+      </div>
+    </div>
+    <ColorRing label="500" sublabel="CORES" />
+  </div>
+</section>
+
+<style>
+  .prototype-hero {
+    background: linear-gradient(135deg, #fff7f7, var(--bufalo-branco));
+    padding-block: 4rem;
+  }
+
+  .prototype-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .prototype-hero__copy {
+    max-width: 40rem;
+  }
+
+  .prototype-hero__kicker {
+    color: var(--bufalo-vermelho);
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .prototype-hero h1 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 1rem;
+  }
+
+  .prototype-hero__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .prototype-hero__inner {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+
+    .prototype-hero__actions {
+      align-items: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+</style>
