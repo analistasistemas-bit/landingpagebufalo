@@ -90,17 +90,22 @@ test.describe('prototype route isolation', () => {
   });
 
   test('desktop prototype controls do not obscure primary navigation', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/prototipo');
-    await page.locator('[data-analysis-toggle]').click();
+    for (const width of [1024, 1200, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto('/prototipo');
+      const toggle = page.locator('[data-analysis-toggle]');
+      if (await toggle.getAttribute('aria-pressed') === 'true') await toggle.click();
+      await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'off');
 
-    const toolbarBox = await page.locator('.analysis-toolbar').boundingBox();
-    expect(toolbarBox).not.toBeNull();
+      const toolbarBox = await page.locator('.analysis-toolbar').boundingBox();
+      expect(toolbarBox).not.toBeNull();
 
-    for (const link of await page.locator('#prototype-nav a').all()) {
-      const linkBox = await link.boundingBox();
-      expect(linkBox).not.toBeNull();
-      expect(boxesOverlap(linkBox!, toolbarBox!)).toBe(false);
+      for (const link of await page.locator('#prototype-nav a').all()) {
+        await expect(link).toBeVisible();
+        const linkBox = await link.boundingBox();
+        expect(linkBox).not.toBeNull();
+        expect(boxesOverlap(linkBox!, toolbarBox!), `navigation link overlaps toolbar at ${width}px`).toBe(false);
+      }
     }
   });
 
