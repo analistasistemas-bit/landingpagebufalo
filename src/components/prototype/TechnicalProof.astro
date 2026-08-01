@@ -1,0 +1,126 @@
+---
+type Product = {
+  id: string;
+  nome: string;
+  composicao: string;
+  medida: string;
+  embalagem: string;
+  cores: string;
+  obs: string;
+};
+
+interface Props {
+  products: readonly Product[];
+}
+
+const { products } = Astro.props;
+
+const fieldLabels = {
+  composicao: 'Composição',
+  medida: 'Medida',
+  embalagem: 'Embalagem',
+  cores: 'Cores',
+  obs: 'Observação',
+} as const;
+
+const isConfirmed = (value: string) => value.trim() !== '' && value.trim() !== '—';
+---
+
+<section id="prova" class="technical-proof" data-analysis-section="prova" aria-labelledby="technical-proof-title">
+  <div class="container">
+    <div class="technical-proof__header">
+      <h2 id="technical-proof-title">Informação técnica para decidir com segurança</h2>
+      <p>Detalhes reais de produtos em destaque para apoiar a escolha da sua compra.</p>
+    </div>
+    <ul class="technical-proof__list" role="list">
+      {products.map((product) => (
+        <li class="technical-proof__product" data-proof-product>
+          <h3>{product.nome}</h3>
+          <dl>
+            {Object.entries(fieldLabels).map(([field, label]) => {
+              const value = product[field as keyof typeof fieldLabels];
+              return isConfirmed(value) && (
+                <div>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              );
+            })}
+          </dl>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .technical-proof {
+    background: var(--bufalo-cinza-claro);
+  }
+
+  .technical-proof__header {
+    margin: 0 auto 2rem;
+    max-width: 44rem;
+    text-align: center;
+  }
+
+  .technical-proof__header h2 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.75rem;
+  }
+
+  .technical-proof__header p,
+  .technical-proof dd {
+    color: #666666;
+    font-size: 1rem;
+  }
+
+  .technical-proof__list {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .technical-proof__product {
+    background: var(--bufalo-branco);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+  }
+
+  .technical-proof__product h3 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 1rem;
+  }
+
+  .technical-proof dl {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .technical-proof dl div {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.75rem;
+  }
+
+  .technical-proof dt {
+    color: var(--bufalo-cinza);
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .technical-proof dd {
+    margin: 0.125rem 0 0;
+  }
+
+  @media (min-width: 768px) {
+    .technical-proof__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

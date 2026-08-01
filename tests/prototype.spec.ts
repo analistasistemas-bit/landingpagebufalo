@@ -32,12 +32,34 @@ test.describe('prototype route isolation', () => {
 
   test('hero uses verified proof and four audience paths', async ({ page }) => {
     await page.goto('/prototipo');
-    const main = page.locator('main');
-    await expect(main.getByText('500 cores', { exact: false })).toBeVisible();
-    await expect(main.getByText('100+', { exact: false })).toHaveCount(0);
+    const hero = page.locator('.prototype-hero');
+    await expect(hero.getByText('500 cores', { exact: false })).toBeVisible();
+    await expect(hero.getByText('100+', { exact: false })).toHaveCount(0);
     await expect(page.locator('[data-audience-path]')).toHaveCount(4);
     await expect(page.locator('[data-audience-path] img')).toHaveCount(4);
     await expect(page.locator('#caminhos h2')).toHaveText('Escolha pelo seu trabalho');
     await expect(page.locator('[data-audience-path][href="#categorias"]')).toHaveCount(4);
+  });
+
+  test('prototype prioritizes eight real categories and keeps the full catalog separate', async ({ page }) => {
+    await page.goto('/prototipo');
+    await expect(page.locator('[data-priority-category]')).toHaveCount(8);
+    const hrefs = await page.locator('[data-priority-category]').evaluateAll((links) => links.map((link) => link.getAttribute('href')));
+    expect(hrefs).toEqual([
+      '/produtos/linhas-de-costura', '/produtos/fios-overloque', '/produtos/ziperes', '/produtos/elasticos',
+      '/produtos/passamanarias', '/produtos/botoes-de-pressao', '/produtos/tesouras', '/produtos/fita-metrica',
+    ]);
+    await expect(page.getByRole('link', { name: 'Ver catálogo completo' })).toHaveAttribute('href', '/produtos');
+  });
+
+  test('technical proof and conversion contain only confirmed content', async ({ page }) => {
+    await page.goto('/prototipo');
+    await expect(page.locator('[data-proof-product]')).toHaveCount(3);
+    await expect(page.getByRole('link', { name: 'Comprar em volume' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Quero ser revendedor' })).toBeVisible();
+    const body = await page.locator('body').innerText();
+    expect(body).not.toContain('[CONFIRMAR]');
+    expect(body).not.toContain('[em breve]');
+    expect(body).not.toMatch(/R\$|preço|price/i);
   });
 });

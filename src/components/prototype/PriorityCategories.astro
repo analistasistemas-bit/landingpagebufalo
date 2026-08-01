@@ -1,0 +1,141 @@
+---
+type Category = {
+  id: string;
+  nome: string;
+  slug: string;
+  descricao: string;
+  ordem: number;
+  imagem: string;
+};
+
+interface Props {
+  categories: readonly Category[];
+}
+
+const { categories } = Astro.props;
+---
+
+<section id="categorias" class="priority-categories" data-analysis-section="categorias" aria-labelledby="priority-categories-title">
+  <div class="container">
+    <div class="priority-categories__header">
+      <h2 id="priority-categories-title">Categorias para o seu trabalho</h2>
+      <p>Comece pelos materiais que mais acompanham a rotina de produção, acabamento e venda.</p>
+    </div>
+    <ul class="priority-categories__list" role="list">
+      {categories.map((category) => (
+        <li>
+          <a
+            data-priority-category
+            data-category-slug={category.slug}
+            href={`/produtos/${category.slug}`}
+            class="priority-category"
+          >
+            <img src={category.imagem} alt={`${category.nome} — Búfalo`} width="480" height="320" loading="lazy" />
+            <span class="priority-category__body">
+              <h3>{category.nome}</h3>
+              <span class="priority-category__description">{category.descricao}</span>
+              <strong>Ver produtos →</strong>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="priority-categories__catalog"><a href="/produtos">Ver catálogo completo</a></p>
+  </div>
+</section>
+
+<style>
+  .priority-categories__header {
+    margin: 0 auto 2rem;
+    max-width: 42rem;
+    text-align: center;
+  }
+
+  .priority-categories__header h2 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.75rem;
+  }
+
+  .priority-categories__header p,
+  .priority-category__description {
+    color: #666666;
+    font-size: 1rem;
+  }
+
+  .priority-categories__list {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .priority-category {
+    background: var(--bufalo-branco);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    color: var(--texto-padrao);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .priority-category:hover {
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+    text-decoration: none;
+    transform: translateY(-4px);
+  }
+
+  .priority-category img {
+    aspect-ratio: 3 / 2;
+    height: auto;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .priority-category__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.25rem;
+  }
+
+  .priority-category h3 {
+    color: var(--bufalo-cinza);
+    margin-bottom: 0.5rem;
+  }
+
+  .priority-category strong {
+    color: var(--bufalo-vermelho);
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .priority-categories__catalog {
+    font-family: var(--font-titulo);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 640px) {
+    .priority-categories__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .priority-categories__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

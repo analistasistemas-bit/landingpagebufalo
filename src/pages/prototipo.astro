@@ -2,6 +2,18 @@
 import PrototypeShell from '../components/prototype/PrototypeShell.astro';
 import PrototypeHero from '../components/prototype/PrototypeHero.astro';
 import AudiencePaths from '../components/prototype/AudiencePaths.astro';
+import PriorityCategories from '../components/prototype/PriorityCategories.astro';
+import TechnicalProof from '../components/prototype/TechnicalProof.astro';
+import PrototypeConversion from '../components/prototype/PrototypeConversion.astro';
+import categorias from '../data/categorias.json';
+import produtos from '../data/produtos.json';
+import { priorityCategorySlugs } from '../data/prototype-home';
+
+const priorityCategories = priorityCategorySlugs
+  .map((slug) => categorias.find((category) => category.slug === slug))
+  .filter((category): category is (typeof categorias)[number] => Boolean(category));
+
+const proofProducts = produtos.filter((product) => product.destaque).slice(0, 3);
 ---
 
 <PrototypeShell
@@ -10,4 +22,7 @@ import AudiencePaths from '../components/prototype/AudiencePaths.astro';
 >
   <PrototypeHero />
   <AudiencePaths />
+  <PriorityCategories categories={priorityCategories} />
+  <TechnicalProof products={proofProducts} />
+  <PrototypeConversion />
 </PrototypeShell>
