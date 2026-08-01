@@ -1,5 +1,14 @@
 import { test, expect } from 'playwright/test';
 
+function boxesOverlap(
+  first: { x: number; y: number; width: number; height: number },
+  second: { x: number; y: number; width: number; height: number },
+) {
+  const horizontal = Math.min(first.x + first.width, second.x + second.width) - Math.max(first.x, second.x);
+  const vertical = Math.min(first.y + first.height, second.y + second.height) - Math.max(first.y, second.y);
+  return horizontal > 0 && vertical > 0;
+}
+
 test.describe('prototype route isolation', () => {
   test('/prototipo owns a prototype shell', async ({ page }) => {
     const response = await page.goto('/prototipo');
@@ -80,6 +89,21 @@ test.describe('prototype route isolation', () => {
     await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'off');
   });
 
+  test('desktop prototype controls do not obscure primary navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/prototipo');
+    await page.locator('[data-analysis-toggle]').click();
+
+    const toolbarBox = await page.locator('.analysis-toolbar').boundingBox();
+    expect(toolbarBox).not.toBeNull();
+
+    for (const link of await page.locator('#prototype-nav a').all()) {
+      const linkBox = await link.boundingBox();
+      expect(linkBox).not.toBeNull();
+      expect(boxesOverlap(linkBox!, toolbarBox!)).toBe(false);
+    }
+  });
+
   test('seven analysis records explain problem, change, and benefit in both views', async ({ page }) => {
     await page.goto('/prototipo');
     await page.evaluate(() => sessionStorage.removeItem('bufalo-prototype-analysis-mode'));
@@ -152,6 +176,24 @@ test.describe('prototype route isolation', () => {
     await expect(drawerOpen).toBeFocused();
   });
 
+  test('mobile menu annotations clear the trigger and yield to the open navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/prototipo');
+
+    const menuBox = await page.locator('#prototype-menu-toggle').boundingBox();
+    const menuMarkerBox = await page.locator('[data-analysis-target="menu"]').boundingBox();
+    expect(menuBox).not.toBeNull();
+    expect(menuMarkerBox).not.toBeNull();
+    expect(boxesOverlap(menuBox!, menuMarkerBox!)).toBe(false);
+
+    await page.locator('#prototype-menu-toggle').click();
+    const heroMarkerIsTopmost = await page.locator('[data-analysis-target="hero"]').evaluate((marker) => {
+      const box = marker.getBoundingClientRect();
+      return document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2) === marker;
+    });
+    expect(heroMarkerIsTopmost).toBe(false);
+  });
+
   test('mobile analysis trigger does not overlap the WhatsApp action', async ({ page }) => {
     for (const width of [320, 390]) {
       await page.setViewportSize({ width, height: 844 });
@@ -168,6 +210,18 @@ test.describe('prototype route isolation', () => {
         - Math.max(drawerBox!.y, whatsAppBox!.y);
       expect(horizontalOverlap <= 0 || verticalOverlap <= 0).toBe(true);
     }
+  });
+
+  test('mobile analysis drawer covers the WhatsApp float', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/prototipo');
+    await page.locator('[data-analysis-drawer-open]').click();
+
+    const whatsAppIsTopmost = await page.locator('.wa-float').evaluate((whatsApp) => {
+      const box = whatsApp.getBoundingClientRect();
+      return Boolean(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)?.closest('.wa-float'));
+    });
+    expect(whatsAppIsTopmost).toBe(false);
   });
 
   test('programmatic drawer opening restores focus to its real trigger', async ({ page }) => {
