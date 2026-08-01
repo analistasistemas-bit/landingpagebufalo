@@ -1,0 +1,65 @@
+---
+import type { AnalysisNote } from '../../data/prototype-home';
+
+interface Props {
+  notes: readonly AnalysisNote[];
+}
+
+const { notes } = Astro.props;
+---
+
+<ol class="analysis-note-list">
+  {notes.map((note) => (
+    <li data-analysis-note data-note-id={note.id}>
+      <button type="button" data-analysis-note-button={note.id} aria-pressed="false">
+        <strong>{note.id}. {note.title}</strong>
+        <span data-note-problem><b>Problema:</b> {note.problem}</span>
+        <span data-note-change><b>Mudança:</b> {note.change}</span>
+        <span data-note-benefit><b>Benefício:</b> {note.benefit}</span>
+      </button>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .analysis-note-list {
+    display: grid;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  [data-analysis-note-button] {
+    background: #ffffff;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.5rem;
+    color: #333333;
+    cursor: pointer;
+    display: grid;
+    font: inherit;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0.875rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  [data-analysis-note-button]:hover,
+  [data-analysis-note-button][data-selected='true'] {
+    border-color: var(--bufalo-vermelho);
+    box-shadow: 0 0 0 2px rgba(188, 32, 38, 0.16);
+  }
+
+  [data-analysis-note-button] strong {
+    color: var(--bufalo-bordo);
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+  }
+
+  [data-analysis-note-button] span {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+</style>

@@ -32,7 +32,7 @@ const isConfirmed = (value: string) => value.trim() !== '' && value.trim() !== '
       <h2 id="technical-proof-title">Informação técnica para decidir com segurança</h2>
       <p>Detalhes reais de produtos em destaque para apoiar a escolha da sua compra.</p>
     </div>
-    <ul class="technical-proof__list" role="list">
+    <ul class="technical-proof__list" role="list" data-analysis-section="legibilidade">
       {products.map((product) => (
         <li class="technical-proof__product" data-proof-product>
           <h3>{product.nome}</h3>

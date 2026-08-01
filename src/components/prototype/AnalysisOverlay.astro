@@ -1,0 +1,335 @@
+---
+import type { AnalysisNote } from '../../data/prototype-home';
+import AnalysisNoteList from './AnalysisNoteList.astro';
+
+interface Props {
+  notes: readonly AnalysisNote[];
+}
+
+const { notes } = Astro.props;
+---
+
+<div class="analysis-toolbar" aria-label="Ferramentas do protótipo">
+  <span>Protótipo</span>
+  <button type="button" data-analysis-toggle aria-pressed="true">Modo análise: ligado</button>
+  <button type="button" data-analysis-drawer-open aria-haspopup="dialog">7 melhorias</button>
+</div>
+
+<aside data-analysis-panel aria-label="Comentários das melhorias">
+  <AnalysisNoteList notes={notes} />
+</aside>
+
+<div class="analysis-markers" aria-label="Marcadores das melhorias">
+  {notes.map((note) => (
+    <button
+      type="button"
+      data-analysis-marker={note.id}
+      data-marker-id={note.id}
+      data-analysis-target={note.target}
+      aria-label={`Selecionar melhoria ${note.id}: ${note.title}`}
+      aria-pressed="false"
+    >{note.id}</button>
+  ))}
+</div>
+
+<div data-analysis-drawer hidden role="dialog" aria-modal="true" aria-labelledby="analysis-drawer-title">
+  <div role="document">
+    <h2 id="analysis-drawer-title">7 melhorias aplicadas</h2>
+    <button type="button" data-analysis-drawer-close aria-label="Fechar comentários">Fechar</button>
+    <AnalysisNoteList notes={notes} />
+  </div>
+</div>
+
+<script>
+  const key = 'bufalo-prototype-analysis-mode';
+  const root = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-analysis-toggle]');
+  const drawer = document.querySelector<HTMLElement>('[data-analysis-drawer]');
+  const drawerOpen = document.querySelector<HTMLButtonElement>('[data-analysis-drawer-open]');
+  const drawerClose = document.querySelector<HTMLButtonElement>('[data-analysis-drawer-close]');
+  let stored: string | null = null;
+
+  try {
+    stored = sessionStorage.getItem(key);
+  } catch {
+    stored = null;
+  }
+
+  let analysisOn = stored !== 'off';
+  let selectedNoteId: string | null = null;
+  let restoreDrawerFocus = false;
+
+  function closeDrawer({ restoreFocus = true } = {}) {
+    if (!drawer || drawer.hidden) return;
+    drawer.hidden = true;
+
+    if (restoreFocus && restoreDrawerFocus) {
+      drawerOpen?.focus();
+    }
+
+    restoreDrawerFocus = false;
+  }
+
+  function clearSelection() {
+    selectedNoteId = null;
+
+    document.querySelectorAll<HTMLElement>('[data-analysis-note-button], [data-marker-id], [data-analysis-section]')
+      .forEach((element) => {
+        element.removeAttribute('data-selected');
+        if (element.matches('button')) element.setAttribute('aria-pressed', 'false');
+      });
+  }
+
+  function renderAnalysisMode() {
+    root.dataset.analysisMode = analysisOn ? 'on' : 'off';
+    toggle?.setAttribute('aria-pressed', String(analysisOn));
+    if (toggle) toggle.textContent = `Modo análise: ${analysisOn ? 'ligado' : 'desligado'}`;
+
+    document.querySelectorAll<HTMLElement>('[data-marker-id]').forEach((marker) => {
+      if (analysisOn) {
+        marker.dataset.analysisMarker = marker.dataset.markerId;
+      } else {
+        marker.removeAttribute('data-analysis-marker');
+      }
+    });
+  }
+
+  function selectNote(id: string) {
+    const shouldClear = selectedNoteId === id;
+    clearSelection();
+
+    if (shouldClear) return;
+
+    selectedNoteId = id;
+    const noteButtons = document.querySelectorAll<HTMLElement>(`[data-analysis-note-button="${id}"]`);
+    const marker = document.querySelector<HTMLElement>(`[data-marker-id="${id}"]`);
+    const target = marker?.dataset.analysisTarget;
+    const section = target
+      ? document.querySelector<HTMLElement>(`[data-analysis-section="${target}"]`)
+      : null;
+
+    noteButtons.forEach((button) => {
+      button.dataset.selected = 'true';
+      button.setAttribute('aria-pressed', 'true');
+    });
+
+    if (marker) {
+      marker.dataset.selected = 'true';
+      marker.setAttribute('aria-pressed', 'true');
+    }
+
+    if (section) {
+      section.dataset.selected = 'true';
+      const toolbarBottom = document.querySelector<HTMLElement>('.analysis-toolbar')?.getBoundingClientRect().bottom ?? 0;
+      const bounds = section.getBoundingClientRect();
+      const isOutsideViewport = bounds.top < toolbarBottom || bounds.bottom > window.innerHeight;
+
+      if (isOutsideViewport) section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function positionMarkers() {
+    const page = document.querySelector<HTMLElement>('.prototype-page');
+    if (!page) return;
+    const pageTop = page.getBoundingClientRect().top + window.scrollY;
+
+    document.querySelectorAll<HTMLElement>('[data-marker-id]').forEach((marker) => {
+      const target = marker.dataset.analysisTarget;
+      const section = target
+        ? document.querySelector<HTMLElement>(`[data-analysis-section="${target}"]`)
+        : null;
+      if (!section) return;
+
+      const bounds = section.getBoundingClientRect();
+      marker.style.top = `${bounds.top + window.scrollY - pageTop + Math.min(64, bounds.height / 2)}px`;
+    });
+  }
+
+  toggle?.addEventListener('click', () => {
+    analysisOn = !analysisOn;
+
+    try {
+      sessionStorage.setItem(key, analysisOn ? 'on' : 'off');
+    } catch {
+      // The in-memory state remains usable when storage is unavailable.
+    }
+
+    if (!analysisOn) {
+      clearSelection();
+      closeDrawer({ restoreFocus: false });
+    }
+
+    renderAnalysisMode();
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-analysis-note-button], [data-marker-id]')
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.analysisNoteButton ?? button.dataset.markerId;
+        if (id) selectNote(id);
+      });
+    });
+
+  drawerOpen?.addEventListener('click', () => {
+    if (!drawer || !analysisOn) return;
+    restoreDrawerFocus = true;
+    drawer.hidden = false;
+    drawerClose?.focus();
+  });
+
+  drawerClose?.addEventListener('click', () => closeDrawer());
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && drawer && !drawer.hidden) closeDrawer();
+  });
+
+  window.addEventListener('load', positionMarkers);
+  window.addEventListener('resize', positionMarkers);
+  renderAnalysisMode();
+  positionMarkers();
+</script>
+
+<style>
+  .analysis-toolbar {
+    align-items: center;
+    background: #242424;
+    color: #ffffff;
+    display: flex;
+    gap: 0.75rem;
+    min-height: 52px;
+    padding: 0.4rem 1rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 50;
+  }
+
+  .analysis-toolbar > span {
+    font-family: var(--font-titulo);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .analysis-toolbar button,
+  [data-analysis-drawer-close] {
+    background: #ffffff;
+    border: 0;
+    border-radius: 0.35rem;
+    color: #242424;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  [data-analysis-drawer-open] {
+    display: inline-flex;
+  }
+
+  [data-analysis-panel] {
+    background: #f3f3f3;
+    bottom: 0;
+    display: none;
+    overflow-y: auto;
+    padding: 4.25rem 1rem 1rem;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 23rem;
+    z-index: 40;
+  }
+
+  .analysis-markers {
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 30;
+  }
+
+  [data-marker-id] {
+    align-items: center;
+    background: var(--bufalo-bordo);
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 700;
+    height: 44px;
+    justify-content: center;
+    pointer-events: auto;
+    position: absolute;
+    right: 1rem;
+    width: 44px;
+  }
+
+  [data-marker-id][data-selected='true'] {
+    background: #242424;
+    box-shadow: 0 0 0 4px rgba(188, 32, 38, 0.38);
+  }
+
+  [data-analysis-drawer] {
+    background: rgba(0, 0, 0, 0.58);
+    inset: 0;
+    overflow-y: auto;
+    padding: 1rem;
+    position: fixed;
+    z-index: 60;
+  }
+
+  [data-analysis-drawer][hidden] {
+    display: none;
+  }
+
+  [data-analysis-drawer] > [role='document'] {
+    background: #f3f3f3;
+    border-radius: 0.75rem;
+    margin-left: auto;
+    max-width: 38rem;
+    min-height: 100%;
+    padding: 1.25rem;
+  }
+
+  [data-analysis-drawer] h2 {
+    color: var(--bufalo-cinza);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  [data-analysis-drawer-close] {
+    margin-bottom: 1rem;
+  }
+
+  :global(html[data-analysis-mode='off'] [data-analysis-panel]),
+  :global(html[data-analysis-mode='off'] .analysis-markers),
+  :global(html[data-analysis-mode='off'] [data-analysis-drawer-open]) {
+    display: none;
+  }
+
+  :global([data-analysis-section][data-selected='true']) {
+    box-shadow: inset 0 0 0 4px var(--bufalo-vermelho);
+    position: relative;
+  }
+
+  @media (min-width: 1024px) {
+    [data-analysis-drawer-open] {
+      display: none;
+    }
+
+    :global(html[data-analysis-mode='on'] .prototype-page) {
+      padding-right: 23rem;
+    }
+
+    :global(html[data-analysis-mode='on'] [data-analysis-panel]) {
+      display: block;
+    }
+
+    [data-marker-id] {
+      right: 23.75rem;
+    }
+  }
+</style>

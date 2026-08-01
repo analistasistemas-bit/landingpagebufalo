@@ -2,7 +2,9 @@
 import '../../styles/global.css';
 import PrototypeHeader from './PrototypeHeader.astro';
 import PrototypeFooter from './PrototypeFooter.astro';
+import AnalysisOverlay from './AnalysisOverlay.astro';
 import WhatsAppFloat from '../WhatsAppFloat.astro';
+import { analysisNotes } from '../../data/prototype-home';
 
 interface Props {
   title: string;
@@ -30,6 +32,7 @@ const { title, description } = Astro.props;
       <main id="conteudo-principal"><slot /></main>
       <PrototypeFooter />
       <WhatsAppFloat />
+      <AnalysisOverlay notes={analysisNotes} />
     </div>
   </body>
 </html>

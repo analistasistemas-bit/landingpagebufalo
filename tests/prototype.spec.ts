@@ -63,4 +63,39 @@ test.describe('prototype route isolation', () => {
     await expect(page.locator('#prova')).not.toContainText('100+');
     expect(body).not.toMatch(/R\$|preço|price/i);
   });
+
+  test('analysis mode starts on and can become a clean landing', async ({ page }) => {
+    await page.goto('/prototipo');
+    await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'on');
+    await expect(page.locator('[data-analysis-marker]')).toHaveCount(7);
+    await expect(page.locator('[data-analysis-panel]')).toBeVisible();
+
+    const toggle = page.locator('[data-analysis-toggle]');
+    await toggle.click();
+    await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'off');
+    await expect(page.locator('[data-analysis-panel]')).toBeHidden();
+    await expect(page.locator('[data-analysis-marker]')).toBeHidden();
+
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'off');
+  });
+
+  test('seven analysis records explain problem, change, and benefit in both views', async ({ page }) => {
+    await page.goto('/prototipo');
+    await page.evaluate(() => sessionStorage.removeItem('bufalo-prototype-analysis-mode'));
+    await page.reload();
+    await expect(page.locator('[data-analysis-note]')).toHaveCount(14);
+    await expect(page.locator('[data-analysis-note] [data-note-problem]')).toHaveCount(14);
+    await expect(page.locator('[data-analysis-note] [data-note-change]')).toHaveCount(14);
+    await expect(page.locator('[data-analysis-note] [data-note-benefit]')).toHaveCount(14);
+  });
+
+  test('selecting a desktop note highlights its marker and section', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/prototipo');
+    await page.locator('[data-analysis-panel] [data-analysis-note-button="3"]').click();
+    await expect(page.locator('[data-analysis-marker="3"]')).toHaveAttribute('data-selected', 'true');
+    await expect(page.locator('[data-analysis-section="categorias"]')).toHaveAttribute('data-selected', 'true');
+    await expect(page.locator('[data-analysis-panel] [data-analysis-note-button="3"]')).toHaveAttribute('aria-pressed', 'true');
+  });
 });
