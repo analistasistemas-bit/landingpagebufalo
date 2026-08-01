@@ -61,10 +61,13 @@ const { notes } = Astro.props;
 
   function closeDrawer({ restoreFocus = true } = {}) {
     if (!drawer || drawer.hidden) return;
+    const focusWasInsideDrawer = drawer.contains(document.activeElement);
     drawer.hidden = true;
 
     if (restoreFocus && restoreDrawerFocus) {
       drawerOpen?.focus();
+    } else if (focusWasInsideDrawer) {
+      toggle?.focus();
     }
 
     restoreDrawerFocus = false;
@@ -160,6 +163,7 @@ const { notes } = Astro.props;
     }
 
     renderAnalysisMode();
+    requestAnimationFrame(positionMarkers);
   });
 
   document.querySelectorAll<HTMLElement>('[data-analysis-note-button], [data-marker-id]')
@@ -183,8 +187,15 @@ const { notes } = Astro.props;
     if (event.key === 'Escape' && drawer && !drawer.hidden) closeDrawer();
   });
 
+  function handleResize() {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      closeDrawer({ restoreFocus: false });
+    }
+    positionMarkers();
+  }
+
   window.addEventListener('load', positionMarkers);
-  window.addEventListener('resize', positionMarkers);
+  window.addEventListener('resize', handleResize);
   renderAnalysisMode();
   positionMarkers();
 </script>

@@ -98,4 +98,36 @@ test.describe('prototype route isolation', () => {
     await expect(page.locator('[data-analysis-section="categorias"]')).toHaveAttribute('data-selected', 'true');
     await expect(page.locator('[data-analysis-panel] [data-analysis-note-button="3"]')).toHaveAttribute('aria-pressed', 'true');
   });
+
+  test('reenabling desktop analysis repositions markers after the layout reflows', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/prototipo');
+    const toggle = page.locator('[data-analysis-toggle]');
+
+    await toggle.click();
+    await page.setViewportSize({ width: 1200, height: 900 });
+    await toggle.click();
+    await page.evaluate(() => new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
+
+    const markerBox = await page.locator('[data-analysis-marker="7"]').boundingBox();
+    const sectionBox = await page.locator('[data-analysis-section="rodape"]').boundingBox();
+    expect(markerBox).not.toBeNull();
+    expect(sectionBox).not.toBeNull();
+    const expectedMarkerY = sectionBox!.y + Math.min(64, sectionBox!.height / 2);
+    expect(Math.abs(markerBox!.y - expectedMarkerY)).toBeLessThan(2);
+  });
+
+  test('crossing into desktop closes the mobile drawer without focusing its hidden trigger', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 800 });
+    await page.goto('/prototipo');
+    const drawer = page.locator('[data-analysis-drawer]');
+
+    await page.locator('[data-analysis-drawer-open]').click();
+    await expect(drawer).toBeVisible();
+    await expect(page.locator('[data-analysis-drawer-close]')).toBeFocused();
+
+    await page.setViewportSize({ width: 1024, height: 800 });
+    await expect(drawer).toBeHidden();
+    await expect(page.locator('[data-analysis-toggle]')).toBeFocused();
+  });
 });
