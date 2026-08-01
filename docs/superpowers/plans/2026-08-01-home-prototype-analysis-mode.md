@@ -41,6 +41,7 @@
 | `src/components/prototype/TechnicalProof.astro` | Real technical fields from highlighted products. |
 | `src/components/prototype/PrototypeConversion.astro` | Separate buyer and reseller conversion paths. |
 | `src/components/prototype/PrototypeFooter.astro` | Verified WhatsApp and navigation only. |
+| `src/components/prototype/AnalysisNoteList.astro` | Reusable semantic rendering for the seven notes in panel and drawer. |
 | `src/components/prototype/AnalysisOverlay.astro` | Toggle, desktop panel, markers, mobile drawer, focus behavior, and session state. |
 | `tests/prototype.spec.ts` | Isolation, content, interaction, accessibility, and viewport regression tests. |
 | `package.json` | Add a focused `test:prototype` script. |
@@ -459,6 +460,7 @@ rtk git commit -m "feat(prototype): prioritize catalog and technical proof"
 ### Task 4: Add the Seven-Note Analysis Mode
 
 **Files:**
+- Create: `src/components/prototype/AnalysisNoteList.astro`
 - Create: `src/components/prototype/AnalysisOverlay.astro`
 - Modify: `src/components/prototype/PrototypeShell.astro`
 - Modify: prototype section components to add stable `data-analysis-section` targets
@@ -466,6 +468,7 @@ rtk git commit -m "feat(prototype): prioritize catalog and technical proof"
 
 **Interfaces:**
 - `AnalysisOverlay` consumes `notes: readonly AnalysisNote[]`.
+- `AnalysisNoteList` consumes `notes: readonly AnalysisNote[]` and renders the shared note markup without duplicating the mapping logic.
 - Produces: `[data-analysis-toggle]`, `[data-analysis-panel]`, `[data-analysis-drawer]`, `[data-analysis-marker]`, and `html[data-analysis-mode="on|off"]`.
 - Section components expose `data-analysis-section="hero|caminhos|categorias|prova|legibilidade|menu|rodape"`.
 - Session key: `bufalo-prototype-analysis-mode`, value `on` or `off`.
@@ -526,6 +529,7 @@ Create `AnalysisOverlay.astro`:
 ```astro
 ---
 import type { AnalysisNote } from '../../data/prototype-home';
+import AnalysisNoteList from './AnalysisNoteList.astro';
 interface Props { notes: readonly AnalysisNote[] }
 const { notes } = Astro.props;
 ---
@@ -535,16 +539,7 @@ const { notes } = Astro.props;
   <button type="button" data-analysis-drawer-open aria-haspopup="dialog">7 melhorias</button>
 </div>
 <aside data-analysis-panel aria-label="Comentários das melhorias">
-  <ol>{notes.map((note) => (
-    <li data-analysis-note data-note-id={note.id}>
-      <button type="button" data-analysis-note-button={note.id} aria-pressed="false">
-        <strong>{note.id}. {note.title}</strong>
-        <span data-note-problem><b>Problema:</b> {note.problem}</span>
-        <span data-note-change><b>Mudança:</b> {note.change}</span>
-        <span data-note-benefit><b>Benefício:</b> {note.benefit}</span>
-      </button>
-    </li>
-  ))}</ol>
+  <AnalysisNoteList notes={notes} />
 </aside>
 <div class="analysis-markers" aria-label="Marcadores das melhorias">
   {notes.map((note) => (
@@ -560,18 +555,29 @@ const { notes } = Astro.props;
   <div role="document">
     <h2 id="analysis-drawer-title">7 melhorias aplicadas</h2>
     <button type="button" data-analysis-drawer-close aria-label="Fechar comentários">Fechar</button>
-    <ol>{notes.map((note) => (
-      <li data-analysis-note data-note-id={note.id}>
-        <button type="button" data-analysis-note-button={note.id} aria-pressed="false">
-          <strong>{note.id}. {note.title}</strong>
-          <span data-note-problem><b>Problema:</b> {note.problem}</span>
-          <span data-note-change><b>Mudança:</b> {note.change}</span>
-          <span data-note-benefit><b>Benefício:</b> {note.benefit}</span>
-        </button>
-      </li>
-    ))}</ol>
+    <AnalysisNoteList notes={notes} />
   </div>
 </div>
+```
+
+Create `AnalysisNoteList.astro` with the shared list markup:
+
+```astro
+---
+import type { AnalysisNote } from '../../data/prototype-home';
+interface Props { notes: readonly AnalysisNote[] }
+const { notes } = Astro.props;
+---
+<ol>{notes.map((note) => (
+  <li data-analysis-note data-note-id={note.id}>
+    <button type="button" data-analysis-note-button={note.id} aria-pressed="false">
+      <strong>{note.id}. {note.title}</strong>
+      <span data-note-problem><b>Problema:</b> {note.problem}</span>
+      <span data-note-change><b>Mudança:</b> {note.change}</span>
+      <span data-note-benefit><b>Benefício:</b> {note.benefit}</span>
+    </button>
+  </li>
+))}</ol>
 ```
 
 Inside each note, render a button with `data-analysis-note-button={note.id}`, `aria-pressed="false"`, and labeled spans with `data-note-problem`, `data-note-change`, and `data-note-benefit`. Render one numbered button per note with `data-analysis-marker={note.id}` and an accessible label such as `Selecionar melhoria 3: Catálogo com prioridade`. Both the note and marker buttons call the same selection function. Selection sets `data-selected="true"` on the chosen button, marker, and matching `[data-analysis-section]`, removes it from the prior selection, and scrolls the section into view only when it is outside the viewport.
@@ -624,7 +630,7 @@ Expected: seven notes/markers render; selecting a note highlights the matching m
 - [ ] **Step 7: Commit analysis mode**
 
 ```bash
-rtk git add src/components/prototype/AnalysisOverlay.astro src/components/prototype/PrototypeShell.astro src/components/prototype/PrototypeHeader.astro src/components/prototype/PrototypeHero.astro src/components/prototype/AudiencePaths.astro src/components/prototype/PriorityCategories.astro src/components/prototype/TechnicalProof.astro src/components/prototype/PrototypeFooter.astro tests/prototype.spec.ts
+rtk git add src/components/prototype/AnalysisNoteList.astro src/components/prototype/AnalysisOverlay.astro src/components/prototype/PrototypeShell.astro src/components/prototype/PrototypeHeader.astro src/components/prototype/PrototypeHero.astro src/components/prototype/AudiencePaths.astro src/components/prototype/PriorityCategories.astro src/components/prototype/TechnicalProof.astro src/components/prototype/PrototypeFooter.astro tests/prototype.spec.ts
 rtk git commit -m "feat(prototype): explain improvements in analysis mode"
 ```
 
