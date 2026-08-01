@@ -28,6 +28,13 @@
   const menuToggle = document.getElementById('prototype-menu-toggle') as HTMLButtonElement;
   const navigation = document.getElementById('prototype-nav') as HTMLElement;
 
+  function closeMenu({ restoreFocus = false } = {}) {
+    navigation?.classList.remove('is-open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+    menuToggle?.setAttribute('aria-label', 'Abrir menu');
+    if (restoreFocus) menuToggle?.focus();
+  }
+
   menuToggle?.addEventListener('click', () => {
     const isOpen = navigation.classList.toggle('is-open');
     menuToggle.setAttribute('aria-expanded', String(isOpen));
@@ -35,11 +42,11 @@
   });
 
   navigation?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      navigation.classList.remove('is-open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'Abrir menu');
-    });
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  document.addEventListener('prototype:close-menu', () => {
+    if (navigation?.classList.contains('is-open')) closeMenu({ restoreFocus: true });
   });
 </script>
 

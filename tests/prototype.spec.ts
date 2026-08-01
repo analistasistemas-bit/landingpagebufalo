@@ -130,4 +130,49 @@ test.describe('prototype route isolation', () => {
     await expect(drawer).toBeHidden();
     await expect(page.locator('[data-analysis-toggle]')).toBeFocused();
   });
+
+  test('mobile menu and analysis drawer support Escape and focus restoration', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/prototipo');
+
+    const menu = page.locator('#prototype-menu-toggle');
+    await expect(menu).toHaveCSS('min-width', '44px');
+    await expect(menu).toHaveCSS('min-height', '44px');
+    await menu.click();
+    await expect(menu).toHaveAttribute('aria-expanded', 'true');
+    await page.keyboard.press('Escape');
+    await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await expect(menu).toBeFocused();
+
+    const drawerOpen = page.locator('[data-analysis-drawer-open]');
+    await drawerOpen.click();
+    await expect(page.locator('[data-analysis-drawer]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-analysis-drawer]')).toBeHidden();
+    await expect(drawerOpen).toBeFocused();
+  });
+
+  for (const viewport of [
+    { width: 320, height: 700 },
+    { width: 390, height: 844 },
+    { width: 768, height: 1024 },
+    { width: 1440, height: 900 },
+  ]) {
+    test(`no horizontal overflow at ${viewport.width}px`, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await page.goto('/prototipo');
+      const metrics = await page.locator('.prototype-page').evaluate((element) => ({
+        clientWidth: element.clientWidth,
+        scrollWidth: element.scrollWidth,
+      }));
+      expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth);
+    });
+  }
+
+  test('heading outline does not skip levels', async ({ page }) => {
+    await page.goto('/prototipo');
+    const levels = await page.locator('main h1, main h2, main h3').evaluateAll((headings) => headings.map((heading) => Number(heading.tagName.slice(1))));
+    expect(levels[0]).toBe(1);
+    for (let i = 1; i < levels.length; i++) expect(levels[i] - levels[i - 1]).toBeLessThanOrEqual(1);
+  });
 });

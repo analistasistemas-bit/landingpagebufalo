@@ -32,11 +32,22 @@ import { waLink, waMsg } from '../../data/whatsapp';
     margin-top: 1.5rem;
   }
 
+  .prototype-conversion__actions :global(.btn) {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
   @media (min-width: 640px) {
     .prototype-conversion__actions {
       align-items: center;
       flex-direction: row;
       flex-wrap: wrap;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prototype-conversion__actions :global(.btn) {
+      transition: none;
     }
   }
 </style>

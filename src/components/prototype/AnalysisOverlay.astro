@@ -57,20 +57,28 @@ const { notes } = Astro.props;
 
   let analysisOn = stored !== 'off';
   let selectedNoteId: string | null = null;
-  let restoreDrawerFocus = false;
+  let drawerOpener: HTMLElement | null = null;
 
   function closeDrawer({ restoreFocus = true } = {}) {
     if (!drawer || drawer.hidden) return;
     const focusWasInsideDrawer = drawer.contains(document.activeElement);
     drawer.hidden = true;
+    clearSelection();
 
-    if (restoreFocus && restoreDrawerFocus) {
-      drawerOpen?.focus();
+    if (restoreFocus && drawerOpener) {
+      drawerOpener.focus();
     } else if (focusWasInsideDrawer) {
       toggle?.focus();
     }
 
-    restoreDrawerFocus = false;
+    drawerOpener = null;
+  }
+
+  function openDrawer() {
+    if (!drawer || !analysisOn) return;
+    drawerOpener = document.activeElement instanceof HTMLElement ? document.activeElement : drawerOpen;
+    drawer.hidden = false;
+    drawerClose?.focus();
   }
 
   function clearSelection() {
@@ -127,7 +135,10 @@ const { notes } = Astro.props;
       const bounds = section.getBoundingClientRect();
       const isOutsideViewport = bounds.top < toolbarBottom || bounds.bottom > window.innerHeight;
 
-      if (isOutsideViewport) section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (isOutsideViewport) {
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        section.scrollIntoView({ behavior, block: 'center' });
+      }
     }
   }
 
@@ -174,17 +185,18 @@ const { notes } = Astro.props;
       });
     });
 
-  drawerOpen?.addEventListener('click', () => {
-    if (!drawer || !analysisOn) return;
-    restoreDrawerFocus = true;
-    drawer.hidden = false;
-    drawerClose?.focus();
-  });
+  drawerOpen?.addEventListener('click', openDrawer);
 
   drawerClose?.addEventListener('click', () => closeDrawer());
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && drawer && !drawer.hidden) closeDrawer();
+    if (event.key !== 'Escape') return;
+
+    if (drawer && !drawer.hidden) {
+      closeDrawer();
+    } else {
+      document.dispatchEvent(new CustomEvent('prototype:close-menu'));
+    }
   });
 
   function handleResize() {
@@ -209,9 +221,10 @@ const { notes } = Astro.props;
     gap: 0.75rem;
     min-height: 52px;
     padding: 0.4rem 1rem;
+    bottom: 0;
+    left: 0;
     position: fixed;
     right: 0;
-    top: 0;
     z-index: 50;
   }
 
@@ -231,6 +244,7 @@ const { notes } = Astro.props;
     font: inherit;
     font-weight: 600;
     min-height: 44px;
+    min-width: 44px;
     padding: 0.5rem 0.75rem;
   }
 
@@ -247,7 +261,6 @@ const { notes } = Astro.props;
     position: fixed;
     right: 0;
     top: 0;
-    width: 23rem;
     z-index: 40;
   }
 
@@ -272,6 +285,8 @@ const { notes } = Astro.props;
     font-weight: 700;
     height: 44px;
     justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
     pointer-events: auto;
     position: absolute;
     right: 1rem;
@@ -300,9 +315,10 @@ const { notes } = Astro.props;
     background: #f3f3f3;
     border-radius: 0.75rem;
     margin-left: auto;
+    max-height: min(78vh, 44rem);
     max-width: 38rem;
-    min-height: 100%;
-    padding: 1.25rem;
+    overflow-y: auto;
+    padding: 1.25rem 1.25rem max(1rem, env(safe-area-inset-bottom));
   }
 
   [data-analysis-drawer] h2 {
@@ -326,21 +342,47 @@ const { notes } = Astro.props;
     position: relative;
   }
 
+  @media (max-width: 1023px) {
+    .analysis-toolbar > span {
+      display: none;
+    }
+
+    .analysis-toolbar {
+      justify-content: center;
+    }
+  }
+
   @media (min-width: 1024px) {
+    .analysis-toolbar {
+      bottom: auto;
+      left: auto;
+      top: 0;
+    }
+
     [data-analysis-drawer-open] {
       display: none;
     }
 
     :global(html[data-analysis-mode='on'] .prototype-page) {
-      padding-right: 23rem;
+      padding-right: clamp(17rem, 22vw, 21rem);
     }
 
     :global(html[data-analysis-mode='on'] [data-analysis-panel]) {
       display: block;
+      width: clamp(17rem, 22vw, 21rem);
     }
 
     [data-marker-id] {
-      right: 23.75rem;
+      right: calc(clamp(17rem, 22vw, 21rem) + 0.75rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-analysis-drawer],
+    [data-analysis-panel],
+    [data-marker-id],
+    :global([data-analysis-section]) {
+      transition: none;
     }
   }
 </style>

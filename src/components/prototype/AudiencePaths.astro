@@ -59,6 +59,12 @@ const renderedPaths = audiencePaths
     margin-bottom: 0.75rem;
   }
 
+  .audience-paths__header p,
+  .audience-path__body p {
+    color: #666666;
+    font-size: 1rem;
+  }
+
   .audience-paths__list {
     display: grid;
     gap: 1.25rem;
@@ -133,6 +139,16 @@ const renderedPaths = audiencePaths
   @media (min-width: 1024px) {
     .audience-paths__list {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .audience-path {
+      transition: none;
+    }
+
+    .audience-path:hover {
+      transform: none;
     }
   }
 </style>

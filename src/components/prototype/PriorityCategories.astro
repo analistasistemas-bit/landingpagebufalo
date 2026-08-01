@@ -138,4 +138,14 @@ const { categories } = Astro.props;
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .priority-category {
+      transition: none;
+    }
+
+    .priority-category:hover {
+      transform: none;
+    }
+  }
 </style>
