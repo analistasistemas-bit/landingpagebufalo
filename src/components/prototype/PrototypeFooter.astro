@@ -1,0 +1,90 @@
+---
+import { waDisplay, waLink } from '../../data/whatsapp';
+import WhatsAppIcon from '../WhatsAppIcon.astro';
+
+const waHref = waLink();
+---
+
+<footer class="prototype-footer" data-prototype-footer>
+  <div class="container prototype-footer__inner">
+    <a href="/" class="prototype-footer__logo" aria-label="Búfalo — página inicial">
+      <img
+        src="/images/logos/logo-branca.png"
+        alt="Búfalo - Força e Qualidade"
+        height="52"
+        width="auto"
+        loading="lazy"
+      />
+    </a>
+    <a
+      class="prototype-footer__whatsapp"
+      href={waHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`WhatsApp ${waDisplay()}`}
+    >
+      <WhatsAppIcon size={16} />
+      {waDisplay()}
+    </a>
+    <nav aria-label="Links do protótipo">
+      <a href="#caminhos">Para o seu trabalho</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#prova">Prova técnica</a>
+      <a href="#contato">Contato</a>
+      <a href="/privacidade">Privacidade</a>
+    </nav>
+    <p>© 2026 Linhas Búfalo · Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<style>
+  .prototype-footer {
+    background: var(--bufalo-bordo);
+    color: var(--bufalo-branco);
+  }
+
+  .prototype-footer__inner {
+    align-items: center;
+    display: grid;
+    gap: 1.25rem;
+    padding-block: 2rem;
+  }
+
+  .prototype-footer__logo img {
+    height: 52px;
+    width: auto;
+  }
+
+  .prototype-footer a {
+    color: var(--bufalo-branco);
+  }
+
+  .prototype-footer__whatsapp {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.4rem;
+    width: fit-content;
+  }
+
+  .prototype-footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .prototype-footer p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .prototype-footer__inner {
+      grid-template-columns: auto auto 1fr;
+    }
+
+    .prototype-footer p {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

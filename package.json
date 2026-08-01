@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:smoke": "playwright test tests/smoke.spec.ts",
+    "test:prototype": "playwright test tests/prototype.spec.ts",
     "test:content": "bash tests/content-resilience.sh"
   },
   "dependencies": {

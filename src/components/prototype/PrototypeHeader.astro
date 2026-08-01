@@ -1,0 +1,142 @@
+---
+---
+
+<header class="prototype-header">
+  <div class="container prototype-header__inner">
+    <a href="/" class="prototype-header__logo" aria-label="Búfalo — página inicial">
+      <img
+        src="/images/logos/logo-header.png"
+        alt="Búfalo - Força e Qualidade"
+        height="52"
+        width="auto"
+        loading="eager"
+      />
+    </a>
+    <button id="prototype-menu-toggle" type="button" aria-expanded="false" aria-controls="prototype-nav" aria-label="Abrir menu">
+      <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+    </button>
+    <nav id="prototype-nav" aria-label="Navegação do protótipo">
+      <a href="#caminhos">Para o seu trabalho</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#prova">Prova técnica</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById('prototype-menu-toggle') as HTMLButtonElement;
+  const navigation = document.getElementById('prototype-nav') as HTMLElement;
+
+  menuToggle?.addEventListener('click', () => {
+    const isOpen = navigation.classList.toggle('is-open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+  });
+
+  navigation?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navigation.classList.remove('is-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Abrir menu');
+    });
+  });
+</script>
+
+<style>
+  .prototype-header {
+    background: var(--bufalo-branco);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .prototype-header__inner {
+    align-items: center;
+    display: flex;
+    min-height: 76px;
+    position: relative;
+  }
+
+  .prototype-header__logo {
+    display: block;
+    margin-right: auto;
+  }
+
+  .prototype-header__logo img {
+    height: 52px;
+    width: auto;
+  }
+
+  #prototype-menu-toggle {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px;
+  }
+
+  #prototype-menu-toggle span {
+    background: var(--bufalo-cinza);
+    display: block;
+    height: 2px;
+    width: 24px;
+  }
+
+  #prototype-nav a {
+    color: var(--bufalo-cinza);
+    font-family: var(--font-titulo);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  #prototype-nav a:hover {
+    color: var(--bufalo-vermelho);
+  }
+
+  @media (max-width: 767px) {
+    #prototype-nav {
+      background: var(--bufalo-branco);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+      display: none;
+      left: 0;
+      padding: 0.5rem 1.25rem 1rem;
+      position: absolute;
+      right: 0;
+      top: 76px;
+      z-index: 1;
+    }
+
+    #prototype-nav.is-open {
+      display: grid;
+      gap: 0.25rem;
+    }
+
+    #prototype-nav a {
+      min-height: 44px;
+      padding: 0.75rem 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #prototype-menu-toggle {
+      display: none;
+    }
+
+    #prototype-nav {
+      align-items: center;
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    #prototype-nav a {
+      padding: 0.75rem 0;
+    }
+  }
+</style>

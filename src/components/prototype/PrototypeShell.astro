@@ -1,0 +1,35 @@
+---
+import '../../styles/global.css';
+import PrototypeHeader from './PrototypeHeader.astro';
+import PrototypeFooter from './PrototypeFooter.astro';
+import WhatsAppFloat from '../WhatsAppFloat.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="prototype-page" data-prototype="true">
+      <PrototypeHeader />
+      <main id="conteudo-principal"><slot /></main>
+      <PrototypeFooter />
+      <WhatsAppFloat />
+    </div>
+  </body>
+</html>
