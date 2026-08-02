@@ -127,6 +127,15 @@ const { categories } = Astro.props;
     text-transform: uppercase;
   }
 
+  .priority-categories__catalog a {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 0.75rem;
+  }
+
   @media (min-width: 640px) {
     .priority-categories__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));

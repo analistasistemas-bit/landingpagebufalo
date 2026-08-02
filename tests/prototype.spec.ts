@@ -61,6 +61,16 @@ test.describe('prototype route isolation', () => {
     await expect(page.getByRole('link', { name: 'Ver catálogo completo' })).toHaveAttribute('href', '/produtos');
   });
 
+  test('full catalog call to action meets the 44px touch-target minimum', async ({ page }) => {
+    await page.goto('/prototipo');
+    const catalogLink = page.getByRole('link', { name: 'Ver catálogo completo' });
+    const box = await catalogLink.boundingBox();
+
+    expect(box).not.toBeNull();
+    expect(box?.width).toBeGreaterThanOrEqual(44);
+    expect(box?.height).toBeGreaterThanOrEqual(44);
+  });
+
   test('technical proof and conversion contain only confirmed content', async ({ page }) => {
     await page.goto('/prototipo');
     await expect(page.locator('[data-proof-product]')).toHaveCount(3);
@@ -71,6 +81,12 @@ test.describe('prototype route isolation', () => {
     expect(body).not.toContain('[em breve]');
     await expect(page.locator('#prova')).not.toContainText('100+');
     expect(body).not.toMatch(/R\$|preço|price/i);
+  });
+
+  test('100+ appears only in the duplicated historical problem annotation', async ({ page }) => {
+    await page.goto('/prototipo');
+    await expect(page.locator('main')).not.toContainText('100+');
+    await expect(page.locator('[data-note-problem]').filter({ hasText: '100+' })).toHaveCount(2);
   });
 
   test('analysis mode starts on and can become a clean landing', async ({ page }) => {
@@ -96,6 +112,14 @@ test.describe('prototype route isolation', () => {
       const toggle = page.locator('[data-analysis-toggle]');
       if (await toggle.getAttribute('aria-pressed') === 'true') await toggle.click();
       await expect(page.locator('html')).toHaveAttribute('data-analysis-mode', 'off');
+
+      const headerPadding = await page.locator('.prototype-header__inner').evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { left: style.paddingLeft, right: style.paddingRight };
+      });
+      const pagePaddingRight = await page.locator('.prototype-page').evaluate((element) => getComputedStyle(element).paddingRight);
+      expect(headerPadding.right, `header retains analysis compensation at ${width}px`).toBe(headerPadding.left);
+      expect(pagePaddingRight, `page retains analysis compensation at ${width}px`).toBe('0px');
 
       const toolbarBox = await page.locator('.analysis-toolbar').boundingBox();
       expect(toolbarBox).not.toBeNull();
@@ -181,6 +205,23 @@ test.describe('prototype route isolation', () => {
     await expect(drawerOpen).toBeFocused();
   });
 
+  test('mobile analysis drawer traps forward and backward tab navigation', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/prototipo');
+    const drawer = page.locator('[data-analysis-drawer]');
+    const close = page.locator('[data-analysis-drawer-close]');
+    const noteButtons = drawer.locator('[data-analysis-note-button]');
+
+    await page.locator('[data-analysis-drawer-open]').click();
+    await expect(close).toBeFocused();
+
+    await page.keyboard.press('Shift+Tab');
+    await expect(noteButtons.last()).toBeFocused();
+
+    await page.keyboard.press('Tab');
+    await expect(close).toBeFocused();
+  });
+
   test('mobile menu annotations clear the trigger and yield to the open navigation', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/prototipo');
@@ -227,6 +268,12 @@ test.describe('prototype route isolation', () => {
       return Boolean(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)?.closest('.wa-float'));
     });
     expect(whatsAppIsTopmost).toBe(false);
+  });
+
+  test('prototype footer copyright remains readable', async ({ page }) => {
+    await page.goto('/prototipo');
+    const fontSize = await page.locator('footer[data-prototype-footer] p').evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+    expect(fontSize).toBeGreaterThanOrEqual(14.4);
   });
 
   test('programmatic drawer opening restores focus to its real trigger', async ({ page }) => {
