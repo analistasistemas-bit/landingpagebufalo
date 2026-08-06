@@ -256,20 +256,7 @@
     "cores": "Dourado",
     "destaque": false,
     "obs": "13 referências douradas para uniformes e decoração.",
-    "imagem": "/images/produtos/BF-PASS-OURO.webp",
-    "categoria": "Passamanarias"
-  },
-  {
-    "id": "BF-PASS-PRATA",
-    "nome": "Passamanarias Prata",
-    "categoriaSlug": "passamanarias",
-    "composicao": "Poliéster metalizado",
-    "medida": "Variados",
-    "embalagem": "—",
-    "cores": "Prata",
-    "destaque": false,
-    "obs": "5 referências prateadas para uniformes e decoração.",
-    "imagem": "/images/produtos/BF-PASS-PRATA.webp",
+    "imagem": "/images/uploads/PASSAMANARIA DOURADA.jpeg",
     "categoria": "Passamanarias"
   },
   {
