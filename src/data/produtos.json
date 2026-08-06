@@ -221,6 +221,19 @@
     "categoria": "Rendas"
   },
   {
+    "id": "BF-BICO-2",
+    "nome": "Bico Bordado 2,5cm",
+    "categoriaSlug": "bico-bordado",
+    "composicao": "10% Algodão",
+    "medida": "Largura 2,5cm — comprimento 13,7m",
+    "embalagem": "Peça",
+    "cores": "Branco",
+    "destaque": false,
+    "obs": "Acabamento delicado para roupas de bebê e lingerie.",
+    "imagem": "/images/uploads/bico bordado 2,5cm.jpg",
+    "categoria": "Bico Bordado"
+  },
+  {
     "id": "BF-BICO-5",
     "nome": "Bico Bordado 5,0cm",
     "categoriaSlug": "bico-bordado",
@@ -230,20 +243,7 @@
     "cores": "Branco",
     "destaque": false,
     "obs": "Para barras de roupas e enxoval.",
-    "imagem": "/images/produtos/BF-BICO-5.webp",
-    "categoria": "Bico Bordado"
-  },
-  {
-    "id": "BF-BICO-2",
-    "nome": "Bico Bordado 2,0cm",
-    "categoriaSlug": "bico-bordado",
-    "composicao": "10% Algodão",
-    "medida": "Largura 2,0cm — comprimento 13,7m",
-    "embalagem": "Peça",
-    "cores": "Branco",
-    "destaque": false,
-    "obs": "Acabamento delicado para roupas de bebê e lingerie.",
-    "imagem": "/images/produtos/BF-BICO-2.webp",
+    "imagem": "/images/uploads/bico bordado 5,0cm.jpg",
     "categoria": "Bico Bordado"
   },
   {
