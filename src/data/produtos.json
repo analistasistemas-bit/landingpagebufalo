@@ -455,19 +455,6 @@
     "categoria": "Zíperes"
   },
   {
-    "id": "BF-ZIP-TRAT",
-    "nome": "Zíper Trator Unitário",
-    "categoriaSlug": "ziperes",
-    "composicao": "Nylon/Plástico",
-    "medida": "15cm e 18cm — pacote 100 uni",
-    "embalagem": "Pacote com 100 unidades",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Versão fechada do zíper tratorado.",
-    "imagem": "/images/produtos/BF-ZIP-TRAT.webp",
-    "categoria": "Zíperes"
-  },
-  {
     "id": "BF-VEL-100",
     "nome": "Velcro 100mm",
     "categoriaSlug": "fechos-adesivos",
