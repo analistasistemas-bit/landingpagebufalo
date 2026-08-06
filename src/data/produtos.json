@@ -182,19 +182,6 @@
     "categoria": "Pompons"
   },
   {
-    "id": "BF-REND-37",
-    "nome": "Renda 37mm",
-    "categoriaSlug": "rendas",
-    "composicao": "Poliéster",
-    "medida": "Largura 37mm — peça 50m",
-    "embalagem": "Peça",
-    "cores": "12+ cores",
-    "destaque": false,
-    "obs": "Renda para acabamento e decoração de roupas.",
-    "imagem": "/images/produtos/BF-REND-37.webp",
-    "categoria": "Rendas"
-  },
-  {
     "id": "BF-REND-20",
     "nome": "Renda 20mm",
     "categoriaSlug": "rendas",
@@ -204,7 +191,20 @@
     "cores": "7 cores (Branca, Preta, Laranja Neon, Lilás, Amarela, Rosa Neon, Verde Bandeira, Verde Neon, Azul)",
     "destaque": false,
     "obs": "Renda estreita para detalhes e barras.",
-    "imagem": "/images/produtos/BF-REND-20.webp",
+    "imagem": "/images/uploads/renda 20mm.jpeg",
+    "categoria": "Rendas"
+  },
+  {
+    "id": "BF-REND-37",
+    "nome": "Renda 37mm",
+    "categoriaSlug": "rendas",
+    "composicao": "Poliéster",
+    "medida": "Largura 37mm — peça 50m",
+    "embalagem": "Peça",
+    "cores": "12+ cores",
+    "destaque": false,
+    "obs": "Renda para acabamento e decoração de roupas.",
+    "imagem": "/images/uploads/renda 37mm.jpeg",
     "categoria": "Rendas"
   },
   {
@@ -217,7 +217,7 @@
     "cores": "10+ cores (Vermelho, Preto, Azul, Lilás, Amarelo, Verde Bandeira, Verde Neon, Rosa Bebê, Multicor, Laranja Neon, Rosa Neon)",
     "destaque": false,
     "obs": "Renda larga para saias, blusas e vestidos.",
-    "imagem": "/images/produtos/BF-REND-70.webp",
+    "imagem": "/images/uploads/renda 70mm.jpeg",
     "categoria": "Rendas"
   },
   {
