@@ -533,19 +533,6 @@
     "categoria": "Botões de Pressão"
   },
   {
-    "id": "BF-COLP-0",
-    "nome": "Colchete de Pressão Nº0 — 7mm",
-    "categoriaSlug": "colchetes-de-pressao",
-    "composicao": "Aço niquelado",
-    "medida": "7mm",
-    "embalagem": "Cartela com 36 unidades",
-    "cores": "Prata",
-    "destaque": false,
-    "obs": "O menor da linha, para roupas de bebê e lingerie.",
-    "imagem": "/images/produtos/BF-COLP-0.webp",
-    "categoria": "Colchetes de Pressão"
-  },
-  {
     "id": "BF-COLP-1",
     "nome": "Colchete de Pressão Nº1 — 10mm",
     "categoriaSlug": "colchetes-de-pressao",
