@@ -347,20 +347,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Resistente, para jeans e peças pesadas.",
-    "imagem": "/images/produtos/BF-ZIP-MET.webp",
-    "categoria": "Zíperes"
-  },
-  {
-    "id": "BF-ZIP-ALU",
-    "nome": "Zíper de Alumínio Médio",
-    "categoriaSlug": "ziperes",
-    "composicao": "Alumínio",
-    "medida": "6cm, 8cm, 10cm e 12cm — pacote 100 uni",
-    "embalagem": "Pacote com 100 unidades",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Leve e durável.",
-    "imagem": "/images/produtos/BF-ZIP-ALU.webp",
+    "imagem": "/images/uploads/ziper metal branco.jpeg",
     "categoria": "Zíperes"
   },
   {
@@ -386,7 +373,7 @@
     "cores": "Branco, Preto, Vermelho, Cinza Grafite, Azul, Amarelo Neon, Laranja Neon, Verde Neon, Rosa Neon",
     "destaque": false,
     "obs": "Para jaquetas e casacos.",
-    "imagem": "/images/produtos/BF-ZIP-DEST.webp",
+    "imagem": "/images/uploads/ziper destacável branco .jpg",
     "categoria": "Zíperes"
   },
   {
@@ -451,7 +438,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Dente tipo trator, alta resistência.",
-    "imagem": "/images/produtos/BF-ZIP-TRA.webp",
+    "imagem": "/images/uploads/ziper tratorável destacável.jpg",
     "categoria": "Zíperes"
   },
   {
