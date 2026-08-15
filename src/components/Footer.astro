@@ -1,9 +1,12 @@
 ---
-import { waLink, waDisplay, EMAIL } from '../data/whatsapp';
+import { waLink, waDisplay } from '../data/whatsapp';
 import { navLinks } from '../data/nav';
+import config from '../data/config.json';
+import InstagramIcon from './InstagramIcon.astro';
 import WhatsAppIcon from './WhatsAppIcon.astro';
 
 const waHref = waLink();
+const instagramHref = config.redes.instagram;
 ---
 
 <footer class="site-footer">
@@ -35,7 +38,7 @@ const waHref = waLink();
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            class="footer-link footer-link--wa"
+            class="footer-link footer-link--contact footer-link--wa"
             aria-label={`WhatsApp ${waDisplay()}`}
           >
             <WhatsAppIcon size={16} />
@@ -43,10 +46,16 @@ const waHref = waLink();
           </a>
         </li>
         <li>
-          <span class="footer-placeholder">E-mail: {EMAIL}</span>
-        </li>
-        <li>
-          <span class="footer-placeholder">Redes sociais: [em breve]</span>
+          <a
+            href={instagramHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-link footer-link--contact footer-link--instagram"
+            aria-label="Instagram da Búfalo — @marcabufalo"
+          >
+            <InstagramIcon size={18} />
+            @marcabufalo
+          </a>
         </li>
       </ul>
     </div>
@@ -144,10 +153,14 @@ const waHref = waLink();
     color: #86efac;
   }
 
-  .footer-placeholder {
-    font-size: 0.92rem;
-    color: rgba(255, 255, 255, 0.82);
-    font-style: italic;
+  .footer-link--contact {
+    min-height: 44px;
+    min-width: 44px;
+    padding-block: 0.5rem;
+  }
+
+  .footer-link--instagram {
+    color: var(--bufalo-branco);
   }
 
   .footer-bottom {

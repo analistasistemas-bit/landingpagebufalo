@@ -1,5 +1,5 @@
 ---
-// CategoryGrid.astro — Grid das 8 categorias, ordenado por `ordem`.
+// CategoryGrid.astro — Seleção prioritária de 8 categorias.
 // Cada card linka /produtos/{slug} com imagem de categoria.
 import categorias from '../data/categorias.json';
 
@@ -10,7 +10,21 @@ interface Props {
 
 const { heading, intro } = Astro.props;
 
-const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
+const priorityCategorySlugs = [
+  'linhas-de-costura',
+  'fios-overloque',
+  'ziperes',
+  'elasticos',
+  'passamanarias',
+  'botoes-de-pressao',
+  'tesouras',
+  'fita-metrica',
+] as const;
+
+const priorityCategories = priorityCategorySlugs.flatMap((slug) => {
+  const category = categorias.find((item) => item.slug === slug);
+  return category ? [category] : [];
+});
 ---
 
 <section class="category-grid">
@@ -23,9 +37,9 @@ const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
     )}
 
     <ul class="category-grid__list" role="list">
-      {sorted.map((cat) => (
+      {priorityCategories.map((cat) => (
         <li>
-          <a href={`/produtos/${cat.slug}`} class="category-card">
+          <a href={`/produtos/${cat.slug}`} class="category-card" data-priority-category>
             <div class="category-card__img-wrap">
               <img
                 src={cat.imagem || `/images/produtos/${cat.slug}.webp`}
@@ -47,6 +61,10 @@ const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
         </li>
       ))}
     </ul>
+
+    <p class="category-grid__catalog">
+      <a href="/produtos">Ver catálogo completo</a>
+    </p>
   </div>
 </section>
 
@@ -183,5 +201,23 @@ const sorted = [...categorias].sort((a, b) => a.ordem - b.ordem);
 
   .category-card:hover .category-card__link {
     color: var(--bufalo-bordo);
+  }
+
+  .category-grid__catalog {
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 2rem 0 0;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .category-grid__catalog a {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 0.75rem;
   }
 </style>

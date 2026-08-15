@@ -25,19 +25,21 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
   const cy = 50 + ry * Math.sin(angle);
   const hue = Math.round((i / dotCount) * 360);
   const color = `hsl(${hue}, 78%, 52%)`;
-  return { cx, cy, color, delay: i * 55 }; // 55ms stagger
+  const depth = 18 + (i % 3) * 3;
+  return { cx, cy, color, depth, delay: 180 + i * 12 };
 });
 ---
 
-<div class="color-ring" role="img" aria-label={`Anel de ${dotCount} cores — ${label} ${sublabel}`}>
-  <div class="color-ring__track">
-    {dots.map((dot, i) => (
-      <span
-        class="color-ring__dot"
-        style={`left:${dot.cx}%;top:${dot.cy}%;background-color:${dot.color};--delay:${dot.delay}ms`}
-        aria-hidden="true"
-      />
-    ))}
+<div class="color-ring" data-color-ring role="img" aria-label={`Anel de ${dotCount} cores — ${label} ${sublabel}`}>
+  <div class="color-ring__track" data-color-ring-track>
+    <div class="color-ring__orbit" aria-hidden="true">
+      {dots.map((dot) => (
+        <span
+          class="color-ring__dot"
+          style={`left:${dot.cx}%;top:${dot.cy}%;--dot-color:${dot.color};--dot-depth:${dot.depth}px;--delay:${dot.delay}ms`}
+        />
+      ))}
+    </div>
     <div class="color-ring__medallion" aria-hidden="true">
       <span class="color-ring__label">{label}</span>
       <span class="color-ring__sublabel">{sublabel}</span>
@@ -53,12 +55,23 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     width: clamp(280px, 70vw, 400px);
     aspect-ratio: 1;
     flex-shrink: 0;
+    overflow: clip;
+    perspective: 900px;
   }
 
   .color-ring__track {
     position: relative;
     width: 100%;
     height: 100%;
+    transform: rotateX(9deg) rotateZ(-2deg);
+    transform-style: preserve-3d;
+  }
+
+  .color-ring__orbit {
+    inset: 0;
+    position: absolute;
+    transform: rotateZ(0deg);
+    transform-style: preserve-3d;
   }
 
   /* Dots */
@@ -67,8 +80,20 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     width: clamp(16px, 4vw, 24px);
     height: clamp(16px, 4vw, 24px);
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    background:
+      radial-gradient(
+        circle at 32% 26%,
+        color-mix(in srgb, var(--dot-color), var(--bufalo-branco) 88%) 0 7%,
+        color-mix(in srgb, var(--dot-color), var(--bufalo-branco) 36%) 8% 24%,
+        transparent 43%
+      ),
+      var(--dot-color);
+    box-shadow:
+      inset -4px -6px 8px color-mix(in srgb, var(--dot-color), var(--bufalo-cinza) 26%),
+      inset 3px 3px 6px color-mix(in srgb, var(--dot-color), var(--bufalo-branco) 68%),
+      0 9px 14px -7px color-mix(in srgb, var(--bufalo-cinza), transparent 68%);
+    transform: translate3d(-50%, -50%, var(--dot-depth));
+    transform-style: preserve-3d;
   }
 
   /* Center medallion */
@@ -76,13 +101,19 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate3d(-50%, -50%, 52px);
 
     width: 44%;
     height: 44%;
     border-radius: 50%;
 
-    background-color: var(--bufalo-vermelho);
+    background:
+      radial-gradient(
+        circle at 35% 28%,
+        color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-branco) 12%),
+        var(--bufalo-vermelho) 54%,
+        color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-cinza) 24%)
+      );
     color: var(--bufalo-branco);
 
     display: flex;
@@ -90,10 +121,30 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     align-items: center;
     justify-content: center;
 
+    border: 3px solid var(--bufalo-branco);
+    outline: 3px solid var(--bufalo-vermelho);
+    outline-offset: 2px;
     box-shadow:
-      0 0 0 3px var(--bufalo-branco),
-      0 0 0 5px var(--bufalo-vermelho),
-      0 4px 20px rgba(178, 34, 34, 0.45);
+      inset -12px -16px 24px color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-cinza) 28%),
+      inset 8px 9px 18px color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-branco) 18%),
+      0 34px 42px -18px color-mix(in srgb, var(--bufalo-vermelho), transparent 38%);
+    transform-style: preserve-3d;
+  }
+
+  .color-ring__medallion::before {
+    background: color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-cinza) 34%);
+    border-radius: inherit;
+    content: '';
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    transform: translate3d(0, 10px, -18px) scale(0.98);
+  }
+
+  .color-ring__label,
+  .color-ring__sublabel {
+    position: relative;
+    transform: translateZ(2px);
   }
 
   .color-ring__label {
@@ -114,26 +165,87 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     opacity: 0.9;
   }
 
-  /* ── Animation (pop-in stagger) ── */
-  /* Default: dots are visible (for reduced-motion users they stay static) */
-  .color-ring__dot {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
+  /* One composed entrance; the default state remains fully visible. */
   @media (prefers-reduced-motion: no-preference) {
+    .color-ring__track {
+      animation: ring-arrive 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .color-ring__orbit {
+      animation: palette-orbit 18s 900ms linear infinite;
+      animation-play-state: paused;
+    }
+
+    .color-ring[data-orbit-active='true'] .color-ring__orbit {
+      animation-play-state: running;
+    }
+
     .color-ring__dot {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0);
-      animation: dot-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation: color-chip-settle 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-delay: var(--delay);
     }
 
-    @keyframes dot-pop {
+    .color-ring__medallion {
+      animation: medallion-settle 620ms 80ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes ring-arrive {
+      from {
+        transform: rotateX(17deg) rotateY(-7deg) rotateZ(-8deg) scale(0.96);
+      }
+
+      to {
+        transform: rotateX(9deg) rotateY(0) rotateZ(-2deg) scale(1);
+      }
+    }
+
+    @keyframes color-chip-settle {
+      from {
+        opacity: 0.25;
+        transform: translate3d(-50%, -50%, 2px) scale(0.72);
+      }
+
       to {
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate3d(-50%, -50%, var(--dot-depth)) scale(1);
+      }
+    }
+
+    @keyframes palette-orbit {
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    @keyframes medallion-settle {
+      from {
+        opacity: 0.72;
+        transform: translate3d(-50%, -50%, 2px) scale(0.94);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 52px) scale(1);
       }
     }
   }
 </style>
+
+<script>
+  const rings = document.querySelectorAll<HTMLElement>('[data-color-ring]');
+
+  const syncOrbit = (ring: HTMLElement) => {
+    ring.dataset.orbitActive = String(ring.dataset.orbitVisible === 'true' && !document.hidden);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const ring = entry.target as HTMLElement;
+      ring.dataset.orbitVisible = String(entry.isIntersecting);
+      syncOrbit(ring);
+    }
+  }, { threshold: 0.15 });
+
+  rings.forEach((ring) => observer.observe(ring));
+  document.addEventListener('visibilitychange', () => rings.forEach(syncOrbit));
+</script>
