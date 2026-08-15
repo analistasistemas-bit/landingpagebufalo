@@ -61,7 +61,7 @@
     "cores": "20+ cores",
     "destaque": false,
     "obs": "Linha mais encorpada para costuras reforçadas.",
-    "imagem": "/images/produtos/BF-36.webp",
+    "imagem": "/images/uploads/linha 36.jpg",
     "categoria": "Linhas de Costura"
   },
   {
@@ -74,7 +74,7 @@
     "cores": "20+ cores",
     "destaque": false,
     "obs": "Equilíbrio entre resistência e acabamento fino.",
-    "imagem": "/images/produtos/BF-50.webp",
+    "imagem": "/images/uploads/linha 50.jpg",
     "categoria": "Linhas de Costura"
   },
   {
@@ -87,7 +87,7 @@
     "cores": "Branco e cores",
     "destaque": false,
     "obs": "Gramatura leve para acabamento.",
-    "imagem": "/images/uploads/3122310.jpg",
+    "imagem": "/images/uploads/overlock 100g .jpg",
     "categoria": "Fios para Overloque"
   },
   {
@@ -100,7 +100,7 @@
     "cores": "Branco e cores",
     "destaque": true,
     "obs": "Gramatura intermediária, mais vendida.",
-    "imagem": "/images/produtos/BF-OVL-300.webp",
+    "imagem": "/images/uploads/fio de overlock 300g.jpg",
     "categoria": "Fios para Overloque"
   },
   {
@@ -113,7 +113,7 @@
     "cores": "Branco e cores",
     "destaque": false,
     "obs": "Maior rendimento para produção.",
-    "imagem": "/images/produtos/BF-OVL-500.webp",
+    "imagem": "/images/uploads/fio overlock 500g.jpg",
     "categoria": "Fios para Overloque"
   },
   {
@@ -143,6 +143,19 @@
     "categoria": "Rabo de Rato"
   },
   {
+    "id": "BF-POMP-10",
+    "nome": "Pompons 10mm",
+    "categoriaSlug": "pompons",
+    "composicao": "100% Poliéster",
+    "medida": "10mm — rolo 25m",
+    "embalagem": "Rolo",
+    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
+    "destaque": false,
+    "obs": "Tamanho pequeno para acabamentos delicados.",
+    "imagem": "/images/uploads/pompom 10mm.jpeg",
+    "categoria": "Pompons"
+  },
+  {
     "id": "BF-POMP-14",
     "nome": "Pompons 14mm",
     "categoriaSlug": "pompons",
@@ -169,17 +182,17 @@
     "categoria": "Pompons"
   },
   {
-    "id": "BF-POMP-10",
-    "nome": "Pompons 10mm",
-    "categoriaSlug": "pompons",
-    "composicao": "100% Poliéster",
-    "medida": "10mm — rolo 25m",
-    "embalagem": "Rolo",
-    "cores": "6 cores (Vermelho, Pink, Preto, Multicor, Rosa Bebê, Branco)",
+    "id": "BF-REND-20",
+    "nome": "Renda 20mm",
+    "categoriaSlug": "rendas",
+    "composicao": "100% Poliamida",
+    "medida": "Largura 20mm — peça 50m",
+    "embalagem": "Peça",
+    "cores": "7 cores (Branca, Preta, Laranja Neon, Lilás, Amarela, Rosa Neon, Verde Bandeira, Verde Neon, Azul)",
     "destaque": false,
-    "obs": "Tamanho pequeno para acabamentos delicados.",
-    "imagem": "/images/produtos/BF-POMP-10.webp",
-    "categoria": "Pompons"
+    "obs": "Renda estreita para detalhes e barras.",
+    "imagem": "/images/uploads/renda 20mm.jpeg",
+    "categoria": "Rendas"
   },
   {
     "id": "BF-REND-37",
@@ -191,20 +204,7 @@
     "cores": "12+ cores",
     "destaque": false,
     "obs": "Renda para acabamento e decoração de roupas.",
-    "imagem": "/images/produtos/BF-REND-37.webp",
-    "categoria": "Rendas"
-  },
-  {
-    "id": "BF-REND-20",
-    "nome": "Renda 20mm",
-    "categoriaSlug": "rendas",
-    "composicao": "100% Poliamida",
-    "medida": "Largura 20mm — peça 50m",
-    "embalagem": "Peça",
-    "cores": "7 cores (Branca, Preta, Laranja Neon, Lilás, Amarela, Rosa Neon, Verde Bandeira, Verde Neon, Azul)",
-    "destaque": false,
-    "obs": "Renda estreita para detalhes e barras.",
-    "imagem": "/images/produtos/BF-REND-20.webp",
+    "imagem": "/images/uploads/renda 37mm.jpeg",
     "categoria": "Rendas"
   },
   {
@@ -217,8 +217,21 @@
     "cores": "10+ cores (Vermelho, Preto, Azul, Lilás, Amarelo, Verde Bandeira, Verde Neon, Rosa Bebê, Multicor, Laranja Neon, Rosa Neon)",
     "destaque": false,
     "obs": "Renda larga para saias, blusas e vestidos.",
-    "imagem": "/images/produtos/BF-REND-70.webp",
+    "imagem": "/images/uploads/renda 70mm.jpeg",
     "categoria": "Rendas"
+  },
+  {
+    "id": "BF-BICO-2",
+    "nome": "Bico Bordado 2,5cm",
+    "categoriaSlug": "bico-bordado",
+    "composicao": "10% Algodão",
+    "medida": "Largura 2,5cm — comprimento 13,7m",
+    "embalagem": "Peça",
+    "cores": "Branco",
+    "destaque": false,
+    "obs": "Acabamento delicado para roupas de bebê e lingerie.",
+    "imagem": "/images/uploads/bico bordado 2,5cm.jpg",
+    "categoria": "Bico Bordado"
   },
   {
     "id": "BF-BICO-5",
@@ -230,46 +243,20 @@
     "cores": "Branco",
     "destaque": false,
     "obs": "Para barras de roupas e enxoval.",
-    "imagem": "/images/produtos/BF-BICO-5.webp",
-    "categoria": "Bico Bordado"
-  },
-  {
-    "id": "BF-BICO-2",
-    "nome": "Bico Bordado 2,0cm",
-    "categoriaSlug": "bico-bordado",
-    "composicao": "10% Algodão",
-    "medida": "Largura 2,0cm — comprimento 13,7m",
-    "embalagem": "Peça",
-    "cores": "Branco",
-    "destaque": false,
-    "obs": "Acabamento delicado para roupas de bebê e lingerie.",
-    "imagem": "/images/produtos/BF-BICO-2.webp",
+    "imagem": "/images/uploads/bico bordado 5,0cm.jpg",
     "categoria": "Bico Bordado"
   },
   {
     "id": "BF-PASS-OURO",
-    "nome": "Passamanarias Douradas",
+    "nome": "Passamanarias",
     "categoriaSlug": "passamanarias",
     "composicao": "Poliéster metalizado",
     "medida": "Variados",
     "embalagem": "—",
-    "cores": "Dourado",
+    "cores": "Dourado e Prata",
     "destaque": false,
     "obs": "13 referências douradas para uniformes e decoração.",
-    "imagem": "/images/produtos/BF-PASS-OURO.webp",
-    "categoria": "Passamanarias"
-  },
-  {
-    "id": "BF-PASS-PRATA",
-    "nome": "Passamanarias Prata",
-    "categoriaSlug": "passamanarias",
-    "composicao": "Poliéster metalizado",
-    "medida": "Variados",
-    "embalagem": "—",
-    "cores": "Prata",
-    "destaque": false,
-    "obs": "5 referências prateadas para uniformes e decoração.",
-    "imagem": "/images/produtos/BF-PASS-PRATA.webp",
+    "imagem": "/images/uploads/PASSAMANARIA DOURADA.jpeg",
     "categoria": "Passamanarias"
   },
   {
@@ -334,7 +321,7 @@
     "cores": "Branca, Preta e outras",
     "destaque": false,
     "obs": "Com fundo adesivo, sem necessidade de costura.",
-    "imagem": "/images/produtos/BF-PERL-N6A.webp",
+    "imagem": "/images/uploads/MEIA PEROLA ADESIVA N6.jpeg",
     "categoria": "Pérolas"
   },
   {
@@ -360,20 +347,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Resistente, para jeans e peças pesadas.",
-    "imagem": "/images/produtos/BF-ZIP-MET.webp",
-    "categoria": "Zíperes"
-  },
-  {
-    "id": "BF-ZIP-ALU",
-    "nome": "Zíper de Alumínio Médio",
-    "categoriaSlug": "ziperes",
-    "composicao": "Alumínio",
-    "medida": "6cm, 8cm, 10cm e 12cm — pacote 100 uni",
-    "embalagem": "Pacote com 100 unidades",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Leve e durável.",
-    "imagem": "/images/produtos/BF-ZIP-ALU.webp",
+    "imagem": "/images/uploads/ziper metal branco.jpeg",
     "categoria": "Zíperes"
   },
   {
@@ -386,7 +360,7 @@
     "cores": "Preto e Branco",
     "destaque": false,
     "obs": "Acabamento discreto em vestidos e saias.",
-    "imagem": "/images/produtos/BF-ZIP-INV.webp",
+    "imagem": "/images/uploads/ziper invisícel 30cm cor101 branco.jpg",
     "categoria": "Zíperes"
   },
   {
@@ -399,7 +373,7 @@
     "cores": "Branco, Preto, Vermelho, Cinza Grafite, Azul, Amarelo Neon, Laranja Neon, Verde Neon, Rosa Neon",
     "destaque": false,
     "obs": "Para jaquetas e casacos.",
-    "imagem": "/images/produtos/BF-ZIP-DEST.webp",
+    "imagem": "/images/uploads/ziper destacável branco .jpg",
     "categoria": "Zíperes"
   },
   {
@@ -412,7 +386,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Uso geral em roupas leves.",
-    "imagem": "/images/produtos/BF-ZIP-NY3.webp",
+    "imagem": "/images/uploads/ziper nylon n3 400mts cor 322 preto.jpg",
     "categoria": "Zíperes"
   },
   {
@@ -425,7 +399,7 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Uso geral, dente médio.",
-    "imagem": "/images/produtos/BF-ZIP-NY5.webp",
+    "imagem": "/images/uploads/ziper nylon n5 200mts cor 101 branco.jpg",
     "categoria": "Zíperes"
   },
   {
@@ -438,7 +412,7 @@
     "cores": "11 cores (Tam 15cm)",
     "destaque": false,
     "obs": "Zíper nylon em tamanhos unitários para varejo.",
-    "imagem": "/images/produtos/BF-ZIP-NY-UNIT.webp",
+    "imagem": "/images/uploads/ziper 10cm cor 322 preto.jpg",
     "categoria": "Zíperes"
   },
   {
@@ -451,7 +425,7 @@
     "cores": "Branco e Niquelado",
     "destaque": false,
     "obs": "Cursor sem trava de deslize.",
-    "imagem": "/images/produtos/BF-ZIP-CURS.webp",
+    "imagem": "/images/uploads/2841070.jpg",
     "categoria": "Zíperes"
   },
   {
@@ -464,59 +438,20 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Dente tipo trator, alta resistência.",
-    "imagem": "/images/produtos/BF-ZIP-TRA.webp",
+    "imagem": "/images/uploads/ziper tratorável destacável.jpg",
     "categoria": "Zíperes"
   },
   {
-    "id": "BF-ZIP-TRAT",
-    "nome": "Zíper Trator Unitário",
-    "categoriaSlug": "ziperes",
-    "composicao": "Nylon/Plástico",
-    "medida": "15cm e 18cm — pacote 100 uni",
-    "embalagem": "Pacote com 100 unidades",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Versão fechada do zíper tratorado.",
-    "imagem": "/images/produtos/BF-ZIP-TRAT.webp",
-    "categoria": "Zíperes"
-  },
-  {
-    "id": "BF-VEL-100",
-    "nome": "Velcro 100mm",
+    "id": "BF-VEL-16",
+    "nome": "Velcro 16mm",
     "categoriaSlug": "fechos-adesivos",
     "composicao": "Poliéster",
-    "medida": "Largura 100mm — rolo 25m (duplo)",
+    "medida": "Largura 16mm — rolo 25m (duplo)",
     "embalagem": "Rolo",
     "cores": "Cores",
     "destaque": false,
-    "obs": "Fecho de contato de alta resistência.",
-    "imagem": "/images/produtos/BF-VEL-100.webp",
-    "categoria": "Fechos Adesivos"
-  },
-  {
-    "id": "BF-VEL-50",
-    "nome": "Velcro 50mm",
-    "categoriaSlug": "fechos-adesivos",
-    "composicao": "Poliéster",
-    "medida": "Largura 50mm — rolo 25m (duplo)",
-    "embalagem": "Rolo",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Largura intermediária para bolsas e roupas.",
-    "imagem": "/images/produtos/BF-VEL-50.webp",
-    "categoria": "Fechos Adesivos"
-  },
-  {
-    "id": "BF-VEL-25",
-    "nome": "Velcro 25mm",
-    "categoriaSlug": "fechos-adesivos",
-    "composicao": "Poliéster",
-    "medida": "Largura 25mm — rolo 25m (duplo)",
-    "embalagem": "Rolo",
-    "cores": "Cores",
-    "destaque": false,
-    "obs": "Para roupas e acessórios.",
-    "imagem": "/images/produtos/BF-VEL-25.webp",
+    "obs": "O mais estreito da linha, para aplicações finas.",
+    "imagem": "/images/uploads/VELCRO 16MM.jpeg",
     "categoria": "Fechos Adesivos"
   },
   {
@@ -529,20 +464,46 @@
     "cores": "Cores",
     "destaque": false,
     "obs": "Velcro estreito para detalhes e ajustes.",
-    "imagem": "/images/produtos/BF-VEL-20.webp",
+    "imagem": "/images/uploads/VELCRO 20MM.jpeg",
     "categoria": "Fechos Adesivos"
   },
   {
-    "id": "BF-VEL-16",
-    "nome": "Velcro 16mm",
+    "id": "BF-VEL-25",
+    "nome": "Velcro 25mm",
     "categoriaSlug": "fechos-adesivos",
     "composicao": "Poliéster",
-    "medida": "Largura 16mm — rolo 25m (duplo)",
+    "medida": "Largura 25mm — rolo 25m (duplo)",
     "embalagem": "Rolo",
     "cores": "Cores",
     "destaque": false,
-    "obs": "O mais estreito da linha, para aplicações finas.",
-    "imagem": "/images/produtos/BF-VEL-16.webp",
+    "obs": "Para roupas e acessórios.",
+    "imagem": "/images/uploads/VELCRO 25MM.jpeg",
+    "categoria": "Fechos Adesivos"
+  },
+  {
+    "id": "BF-VEL-50",
+    "nome": "Velcro 50mm",
+    "categoriaSlug": "fechos-adesivos",
+    "composicao": "Poliéster",
+    "medida": "Largura 50mm — rolo 25m (duplo)",
+    "embalagem": "Rolo",
+    "cores": "Cores",
+    "destaque": false,
+    "obs": "Largura intermediária para bolsas e roupas.",
+    "imagem": "/images/uploads/VELCRO 50MM.jpeg",
+    "categoria": "Fechos Adesivos"
+  },
+  {
+    "id": "BF-VEL-100",
+    "nome": "Velcro 100mm",
+    "categoriaSlug": "fechos-adesivos",
+    "composicao": "Poliéster",
+    "medida": "Largura 100mm — rolo 25m (duplo)",
+    "embalagem": "Rolo",
+    "cores": "Cores",
+    "destaque": false,
+    "obs": "Fecho de contato de alta resistência.",
+    "imagem": "/images/uploads/VELCRO 100MM.jpeg",
     "categoria": "Fechos Adesivos"
   },
   {
@@ -557,19 +518,6 @@
     "obs": "Fechamento prático para roupas e acessórios.",
     "imagem": "/images/uploads/Botão de Pressão 13mm.jpg",
     "categoria": "Botões de Pressão"
-  },
-  {
-    "id": "BF-COLP-0",
-    "nome": "Colchete de Pressão Nº0 — 7mm",
-    "categoriaSlug": "colchetes-de-pressao",
-    "composicao": "Aço niquelado",
-    "medida": "7mm",
-    "embalagem": "Cartela com 36 unidades",
-    "cores": "Prata",
-    "destaque": false,
-    "obs": "O menor da linha, para roupas de bebê e lingerie.",
-    "imagem": "/images/produtos/BF-COLP-0.webp",
-    "categoria": "Colchetes de Pressão"
   },
   {
     "id": "BF-COLP-1",
@@ -672,7 +620,7 @@
     "cores": "Branco e Preto",
     "destaque": false,
     "obs": "Para punhos, barras e detalhes.",
-    "imagem": "/images/produtos/BF-ELA-20.webp",
+    "imagem": "/images/uploads/elastico 20mm.jpeg",
     "categoria": "Elásticos"
   },
   {
@@ -685,7 +633,7 @@
     "cores": "Branco e Preto",
     "destaque": false,
     "obs": "Uso geral em roupas.",
-    "imagem": "/images/produtos/BF-ELA-30.webp",
+    "imagem": "/images/uploads/elastico 30mm.jpeg",
     "categoria": "Elásticos"
   },
   {
@@ -698,7 +646,7 @@
     "cores": "Branco e Preto",
     "destaque": false,
     "obs": "Largura intermediária para cós.",
-    "imagem": "/images/produtos/BF-ELA-35.webp",
+    "imagem": "/images/uploads/elastico 35mm.jpeg",
     "categoria": "Elásticos"
   },
   {
@@ -711,7 +659,7 @@
     "cores": "Branco e Preto",
     "destaque": false,
     "obs": "Para cós de calças e saias.",
-    "imagem": "/images/produtos/BF-ELA-40.webp",
+    "imagem": "/images/uploads/elástico 40mm.jpeg",
     "categoria": "Elásticos"
   },
   {
@@ -724,7 +672,7 @@
     "cores": "Branco e Preto",
     "destaque": false,
     "obs": "O mais largo da linha, para cós reforçados.",
-    "imagem": "/images/produtos/BF-ELA-50.webp",
+    "imagem": "/images/uploads/elástico 50mm.jpeg",
     "categoria": "Elásticos"
   },
   {
