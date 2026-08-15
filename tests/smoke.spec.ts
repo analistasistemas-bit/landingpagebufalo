@@ -176,3 +176,56 @@ test('footer publishes only confirmed contact channels', async ({ page }) => {
   expect(target!.width).toBeGreaterThanOrEqual(44);
   expect(target!.height).toBeGreaterThanOrEqual(44);
 });
+
+test('scissor divider follows scroll progress and stays static with reduced motion', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+
+  const divider = page.locator('.stitch-divider[data-has-ornament="true"]').first();
+  const scissors = divider.locator('.stitch-divider__ornament');
+  await expect(divider).toHaveAttribute('data-scroll-motion', 'true');
+  const dividerY = await divider.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+  await page.evaluate((y) => window.scrollTo(0, Math.max(0, y - window.innerHeight * 0.86)), dividerY);
+
+  const progressBefore = Number(await divider.getAttribute('data-cut-progress'));
+  const transformBefore = await scissors.evaluate((element) => getComputedStyle(element).transform);
+  await page.evaluate((y) => window.scrollTo(0, Math.max(0, y - window.innerHeight * 0.58)), dividerY);
+  await expect.poll(async () => Number(await divider.getAttribute('data-cut-progress'))).toBeGreaterThan(progressBefore);
+  const transformAfter = await scissors.evaluate((element) => getComputedStyle(element).transform);
+  expect(transformAfter).not.toBe(transformBefore);
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.reload();
+  const reducedDivider = page.locator('.stitch-divider[data-has-ornament="true"]').first();
+  await expect(reducedDivider).not.toHaveAttribute('data-scroll-motion', 'true');
+  await expect(reducedDivider.locator('.stitch-divider__line')).toHaveCSS('clip-path', 'none');
+});
+
+test('home keeps a scissor on every section divider', async ({ page }) => {
+  await page.goto('/');
+
+  const dividers = page.locator('main .stitch-divider');
+  await expect(dividers).toHaveCount(3);
+  await expect(dividers.locator('.stitch-divider__ornament')).toHaveCount(3);
+});
+
+test('scissor artwork stays inside divider bounds from mobile to desktop', async ({ page }) => {
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+
+    const dividers = page.locator('main .stitch-divider[data-has-ornament="true"]');
+    for (let index = 0; index < await dividers.count(); index++) {
+      const dividerBox = await dividers.nth(index).boundingBox();
+      const scissorBox = await dividers.nth(index).locator('.stitch-divider__ornament svg').boundingBox();
+      expect(dividerBox).not.toBeNull();
+      expect(scissorBox).not.toBeNull();
+      expect(scissorBox!.y).toBeGreaterThanOrEqual(dividerBox!.y);
+      expect(scissorBox!.y + scissorBox!.height).toBeLessThanOrEqual(dividerBox!.y + dividerBox!.height);
+    }
+  }
+});
