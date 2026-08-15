@@ -149,18 +149,6 @@ test('500-color palette pauses its continuous motion offscreen', async ({ page }
   await expect(orbit).toHaveCSS('animation-play-state', 'paused');
 });
 
-test('500-color medallion visibly protrudes from the palette plane', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
-
-  const medallion = page.locator('.color-ring__medallion');
-  const depth = await medallion.evaluate((element) => new DOMMatrix(getComputedStyle(element).transform).m43);
-  const edgeTransform = await medallion.evaluate((element) => getComputedStyle(element, '::before').transform);
-
-  expect(depth).toBeGreaterThanOrEqual(40);
-  expect(edgeTransform).not.toBe('none');
-});
-
 test('500-color proof remains inside the mobile viewport', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 700 });
   await page.goto('/');

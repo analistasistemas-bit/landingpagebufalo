@@ -101,7 +101,7 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -50%, 52px);
+    transform: translate3d(-50%, -50%, 8px);
 
     width: 44%;
     height: 44%;
@@ -127,24 +127,8 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
     box-shadow:
       inset -12px -16px 24px color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-cinza) 28%),
       inset 8px 9px 18px color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-branco) 18%),
-      0 34px 42px -18px color-mix(in srgb, var(--bufalo-vermelho), transparent 38%);
+      0 18px 30px -14px color-mix(in srgb, var(--bufalo-vermelho), transparent 46%);
     transform-style: preserve-3d;
-  }
-
-  .color-ring__medallion::before {
-    background: color-mix(in srgb, var(--bufalo-vermelho), var(--bufalo-cinza) 34%);
-    border-radius: inherit;
-    content: '';
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
-    transform: translate3d(0, 10px, -18px) scale(0.98);
-  }
-
-  .color-ring__label,
-  .color-ring__sublabel {
-    position: relative;
-    transform: translateZ(2px);
   }
 
   .color-ring__label {
@@ -225,7 +209,7 @@ const dots = Array.from({ length: dotCount }, (_, i) => {
 
       to {
         opacity: 1;
-        transform: translate3d(-50%, -50%, 52px) scale(1);
+        transform: translate3d(-50%, -50%, 8px) scale(1);
       }
     }
   }
